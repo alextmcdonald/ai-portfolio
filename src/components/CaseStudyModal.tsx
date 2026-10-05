@@ -292,15 +292,27 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ type: 'spring', stiffness: 280, damping: 28 }}
-          className="relative w-full max-w-4xl max-h-[90vh] glass-thick rounded-[32px] sm:rounded-[40px] border border-white/20 shadow-2xl flex flex-col overflow-hidden z-10 my-auto"
+          className={`relative w-full max-w-4xl max-h-[90vh] rounded-[32px] sm:rounded-[40px] border shadow-2xl flex flex-col overflow-hidden z-10 my-auto ${
+            light
+              ? 'bg-white/95 text-stone-900 border-black/10 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.18)]'
+              : 'glass-thick bg-stone-950/90 text-white border-white/20'
+          }`}
           style={{
             backdropFilter: 'blur(48px) saturate(180%)',
             WebkitBackdropFilter: 'blur(48px) saturate(180%)'
           }}
         >
           {/* Top Bar with Title and Close Button (No horizontal divider line) */}
-          <div className="flex items-center justify-between px-6 sm:px-8 py-5 sm:py-6 bg-white/[0.03] shrink-0">
-            <h2 className="text-[32px] font-bold text-white tracking-tight leading-tight">
+          <div
+            className={`flex items-center justify-between px-6 sm:px-8 py-5 sm:py-6 shrink-0 border-0 ${
+              light ? 'bg-white' : 'bg-white/[0.03]'
+            }`}
+          >
+            <h2
+              className={`text-[32px] font-bold tracking-tight leading-tight ${
+                light ? 'text-stone-950' : 'text-white'
+              }`}
+            >
               {caseStudy.title}
             </h2>
 
@@ -310,7 +322,11 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                 onClose();
               }}
               aria-label="Close case study details"
-              className="w-10 h-10 rounded-full flex items-center justify-center bg-white/12 hover:bg-white/24 text-white/80 hover:text-white transition-all duration-200 active:scale-90 border border-white/15 shrink-0 ml-4 cursor-pointer"
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90 border shrink-0 ml-4 cursor-pointer ${
+                light
+                  ? 'bg-black/5 hover:bg-black/10 text-stone-700 hover:text-stone-950 border-black/10'
+                  : 'bg-white/12 hover:bg-white/24 text-white/80 hover:text-white border-white/15'
+              }`}
             >
               <X className="w-5 h-5 stroke-[2]" />
             </button>
@@ -319,19 +335,18 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
           {/* Sticky Modal Navigation Tabs */}
           <div
             ref={tabsContainerRef}
-            className={`sticky top-0 z-20 px-6 sm:px-8 flex items-center gap-6 sm:gap-7 overflow-x-auto no-scrollbar [overscroll-behavior-x:none] overscroll-contain shrink-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden select-none transition-colors duration-200 ${
-              light ? 'bg-white/85 backdrop-blur-md border-b border-black/5' : 'bg-transparent'
+            className={`sticky top-0 z-20 px-6 sm:px-8 flex items-center gap-6 sm:gap-7 overflow-x-auto no-scrollbar [overscroll-behavior-x:none] overscroll-contain shrink-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden select-none transition-colors duration-200 border-0 ${
+              light ? 'bg-white' : 'bg-white/[0.03]'
             }`}
           >
             {navTabs.map((tab) => {
-              const Icon = tab.icon;
               const isSelected = activeTab === tab.id;
               return (
                 <button
                   key={tab.id}
                   id={`cs-tab-${tab.id}`}
                   onClick={() => scrollToSection(tab.id)}
-                  className={`relative flex items-center gap-2 py-3 px-1 text-xs sm:text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer ${
+                  className={`relative py-3 px-1 text-xs sm:text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer ${
                     isSelected
                       ? light
                         ? 'text-stone-900'
@@ -341,7 +356,6 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                         : 'text-white/60 hover:text-white/90'
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5" />
                   <span>{tab.label}</span>
                   {isSelected && (
                     <motion.div

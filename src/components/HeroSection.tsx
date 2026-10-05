@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { DESIGNER_INFO } from '../data/portfolioData';
 import { sounds } from '../utils/audio';
+import { TechStackSection } from './TechStackSection';
 
 interface HeroSectionProps {
   onScrollToSection: (sectionId: string) => void;
@@ -132,6 +133,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
         ))}
       </div>
+
+      {/* Tech Stack Showcase */}
+      <TechStackSection isLightMode={isLightMode} />
     </div>
   );
 };

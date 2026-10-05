@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowUpRight, X, Code2, CheckCircle2 } from 'lucide-react';
+import { ArrowUpRight, X, Code2, CheckCircle2, Sparkles, Layers, SlidersHorizontal } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
 interface Experiment {
@@ -145,7 +145,105 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
   isLightMode = false,
   onModalOpenChange
 }) => {
+  const light = isLightMode || (typeof document !== 'undefined' && document.documentElement.classList.contains('light-mode'));
   const [selectedExperiment, setSelectedExperiment] = useState<Experiment | null>(null);
+  const [activeTab, setActiveTab] = useState<'overview' | 'innovations' | 'specs' | 'code'>('overview');
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const isProgrammaticScroll = useRef(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Reset tab to overview when opening an experiment
+  React.useEffect(() => {
+    if (selectedExperiment) {
+      setActiveTab('overview');
+    }
+  }, [selectedExperiment]);
+
+  // Clean up timer on unmount
+  React.useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
+  }, []);
+
+  // Auto-scroll the active tab into view horizontally
+  React.useEffect(() => {
+    const tabEl = document.getElementById(`exp-tab-${activeTab}`);
+    if (tabEl && tabsContainerRef.current) {
+      tabEl.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center'
+      });
+    }
+  }, [activeTab]);
+
+  // Handle wheel on tabs (translates vertical wheel to horizontal scroll)
+  React.useEffect(() => {
+    const el = tabsContainerRef.current;
+    if (!el) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        if (e.deltaY !== 0) {
+          e.preventDefault();
+          el.scrollLeft += e.deltaY;
+        }
+      } else {
+        const atLeft = el.scrollLeft <= 0;
+        const atRight = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
+        if ((e.deltaX < 0 && atLeft) || (e.deltaX > 0 && atRight)) {
+          e.preventDefault();
+        }
+      }
+    };
+
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      el.removeEventListener('wheel', handleWheel);
+    };
+  }, [selectedExperiment]);
+
+  // Prevent background scroll bleed-through when experiment modal is open
+  React.useEffect(() => {
+    if (!selectedExperiment) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+
+      const scrollable = target.closest('[data-modal-scrollable="true"]');
+      if (!scrollable) {
+        e.preventDefault();
+        return;
+      }
+
+      const el = scrollable as HTMLElement;
+      const isAtTop = el.scrollTop <= 0 && e.deltaY < 0;
+      const isAtBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1 && e.deltaY > 0;
+      if (isAtTop || isAtBottom) {
+        e.preventDefault();
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      const scrollable = target.closest('[data-modal-scrollable="true"]');
+      if (!scrollable) {
+        e.preventDefault();
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, [selectedExperiment]);
 
   // Notify parent when experiment modal is open so body scroll and layout shift are handled centrally
   React.useEffect(() => {
@@ -155,6 +253,62 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
       onModalOpenChange?.(false);
     };
   }, [selectedExperiment, onModalOpenChange]);
+
+  const scrollToSection = (sectionId: 'overview' | 'innovations' | 'specs' | 'code') => {
+    sounds.playTap();
+    setActiveTab(sectionId);
+    isProgrammaticScroll.current = true;
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = setTimeout(() => {
+      isProgrammaticScroll.current = false;
+    }, 700);
+
+    const container = scrollContainerRef.current;
+    const target = document.getElementById(`exp-section-${sectionId}`);
+    if (container && target) {
+      const containerRect = container.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const targetScrollTop = targetRect.top - containerRect.top + container.scrollTop - 10;
+      container.scrollTo({ top: Math.max(0, targetScrollTop), behavior: 'smooth' });
+    }
+  };
+
+  const handleScroll = () => {
+    if (isProgrammaticScroll.current) return;
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    if (container.scrollHeight - container.scrollTop <= container.clientHeight + 25) {
+      setActiveTab('code');
+      return;
+    }
+
+    const containerRect = container.getBoundingClientRect();
+    const sections: Array<'overview' | 'innovations' | 'specs' | 'code'> = [
+      'overview',
+      'innovations',
+      'specs',
+      'code'
+    ];
+
+    for (let i = sections.length - 1; i >= 0; i--) {
+      const el = document.getElementById(`exp-section-${sections[i]}`);
+      if (el) {
+        const elRect = el.getBoundingClientRect();
+        if (elRect.top - containerRect.top <= 80) {
+          setActiveTab(sections[i]);
+          break;
+        }
+      }
+    }
+  };
+
+  const navTabs = [
+    { id: 'overview' as const, label: 'Executive Summary', icon: Sparkles },
+    { id: 'innovations' as const, label: 'Technical Innovations', icon: Layers },
+    { id: 'specs' as const, label: 'System Specifications', icon: SlidersHorizontal },
+    { id: 'code' as const, label: 'Production Implementation', icon: Code2 }
+  ];
 
   return (
     <div className="relative">
@@ -176,8 +330,8 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
         </p>
       </div>
 
-      {/* 2-Column Grid (1 Column on Smaller Screens) of Clean Horizontal Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+      {/* 2-Column Grid on Desktop (lg:); Single Column on Tablet & Mobile (Portrait & Landscape) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
         {EXPERIMENTS.map((exp) => (
           <div
             key={exp.id}
@@ -192,7 +346,7 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
             }`}
           >
             {/* Horizontal Thumbnail Image Frame */}
-            <div className="relative overflow-hidden shrink-0 w-full sm:w-44 md:w-48 lg:w-44 xl:w-48 h-48 sm:h-auto min-h-[175px] m-2.5 sm:m-3 sm:mr-0 rounded-[20px] sm:rounded-[24px]">
+            <div className="relative overflow-hidden shrink-0 w-full sm:w-56 md:w-64 lg:w-44 xl:w-52 h-48 sm:h-auto min-h-[180px] m-2.5 sm:m-3 sm:mr-0 rounded-[20px] sm:rounded-[24px]">
               <img
                 src={exp.heroImage}
                 alt={exp.title}
@@ -254,118 +408,203 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
         ))}
       </div>
 
-      {/* Read More Detail Modal (Portaled to document.body at layer 50) */}
+      {/* Read More Detail Modal (Matching CaseStudyModal exactly) */}
       {typeof document !== 'undefined' &&
         createPortal(
           <AnimatePresence>
             {selectedExperiment && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 z-50 bg-black/80 backdrop-blur-2xl flex items-center justify-center p-4 sm:p-8 overflow-y-auto overscroll-contain"
-                onClick={() => setSelectedExperiment(null)}
-              >
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-hidden">
+                {/* Dim backdrop scrim */}
                 <motion.div
-                  initial={{ scale: 0.94, y: 20 }}
-                  animate={{ scale: 1, y: 0 }}
-                  exit={{ scale: 0.94, y: 20 }}
-                  transition={{ type: 'spring', damping: 28, stiffness: 300 }}
-                  onClick={(e) => e.stopPropagation()}
-                  className={`relative w-full max-w-3xl rounded-[32px] overflow-hidden border shadow-2xl my-auto flex flex-col max-h-[90vh] ${
-                    isLightMode
-                      ? 'bg-white text-stone-900 border-stone-200'
-                      : 'bg-stone-900 text-white border-white/20'
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => {
+                    sounds.playTap();
+                    setSelectedExperiment(null);
+                  }}
+                  className={`fixed inset-0 backdrop-blur-xl transition-all ${
+                    light ? 'bg-black/60' : 'bg-black/75'
                   }`}
-                >
-                  {/* Modal Hero Banner */}
-                  <div className="relative h-60 sm:h-72 w-full overflow-hidden shrink-0">
-                    <img
-                      src={selectedExperiment.heroImage}
-                      alt={selectedExperiment.title}
-                      className="w-full h-full object-cover"
-                    />
-                    <div
-                      className={`absolute inset-0 bg-gradient-to-t ${
-                        isLightMode
-                          ? 'from-white via-white/50 to-transparent'
-                          : 'from-stone-900 via-stone-900/60 to-transparent'
-                      }`}
-                    />
+                />
 
-                    {/* Close Button */}
-                    <button
-                      onClick={() => setSelectedExperiment(null)}
-                      className={`absolute top-5 right-5 w-10 h-10 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
-                        isLightMode
-                          ? 'bg-white/80 hover:bg-white text-stone-900 border-black/10'
-                          : 'bg-black/60 hover:bg-black/90 text-white border-white/20'
+                {/* Modal Window Container with outer border */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.94, y: 30 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                  transition={{ type: 'spring', stiffness: 280, damping: 28 }}
+                  className={`relative w-full max-w-4xl max-h-[90vh] rounded-[32px] sm:rounded-[40px] border shadow-2xl flex flex-col overflow-hidden z-10 my-auto ${
+                    light
+                      ? 'bg-white/95 text-stone-900 border-black/10 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.18)]'
+                      : 'glass-thick bg-stone-950/90 text-white border-white/20'
+                  }`}
+                  style={{
+                    backdropFilter: 'blur(48px) saturate(180%)',
+                    WebkitBackdropFilter: 'blur(48px) saturate(180%)'
+                  }}
+                >
+                  {/* Top Bar with Title and Close Button (No horizontal divider line) */}
+                  <div
+                    className={`flex items-center justify-between px-6 sm:px-8 py-5 sm:py-6 shrink-0 border-0 ${
+                      light ? 'bg-white' : 'bg-white/[0.03]'
+                    }`}
+                  >
+                    <h2
+                      className={`text-[28px] sm:text-[32px] font-bold tracking-tight leading-tight ${
+                        light ? 'text-stone-950' : 'text-white'
                       }`}
                     >
-                      <X className="w-5 h-5" />
-                    </button>
+                      {selectedExperiment.title}
+                    </h2>
 
-                    <div className="absolute bottom-6 left-6 right-6">
-                      <div
-                        className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono mb-2 border ${
-                          isLightMode
-                            ? 'bg-sky-50 text-sky-700 border-sky-200'
-                            : 'bg-sky-500/20 text-sky-300 border-sky-500/30'
-                        }`}
-                      >
-                        <span>{selectedExperiment.category}</span>
-                        <span>·</span>
-                        <span>{selectedExperiment.readTime}</span>
-                      </div>
-                      <h3
-                        className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${
-                          isLightMode ? 'text-stone-900' : 'text-white'
-                        }`}
-                      >
-                        {selectedExperiment.title}
-                      </h3>
-                    </div>
+                    <button
+                      onClick={() => {
+                        sounds.playTap();
+                        setSelectedExperiment(null);
+                      }}
+                      aria-label="Close experiment details"
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90 border shrink-0 ml-4 cursor-pointer ${
+                        light
+                          ? 'bg-black/5 hover:bg-black/10 text-stone-700 hover:text-stone-950 border-black/10'
+                          : 'bg-white/12 hover:bg-white/24 text-white/80 hover:text-white border-white/15'
+                      }`}
+                    >
+                      <X className="w-5 h-5 stroke-[2]" />
+                    </button>
                   </div>
 
-                  {/* Modal Body */}
-                  <div className="p-6 sm:p-8 overflow-y-auto overscroll-contain space-y-6">
-                    <div>
-                      <h4
-                        className={`text-xs font-bold uppercase tracking-wider mb-2 ${
-                          isLightMode ? 'text-sky-700' : 'text-sky-400'
-                        }`}
-                      >
-                        Executive summary
-                      </h4>
-                      <p
-                        className={`text-sm sm:text-base leading-relaxed ${
-                          isLightMode ? 'text-stone-700' : 'text-white/85'
-                        }`}
-                      >
-                        {selectedExperiment.summary}
-                      </p>
-                    </div>
+                  {/* Sticky Modal Navigation Tabs */}
+                  <div
+                    ref={tabsContainerRef}
+                    className={`sticky top-0 z-20 px-6 sm:px-8 flex items-center gap-6 sm:gap-7 overflow-x-auto no-scrollbar [overscroll-behavior-x:none] overscroll-contain shrink-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden select-none transition-colors duration-200 border-0 ${
+                      light ? 'bg-white' : 'bg-white/[0.03]'
+                    }`}
+                  >
+                    {navTabs.map((tab) => {
+                      const isSelected = activeTab === tab.id;
+                      return (
+                        <button
+                          key={tab.id}
+                          id={`exp-tab-${tab.id}`}
+                          onClick={() => scrollToSection(tab.id)}
+                          className={`relative py-3 px-1 text-xs sm:text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer ${
+                            isSelected
+                              ? light
+                                ? 'text-stone-900'
+                                : 'text-white'
+                              : light
+                                ? 'text-stone-500 hover:text-stone-800'
+                                : 'text-white/60 hover:text-white/90'
+                          }`}
+                        >
+                          <span>{tab.label}</span>
+                          {isSelected && (
+                            <motion.div
+                              layoutId="experimentActiveTabUnderline"
+                              className={`absolute bottom-0 left-0 right-0 h-[2px] rounded-full ${
+                                light
+                                  ? 'bg-stone-900 shadow-[0_0_8px_rgba(0,0,0,0.25)]'
+                                  : 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.4)]'
+                              }`}
+                              style={{
+                                backgroundColor: light ? '#0f172a' : '#ffffff'
+                              }}
+                              transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                            />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
 
-                    {/* Technical Architecture */}
-                    <div>
-                      <h4
-                        className={`text-xs font-bold uppercase tracking-wider mb-3 ${
-                          isLightMode ? 'text-emerald-700' : 'text-emerald-400'
+                  {/* Unified Single-Page Scrollable Content Body */}
+                  <div
+                    ref={scrollContainerRef}
+                    onScroll={handleScroll}
+                    data-modal-scrollable="true"
+                    className="flex-1 overflow-y-auto overscroll-contain px-6 sm:px-8 py-6 space-y-12 scroll-smooth"
+                  >
+                    {/* SECTION 1: OVERVIEW & EXECUTIVE SUMMARY */}
+                    <section id="exp-section-overview" className="space-y-6 pt-2">
+                      <div
+                        className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wider ${
+                          light ? 'text-[#0071e3]' : 'text-sky-400'
                         }`}
                       >
-                        Technical innovations
-                      </h4>
-                      <div className="space-y-2.5">
+                        <Sparkles className="w-4 h-4" />
+                        <span>Executive summary</span>
+                      </div>
+
+                      {/* Hero Showcase Image */}
+                      <div className="relative rounded-2xl overflow-hidden aspect-video max-h-84 w-full group border border-white/15">
+                        <img
+                          src={selectedExperiment.heroImage}
+                          alt={selectedExperiment.title}
+                          referrerPolicy="no-referrer"
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent flex items-end p-6">
+                          <p className="text-sm sm:text-base font-medium text-white/95 max-w-2xl text-balance">
+                            {selectedExperiment.subtitle}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Overview & Motivation */}
+                      <div
+                        className={`p-5 rounded-2xl border ${
+                          light
+                            ? 'bg-stone-50 border-stone-200'
+                            : 'glass-thin bg-white/[0.04] border-white/10'
+                        }`}
+                      >
+                        <div
+                          className={`text-xs font-bold uppercase tracking-wider ${
+                            light ? 'text-[#0071e3]' : 'text-sky-400'
+                          }`}
+                        >
+                          Overview & motivation
+                        </div>
+                        <p
+                          className={`mt-2 text-sm sm:text-base leading-relaxed font-normal ${
+                            light ? 'text-stone-700' : 'text-white/80'
+                          }`}
+                        >
+                          {selectedExperiment.summary}
+                        </p>
+                      </div>
+                    </section>
+
+                    {/* SECTION 2: TECHNICAL INNOVATIONS */}
+                    <section id="exp-section-innovations" className="space-y-6">
+                      <div
+                        className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wider ${
+                          light ? 'text-emerald-600' : 'text-emerald-400'
+                        }`}
+                      >
+                        <Layers className="w-4 h-4" />
+                        <span>Technical innovations</span>
+                      </div>
+
+                      <div className="space-y-3">
                         {selectedExperiment.technicalArchitecture.map((tech, i) => (
-                          <div key={i} className="flex items-start gap-2.5">
+                          <div
+                            key={i}
+                            className={`flex items-start gap-3 p-4 rounded-xl border ${
+                              light
+                                ? 'bg-stone-50 border-stone-200'
+                                : 'bg-white/[0.04] border-white/10'
+                            }`}
+                          >
                             <CheckCircle2
                               className={`w-4 h-4 shrink-0 mt-0.5 ${
-                                isLightMode ? 'text-emerald-600' : 'text-emerald-400'
+                                light ? 'text-emerald-600' : 'text-emerald-400'
                               }`}
                             />
                             <span
-                              className={`text-xs sm:text-sm leading-relaxed ${
-                                isLightMode ? 'text-stone-700' : 'text-white/80'
+                              className={`text-sm leading-relaxed ${
+                                light ? 'text-stone-700' : 'text-white/85'
                               }`}
                             >
                               {tech}
@@ -373,60 +612,83 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
                           </div>
                         ))}
                       </div>
-                    </div>
+                    </section>
 
-                    {/* Benchmarks Grid */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                      {selectedExperiment.specs.map((spec, i) => (
-                        <div
-                          key={i}
-                          className={`p-3.5 rounded-[18px] border ${
-                            isLightMode
-                              ? 'bg-stone-50 border-stone-200'
-                              : 'bg-white/[0.04] border-white/10'
-                          }`}
-                        >
-                          <div
-                            className={`text-[11px] ${
-                              isLightMode ? 'text-stone-500' : 'text-white/50'
-                            }`}
-                          >
-                            {spec.label}
-                          </div>
-                          <div
-                            className={`text-xs sm:text-sm font-bold mt-1 ${
-                              isLightMode ? 'text-stone-900' : 'text-white'
-                            }`}
-                          >
-                            {spec.value}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Code Implementation */}
-                    <div>
+                    {/* SECTION 3: SYSTEM SPECIFICATIONS */}
+                    <section id="exp-section-specs" className="space-y-6">
                       <div
-                        className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wider mb-2 ${
-                          isLightMode ? 'text-amber-700' : 'text-amber-300'
+                        className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wider ${
+                          light ? 'text-[#0071e3]' : 'text-sky-400'
                         }`}
                       >
-                        <Code2 className="w-3.5 h-3.5" />
+                        <SlidersHorizontal className="w-4 h-4" />
+                        <span>System specifications</span>
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+                        {selectedExperiment.specs.map((spec, i) => (
+                          <div
+                            key={i}
+                            className={`p-4 rounded-2xl border ${
+                              light
+                                ? 'bg-stone-50 border-stone-200'
+                                : 'bg-white/[0.04] border-white/10'
+                            }`}
+                          >
+                            <div
+                              className={`text-[11px] font-mono ${
+                                light ? 'text-stone-500' : 'text-white/50'
+                              }`}
+                            >
+                              {spec.label}
+                            </div>
+                            <div
+                              className={`text-sm sm:text-base font-bold mt-1 ${
+                                light ? 'text-stone-900' : 'text-white'
+                              }`}
+                            >
+                              {spec.value}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </section>
+
+                    {/* SECTION 4: PRODUCTION IMPLEMENTATION */}
+                    <section id="exp-section-code" className="space-y-6 pb-6">
+                      <div
+                        className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wider ${
+                          light ? 'text-amber-600' : 'text-amber-300'
+                        }`}
+                      >
+                        <Code2 className="w-4 h-4" />
                         <span>Production implementation</span>
                       </div>
-                      <pre
-                        className={`p-4 rounded-[20px] border text-xs font-mono overflow-x-auto leading-relaxed ${
-                          isLightMode
-                            ? 'bg-stone-900 border-stone-800 text-stone-100'
-                            : 'bg-black/60 border-white/10 text-white/90'
+
+                      <div
+                        className={`rounded-2xl overflow-hidden border ${
+                          light
+                            ? 'border-stone-200 bg-stone-900 text-stone-100'
+                            : 'border-white/15 bg-black/70 text-white/90'
                         }`}
                       >
-                        {selectedExperiment.codeSnippet}
-                      </pre>
-                    </div>
+                        <div className="flex items-center justify-between px-4 py-2.5 bg-white/[0.06] border-b border-white/10 text-xs font-mono text-white/60">
+                          <span className="flex items-center gap-1.5">
+                            <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block" />
+                            <span className="ml-2">{selectedExperiment.id}.ts</span>
+                          </span>
+                          <span>TypeScript · Zero-Latency Pipeline</span>
+                        </div>
+                        <pre className="p-5 text-xs sm:text-sm font-mono overflow-x-auto leading-relaxed">
+                          {selectedExperiment.codeSnippet}
+                        </pre>
+                      </div>
+                    </section>
                   </div>
                 </motion.div>
-              </motion.div>
+              </div>
             )}
           </AnimatePresence>,
           document.body

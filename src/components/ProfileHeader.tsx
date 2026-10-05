@@ -164,7 +164,10 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             isLightMode ? 'text-stone-500' : 'text-white/70'
           }`}
         >
-          <span className="text-[13px]">{DESIGNER_INFO.location}</span>
+          <span className="text-[13px] inline-flex items-center gap-1">
+            <span>📍</span>
+            <span>{DESIGNER_INFO.location}</span>
+          </span>
           <span aria-hidden="true">·</span>
           <span
             className={`font-mono font-semibold ${
