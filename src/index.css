@@ -1,0 +1,410 @@
+@import "tailwindcss";
+
+:root {
+  /* Environment */
+  --env-dim: rgba(0, 0, 0, 0.28);
+  --env-blur: 16px;
+
+  /* Glass materials — visionOS tinted grey glass */
+  --glass-thin: rgba(128, 128, 128, 0.14);
+  --glass-regular: rgba(18, 20, 26, 0.38);
+  --glass-thick: rgba(25, 27, 34, 0.58);
+  --glass-dark: rgba(14, 15, 18, 0.72);
+
+  /* Recessed fills — carved into glass */
+  --fill-recessed: rgba(0, 0, 0, 0.22);
+  --fill-hover: rgba(255, 255, 255, 0.13);
+  --fill-selected: rgba(255, 255, 255, 0.26);
+
+  --glass-blur-thin: 20px;
+  --glass-blur: 40px;
+  --glass-blur-thick: 48px;
+  --glass-saturate: 190%;
+
+  /* Edge light — specular rim darkened for dark mode */
+  --edge-highlight: rgba(255, 255, 255, 0.10);
+  --edge-lowlight: rgba(0, 0, 0, 0.60);
+  --hairline: rgba(255, 255, 255, 0.08);
+
+  /* Text vibrancy */
+  --text-primary: rgba(255, 255, 255, 0.96);
+  --text-secondary: rgba(255, 255, 255, 0.72);
+  --text-tertiary: rgba(255, 255, 255, 0.50);
+  --text-disabled: rgba(255, 255, 255, 0.30);
+
+  /* Accents */
+  --accent: #0A84FF;
+  --accent-soft: rgba(10, 132, 255, 0.25);
+  --success: #30D158;
+  --destructive: #FF453A;
+
+  /* Radii — Concentric hierarchy */
+  --radius-window: 40px;
+  --radius-card: 26px;
+  --radius-control: 9999px;
+  --radius-inner: 18px;
+
+  /* Depth */
+  --shadow-window: 0 30px 80px -20px rgba(0,0,0,0.5), 0 10px 30px -10px rgba(0,0,0,0.35);
+  --shadow-float: 0 18px 40px -12px rgba(0,0,0,0.45);
+  --shadow-popover: 0 40px 100px -20px rgba(0,0,0,0.60);
+
+  /* Motion */
+  --spring: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-fast: 180ms;
+  --dur-base: 320ms;
+  --dur-slow: 520ms;
+}
+
+/* Light Mode Overrides */
+html.light-mode {
+  --env-dim: rgba(255, 255, 255, 0.16);
+
+  /* Light glass materials — translucent crystal/ice glass */
+  --glass-thin: rgba(255, 255, 255, 0.35);
+  --glass-regular: rgba(255, 255, 255, 0.50);
+  --glass-thick: rgba(255, 255, 255, 0.72);
+  --glass-dark: rgba(245, 245, 248, 0.82);
+
+  /* Recessed fills — carved into light glass */
+  --fill-recessed: rgba(0, 0, 0, 0.06);
+  --fill-hover: rgba(0, 0, 0, 0.09);
+  --fill-selected: rgba(0, 0, 0, 0.14);
+
+  /* Edge light */
+  --edge-highlight: rgba(255, 255, 255, 0.98);
+  --edge-lowlight: rgba(0, 0, 0, 0.08);
+  --hairline: rgba(0, 0, 0, 0.10);
+
+  /* Text vibrancy */
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-tertiary: #64748B;
+  --text-disabled: #94A3B8;
+
+  /* Shadows for light mode */
+  --shadow-window: 0 30px 80px -20px rgba(0,0,0,0.18), 0 10px 30px -10px rgba(0,0,0,0.10);
+  --shadow-float: 0 18px 40px -12px rgba(0,0,0,0.14);
+  --shadow-popover: 0 40px 100px -20px rgba(0,0,0,0.22);
+}
+
+html {
+  overflow-y: auto;
+  scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
+  scrollbar-width: thin;
+}
+
+html.light-mode {
+  scrollbar-color: rgba(0, 0, 0, 0.28) transparent;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Inter", system-ui, sans-serif;
+  color: var(--text-primary);
+  background-color: #0b0c0e;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.4s ease, color 0.3s ease;
+}
+
+html.light-mode body {
+  background-color: #f1f3f7;
+}
+
+/* Light mode typography & surface adaptations */
+html.light-mode .text-white:not(.force-white):not(.keep-white) {
+  color: var(--text-primary) !important;
+}
+html.light-mode .force-white,
+html.light-mode .force-white *,
+html.light-mode .keep-white,
+html.light-mode .keep-white * {
+  color: #ffffff !important;
+}
+html.light-mode .text-white\/90:not(.force-white):not(.keep-white),
+html.light-mode .text-white\/85:not(.force-white):not(.keep-white),
+html.light-mode .text-white\/80:not(.force-white):not(.keep-white) {
+  color: var(--text-primary) !important;
+}
+html.light-mode .text-white\/75:not(.force-white):not(.keep-white),
+html.light-mode .text-white\/70:not(.force-white):not(.keep-white) {
+  color: var(--text-secondary) !important;
+}
+html.light-mode .text-white\/65:not(.force-white):not(.keep-white),
+html.light-mode .text-white\/60:not(.force-white):not(.keep-white),
+html.light-mode .text-white\/55:not(.force-white):not(.keep-white),
+html.light-mode .text-white\/50:not(.force-white):not(.keep-white) {
+  color: var(--text-tertiary) !important;
+}
+html.light-mode .text-white\/40:not(.force-white):not(.keep-white),
+html.light-mode .text-white\/35:not(.force-white):not(.keep-white),
+html.light-mode .text-white\/30:not(.force-white):not(.keep-white) {
+  color: var(--text-disabled) !important;
+}
+
+/* Case studies section media cards typography */
+html.light-mode #work h3,
+html.light-mode #work .case-study-title {
+  color: #1c1917 !important;
+}
+
+html.light-mode #work p,
+html.light-mode #work .case-study-desc {
+  color: #1c1917 !important;
+  font-weight: 400 !important;
+}
+
+html:not(.light-mode) #work h3,
+html:not(.light-mode) #work p,
+html:not(.light-mode) #work .force-white,
+html:not(.light-mode) #work .force-white * {
+  color: #ffffff !important;
+}
+
+/* Borders in light mode */
+html.light-mode .border-white\/10,
+html.light-mode .border-white\/15,
+html.light-mode .border-white\/20 {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+html.light-mode .border-white\/25,
+html.light-mode .border-white\/30,
+html.light-mode .border-white\/40 {
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Sub-card backgrounds in light mode */
+html.light-mode .bg-white\/\[0\.02\],
+html.light-mode .bg-white\/\[0\.03\],
+html.light-mode .bg-white\/\[0\.04\],
+html.light-mode .bg-white\/\[0\.05\],
+html.light-mode .bg-white\/\[0\.08\] {
+  background-color: rgba(255, 255, 255, 0.72) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+html.light-mode .bg-black\/20,
+html.light-mode .bg-black\/25,
+html.light-mode .bg-black\/30,
+html.light-mode .bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Primary buttons in light mode: sleek black capsule with crisp white label */
+html.light-mode button.bg-white {
+  background-color: #0F172A !important;
+  color: #FFFFFF !important;
+}
+html.light-mode button.bg-white:hover {
+  background-color: #1E293B !important;
+}
+html.light-mode button.bg-white svg,
+html.light-mode button.bg-white span {
+  color: #FFFFFF !important;
+}
+
+/* Recessed buttons in light mode */
+html.light-mode .bg-black\/25 {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  color: #0F172A !important;
+}
+html.light-mode .bg-white\/12,
+html.light-mode .bg-white\/15 {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+  color: #0F172A !important;
+}
+
+/* Inputs in light mode */
+html.light-mode input,
+html.light-mode textarea {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  color: #0F172A !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+html.light-mode input::placeholder,
+html.light-mode textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* Glass material utilities */
+.glass {
+  position: relative;
+  background: var(--glass-regular);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border-radius: var(--radius-window);
+  box-shadow:
+    inset 0 1px 0 0 var(--edge-highlight),
+    inset 0 -1px 0 0 var(--edge-lowlight),
+    var(--shadow-window);
+  transition: background 0.35s ease, box-shadow 0.35s ease;
+}
+
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.12) 0%,
+    rgba(0,0,0,0.45) 35%,
+    rgba(0,0,0,0.70) 65%,
+    rgba(255,255,255,0.04) 100%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+html.light-mode .glass::before {
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.98) 0%,
+    rgba(255,255,255,0.50) 35%,
+    rgba(0,0,0,0.04) 65%,
+    rgba(255,255,255,0.80) 100%
+  );
+}
+
+.glass-thin {
+  position: relative;
+  background: var(--glass-thin);
+  border-radius: var(--radius-card);
+  box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.22);
+}
+
+html.light-mode .glass-thin {
+  box-shadow: inset 0 1px 0 0 rgba(255,255,255,0.8), 0 2px 8px -2px rgba(0,0,0,0.05);
+}
+
+.glass-thick {
+  position: relative;
+  background: var(--glass-thick);
+  backdrop-filter: blur(var(--glass-blur-thick)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur-thick)) saturate(var(--glass-saturate));
+  border-radius: var(--radius-window);
+  box-shadow:
+    inset 0 1px 0 0 var(--edge-highlight),
+    inset 0 -1px 0 0 var(--edge-lowlight),
+    var(--shadow-popover);
+}
+
+.glass-dark {
+  background: var(--glass-dark);
+}
+
+/* Gaze-style hover glow */
+.interactive-glow {
+  position: relative;
+  transition: transform var(--dur-fast) var(--spring), background-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+
+.interactive-glow:hover {
+  background-color: var(--fill-hover);
+}
+
+.interactive-glow:active {
+  transform: scale(0.97);
+}
+
+/* Reduced transparency accessibility */
+@media (prefers-reduced-transparency: reduce) {
+  .glass, .glass-thin, .glass-thick {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  html:not(.light-mode) .glass,
+  html:not(.light-mode) .glass-thin,
+  html:not(.light-mode) .glass-thick {
+    background: rgba(26, 26, 30, 0.95) !important;
+  }
+
+  html.light-mode .glass,
+  html.light-mode .glass-thin,
+  html.light-mode .glass-thick {
+    background: rgba(246, 246, 248, 0.98) !important;
+  }
+}
+
+.solid .glass,
+.solid .glass-thin,
+.solid .glass-thick {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html:not(.light-mode).solid .glass,
+html:not(.light-mode).solid .glass-thin,
+html:not(.light-mode).solid .glass-thick {
+  background: rgba(26, 26, 30, 0.95) !important;
+}
+
+html.light-mode .solid .glass,
+html.light-mode .solid .glass-thin,
+html.light-mode .solid .glass-thick {
+  background: rgba(246, 246, 248, 0.98) !important;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 9999px;
+  border: 1.5px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.48);
+  border: 1.5px solid transparent;
+  background-clip: padding-box;
+}
+
+html.light-mode ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.28);
+  border: 1.5px solid transparent;
+  background-clip: padding-box;
+}
+html.light-mode ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.48);
+  border: 1.5px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Hide scrollbar while preserving touch & swipe scroll functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0 !important;
+  height: 0 !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+}
+
+/* Authentic terminal/text caret cursor blink */
+@keyframes caret-blink {
+  0%, 48% {
+    opacity: 1;
+  }
+  49%, 100% {
+    opacity: 0;
+  }
+}
+
+.caret-cursor {
+  animation: caret-blink 0.85s infinite;
+}
+
