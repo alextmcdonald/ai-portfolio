@@ -11,28 +11,28 @@ export interface EnvironmentItem {
 export const DARK_ENVIRONMENTS: EnvironmentItem[] = [
   {
     id: 'cupertino-studio',
-    name: 'Cupertino Studio',
+    name: 'Cupertino studio',
     subtitle: 'Architectural dusk interior',
     url: '/src/assets/images/env_apple_studio_1790732856805.jpg',
     theme: 'dark'
   },
   {
     id: 'dark-observatory',
-    name: 'Dark Observatory',
+    name: 'Dark observatory',
     subtitle: 'Midnight stars & smoked titanium',
     url: '/src/assets/images/env_dark_observatory_1790741206337.jpg',
     theme: 'dark'
   },
   {
     id: 'alpine-twilight',
-    name: 'Alpine Lake',
+    name: 'Alpine lake',
     subtitle: 'Mount Whitney twilight reflection',
     url: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2000&auto=format&fit=crop',
     theme: 'dark'
   },
   {
     id: 'dark-penthouse',
-    name: 'Pacific Penthouse',
+    name: 'Pacific penthouse',
     subtitle: 'Architectural city nightscape',
     url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2000&auto=format&fit=crop',
     theme: 'dark'
@@ -42,28 +42,28 @@ export const DARK_ENVIRONMENTS: EnvironmentItem[] = [
 export const LIGHT_ENVIRONMENTS: EnvironmentItem[] = [
   {
     id: 'apple-park-daylight',
-    name: 'Apple Park Daylight',
+    name: 'Park daylight',
     subtitle: 'Sun-drenched minimalist studio',
     url: '/src/assets/images/env_apple_daylight_1790734169052.jpg',
     theme: 'light'
   },
   {
     id: 'nordic-studio',
-    name: 'Scandinavian Studio',
+    name: 'Scandinavian studio',
     subtitle: 'Clean oak, glass & morning sun',
     url: '/src/assets/images/env_light_scandi_1790741166705.jpg',
     theme: 'light'
   },
   {
     id: 'coastal-pavilion',
-    name: 'Pacific Coastline',
+    name: 'Pacific coastline',
     subtitle: 'Travertine deck & turquoise ocean',
     url: '/src/assets/images/env_light_coast_1790741180007.jpg',
     theme: 'light'
   },
   {
     id: 'zen-garden',
-    name: 'Glass Solarium',
+    name: 'Glass solarium',
     subtitle: 'Morning bamboo & tranquil pebbles',
     url: '/src/assets/images/env_light_garden_1790741193271.jpg',
     theme: 'light'

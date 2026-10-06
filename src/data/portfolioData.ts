@@ -4,7 +4,7 @@ export const DESIGNER_INFO = {
   name: "Alex McDonald",
   title: "Senior Product Designer",
   roleSubtext: "AI Design Engineer",
-  location: "Seattle, WA · Remote",
+  location: "Seattle, WA",
   email: "me@alextmcdonald.com",
   status: "Open to Senior & Lead level roles",
   avatarUrl: "/src/assets/images/alex_portrait_blue_1790739680820.jpg",
@@ -30,11 +30,12 @@ export const DESIGNER_INFO = {
 export const CASE_STUDIES: CaseStudy[] = [
   {
     id: "aura-spatial-os",
-    title: "AuraOS",
+    title: "Drive Auto",
     subtitle: "Architecting the next paradigm of glass depth, gaze ergonomics, and 3D spatial window anchoring.",
     role: "Lead Spatial Designer & Systems Architect",
     timeline: "2024 — 2025",
-    category: "Spatial computing",
+    category: "B2B Enterprise",
+    cardTags: ["B2B Enterprise", "Automotive"],
     heroImage: "/src/assets/images/casestudy_spatial_device_1790887169601.jpg",
     statsSummary: "Task switching 42% faster, 38% gaze fatigue reduction. Adopted across 140+ engineers.",
     summary: "Designed and engineered an end-to-end spatial computing interface system built from the ground up for floating glass environments. Solved ergonomic fatigue from extended gaze selection, dynamic ambient lighting occlusion, and multi-window depth collisions.",
@@ -75,15 +76,16 @@ export const CASE_STUDIES: CaseStudy[] = [
       { name: "Ornaments & Controls", caption: "Floating bottom capsule with physics-driven state transitions", tag: "Controls" },
       { name: "Dynamic Glass Shader", caption: "Real-time room illumination reflection and specular rim highlight", tag: "Shader" }
     ],
-    tags: ["Spatial UI", "visionOS", "Design Systems", "Ergonomics", "Framer Motion"]
+    tags: ["B2B Enterprise", "Automotive", "Spatial UI", "Design Systems", "Ergonomics"]
   },
   {
     id: "strata-wealth",
-    title: "Strata Wealth",
+    title: "TennisPal",
     subtitle: "High-net-worth portfolio management with tactile micro-interactions, dark titanium UI, and sub-16ms telemetry.",
     role: "Principal Product Designer",
     timeline: "2023 — 2024",
-    category: "Fintech & systems",
+    category: "Consumer app",
+    cardTags: ["Consumer app", "Social media", "Sports"],
     heroImage: "/src/assets/images/casestudy_fintech_mobile_1790732888826.jpg",
     statsSummary: "Tracked $4.2B+ in private wealth, 4.9 App Store rating, and +68% daily active engagement.",
     summary: "Created the mobile and desktop flagship experience for ultra-high-net-worth family offices managing complex asset allocations, venture capital tranches, and cross-currency liquidity.",
@@ -124,15 +126,16 @@ export const CASE_STUDIES: CaseStudy[] = [
       { name: "Execution Sheet", caption: "Swipe-to-commit rebalance interface with real-time fee breakdown", tag: "Trading" },
       { name: "Historical Breakdown", caption: "Interactive telemetry scrub across 10-year vintage horizons", tag: "Analytics" }
     ],
-    tags: ["Fintech", "iOS & Web", "Design Systems", "ProMotion", "Data Visualization"]
+    tags: ["Consumer app", "Social media", "Sports", "iOS & Web", "Design Systems"]
   },
   {
     id: "canvas-ai",
-    title: "Canvas AI",
+    title: "Saveplates",
     subtitle: "Low-cognitive-load infinite canvas balancing autonomous agent execution with direct human manipulation.",
     role: "Staff Product Designer",
     timeline: "2022 — 2023",
-    category: "Creative tools",
+    category: "Consumer app",
+    cardTags: ["Consumer app", "Marketplace", "Food"],
     heroImage: "/src/assets/images/casestudy_canvas_device_1790887188018.jpg",
     statsSummary: "3.4x faster concept iteration, 92% power-user retention in 48 hours.",
     summary: "Led the 0-to-1 product design of an infinite visual workspace for multi-modal AI generation. Designed spatial node connections, progressive parameter disclosure, and non-blocking background task orchestration.",
@@ -173,7 +176,107 @@ export const CASE_STUDIES: CaseStudy[] = [
       { name: "Floating Toolbar", caption: "Contextual glass tool palette following active selection", tag: "Tooling" },
       { name: "Variant Matrix", caption: "High-density comparison lightbox with pixel diffing", tag: "Comparison" }
     ],
-    tags: ["Creative Tooling", "AI Workspace", "Graph UI", "WebGL Canvas", "Direct Manipulation"]
+    tags: ["Consumer app", "Marketplace", "Food", "AI Workspace", "Direct Manipulation"]
+  },
+  {
+    id: "pogoseat",
+    title: "Pogoseat",
+    subtitle: "Real-time in-venue seat upgrades and dynamic VIP marketplace for major sports franchises and live events.",
+    role: "Senior Product Designer",
+    timeline: "2021 — 2022",
+    category: "Consumer app",
+    cardTags: ["Consumer app", "Marketplace", "Sports"],
+    heroImage: "/src/assets/images/golfscanner_preview_1790968360808.jpg",
+    statsSummary: "52% upgrade conversion rate, adopted by 30+ NBA/MLB stadiums, +$3.8M incremental ticketing GMV.",
+    summary: "Designed the end-to-end mobile fan experience and live venue marketplace allowing sports fans to purchase instant in-game seat upgrades and VIP access pass upgrades directly from their smartphone in seconds.",
+    problem: "Stadiums were filled with vacant lower-bowl seats during live games while fans in upper tiers lacked a seamless, friction-free way to upgrade mid-game without navigating clunky ticketing websites or missing game action.",
+    solution: "Crafted a frictionless 2-tap seat discovery and instant Apple Pay checkout experience with interactive 3D stadium section maps, real-time inventory telemetry, and dynamic pricing curves.",
+    researchInsights: [
+      "Fans only check for upgrades during commercial breaks and game pauses; the upgrade flow had to complete in under 8 seconds.",
+      "Dynamic seat previews showing the exact view from the upgraded seat increased checkout completion by 44%.",
+      "Integrating Apple Wallet passes with haptic entry gates reduced venue usher validation time to sub-2 seconds."
+    ],
+    designDecisions: [
+      {
+        title: "Interactive Stadium Vector Map",
+        description: "Pinch-to-zoom SVG stadium bowl with live color-coded availability heatmaps and tier pricing."
+      },
+      {
+        title: "2-Tap Apple Pay Checkout",
+        description: "Zero-form checkout flow optimizing seat claim speed during fast-paced live sporting events."
+      },
+      {
+        title: "Dynamic Usher Validation Pass",
+        description: "High-contrast dynamic QR barcode with animated security watermark to prevent fraudulent screenshots."
+      }
+    ],
+    metrics: [
+      { label: "Upgrade Conversion", value: "52%", subtext: "Of fans browsing available seats during halftime" },
+      { label: "Partner Franchises", value: "30+", subtext: "NBA, MLB, NHL, and NCAA sports stadiums" },
+      { label: "Incremental GMV", value: "+$3.8M", subtext: "Generated in secondary seat upgrade revenue" }
+    ],
+    systemSpecs: [
+      { key: "Target Platforms", value: "iOS, Android, and Responsive Mobile Web PWA" },
+      { key: "Checkout Latency", value: "<8.2s median end-to-end purchase completion" },
+      { key: "Ticketing Engine", value: "Real-time bidirectional Ticketmaster & Paciolan sync" },
+      { key: "Security Protocol", value: "Rotating cryptographic token with dynamic watermarking" }
+    ],
+    prototypeScreens: [
+      { name: "Venue Seat Map", caption: "3D perspective bowl with live seat availability pins", tag: "Stadium Map" },
+      { name: "Seat View Preview", caption: "Photorealistic field-of-view perspective simulator", tag: "Viewpoint" },
+      { name: "Express Upgrade Sheet", caption: "One-thumb seat selection and instant biometric checkout", tag: "Checkout" }
+    ],
+    tags: ["Consumer app", "Marketplace", "Sports", "Mobile Ticketing", "Apple Pay", "Live Events"]
+  },
+  {
+    id: "stacksocial",
+    title: "StackSocial",
+    subtitle: "Discovery engine and high-velocity commerce marketplace connecting millions of tech enthusiasts with cutting-edge software and digital bundles.",
+    role: "Staff Product Designer & Growth Lead",
+    timeline: "2019 — 2021",
+    category: "E-commerce",
+    cardTags: ["E-commerce", "Marketplace", "Software", "Tech"],
+    heroImage: "/src/assets/images/casestudy_ai_workspace_1790732898643.jpg",
+    statsSummary: "+41% cart conversion rate, $28M+ annual marketplace GMV, 4.2M active digital subscribers.",
+    summary: "Reimagined the flagship digital marketplace discovery architecture, bundle builder experience, and checkout funnel for one of the web's largest technology discovery platforms.",
+    problem: "Legacy software commerce platforms presented overwhelming category trees, dense text lists, and high cart abandonment caused by friction-filled multi-step redemption flows.",
+    solution: "Designed a modern card-based discovery feed with interactive software bundle configurators, pay-what-you-want dynamic leaderboards, and instant 1-click license provisioning.",
+    researchInsights: [
+      "Tech buyers prioritize system compatibility and license longevity; surfacing macOS/Windows compatibility badges increased product page time by 28%.",
+      "Interactive 'build your own bundle' sliders dramatically elevated average order value by 35% compared to static packages.",
+      "Streamlined post-purchase license vaults with copy-to-clipboard activation reduced support ticket volume by 46%."
+    ],
+    designDecisions: [
+      {
+        title: "Interactive Bundle Configurator",
+        description: "Visual tier-based builder with real-time savings calculations and reward unlock indicators."
+      },
+      {
+        title: "High-Density Software Grid",
+        description: "Scannable product cards highlighting discount percentages, user ratings, and platform icons."
+      },
+      {
+        title: "Instant License Vault",
+        description: "Centralized digital locker featuring one-click license activation and download managers."
+      }
+    ],
+    metrics: [
+      { label: "Cart Conversion", value: "+41%", subtext: "Lift following the redesigned checkout architecture" },
+      { label: "Annual Marketplace GMV", value: "$28M+", subtext: "Processed across software, gadgets, and bundles" },
+      { label: "Active Tech Community", value: "4.2M", subtext: "Subscribers discovering tools and apps weekly" }
+    ],
+    systemSpecs: [
+      { key: "Catalog Scale", value: "Over 12,000 active digital software SKUs" },
+      { key: "Design System", value: "Cross-platform tokenized design system in React & Tailwind" },
+      { key: "Payment Architecture", value: "Stripe, Apple Pay, PayPal, and crypto checkout" },
+      { key: "Page Performance", value: "98/100 Google Lighthouse Core Web Vitals score" }
+    ],
+    prototypeScreens: [
+      { name: "Discovery Feed", caption: "Personalized curated tech feed with trending software drops", tag: "Explore" },
+      { name: "Bundle Builder", caption: "Dynamic tier selector with live bundle savings breakdown", tag: "Configurator" },
+      { name: "Digital License Hub", caption: "Instant key reveal with step-by-step installation guides", tag: "Fulfillment" }
+    ],
+    tags: ["E-commerce", "Marketplace", "Software", "Tech", "Design Systems", "Growth"]
   }
 ];
 

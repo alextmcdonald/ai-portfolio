@@ -78,6 +78,48 @@ const CASE_STUDY_GALLERY: Record<string, {
     ],
     systemSpecImage: 'https://images.unsplash.com/photo-1581291518655-9523c932edcf?auto=format&fit=crop&w=1200&q=80',
     impactImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80'
+  },
+  'pogoseat': {
+    explorations: [
+      {
+        title: 'Real-time Stadium Vector Map',
+        caption: 'SVG stadium bowl with live color-coded seat availability heatmaps',
+        image: 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        title: 'Instant Seat Viewpoint Simulator',
+        caption: 'Field-of-view perspective simulator rendering real sightlines',
+        image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80'
+      }
+    ],
+    screenImages: [
+      'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=1200&q=80'
+    ],
+    systemSpecImage: 'https://images.unsplash.com/photo-1581291518655-9523c932edcf?auto=format&fit=crop&w=1200&q=80',
+    impactImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80'
+  },
+  'stacksocial': {
+    explorations: [
+      {
+        title: 'Dynamic Bundle Configurator',
+        caption: 'Interactive tier-based package builder with real-time value telemetry',
+        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        title: 'Digital License Fulfillment Hub',
+        caption: 'Instant 1-click license provisioning with automated copy-to-clipboard activation',
+        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'
+      }
+    ],
+    screenImages: [
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80'
+    ],
+    systemSpecImage: 'https://images.unsplash.com/photo-1581291518655-9523c932edcf?auto=format&fit=crop&w=1200&q=80',
+    impactImage: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80'
   }
 };
 

@@ -87,11 +87,11 @@ export const Ornament: React.FC<OrnamentProps> = ({
               WebkitBackdropFilter: 'blur(40px) saturate(180%)'
             }}
           >
-            <div className="flex items-center justify-between px-3 py-1.5 mb-2.5">
+            <div className="flex items-center justify-between px-1 py-1.5 mb-2.5">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                 <span className="text-xs font-bold tracking-tight">
-                  {isLightMode ? 'Choose Light Environment' : 'Choose Dark Environment'}
+                  {isLightMode ? 'Choose light environment' : 'Choose dark environment'}
                 </span>
               </div>
               <span className={`text-[10px] font-mono ${isLightMode ? 'text-stone-500' : 'text-white/50'}`}>
@@ -171,10 +171,10 @@ export const Ornament: React.FC<OrnamentProps> = ({
             triggerSoundFeedback();
             onOpenResumeModal();
           }}
-          className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95 ${
+          className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95 border ${
             isLightMode
-              ? 'bg-black/[0.06] hover:bg-black/[0.12] text-stone-800 hover:text-black'
-              : 'bg-white/12 hover:bg-white/24 text-white/90 hover:text-white'
+              ? 'bg-black/[0.06] hover:bg-black/[0.12] text-stone-800 hover:text-black border-black/10'
+              : 'bg-white/12 hover:bg-white/24 text-white/90 hover:text-white border-white/15'
           }`}
           title="Open formatted resume"
         >
@@ -189,10 +189,10 @@ export const Ornament: React.FC<OrnamentProps> = ({
             triggerSoundFeedback();
             onOpenContactModal();
           }}
-          className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95 ${
+          className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95 border ${
             isLightMode
-              ? 'bg-black/[0.06] hover:bg-black/[0.12] text-stone-800 hover:text-black'
-              : 'bg-white/12 hover:bg-white/24 text-white/90 hover:text-white'
+              ? 'bg-black/[0.06] hover:bg-black/[0.12] text-stone-800 hover:text-black border-black/10'
+              : 'bg-white/12 hover:bg-white/24 text-white/90 hover:text-white border-white/15'
           }`}
           title="Send a quick note"
         >
@@ -210,14 +210,14 @@ export const Ornament: React.FC<OrnamentProps> = ({
             triggerSoundFeedback();
             setIsEnvTrayOpen(!isEnvTrayOpen);
           }}
-          className={`flex items-center gap-2 px-3 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95 ${
+          className={`flex items-center gap-2 px-3 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95 border ${
             isEnvTrayOpen
               ? isLightMode
-                ? 'bg-black/15 text-black'
-                : 'bg-white/30 text-white'
+                ? 'bg-black/15 text-black border-black/15'
+                : 'bg-white/30 text-white border-white/25'
               : isLightMode
-                ? 'bg-black/[0.05] hover:bg-black/[0.1] text-stone-800 hover:text-black'
-                : 'bg-white/10 hover:bg-white/20 text-white/90 hover:text-white'
+                ? 'bg-black/[0.05] hover:bg-black/[0.1] text-stone-800 hover:text-black border-black/10'
+                : 'bg-white/10 hover:bg-white/20 text-white/90 hover:text-white border-white/15'
           }`}
           title={`Ambient Room: ${activeEnv.name}`}
         >
@@ -295,14 +295,14 @@ export const Ornament: React.FC<OrnamentProps> = ({
             onToggleSound();
             triggerSoundFeedback();
           }}
-          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full transition-all duration-200 ${
+          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full transition-all duration-200 border ${
             soundEnabled
               ? isLightMode
-                ? 'text-stone-800 hover:bg-black/10'
-                : 'text-white/90 hover:bg-white/15'
+                ? 'text-stone-800 hover:bg-black/10 border-black/10'
+                : 'text-white/90 hover:bg-white/15 border-white/15'
               : isLightMode
-                ? 'text-stone-400 hover:bg-black/5'
-                : 'text-white/40 hover:bg-white/10'
+                ? 'text-stone-400 hover:bg-black/5 border-black/10'
+                : 'text-white/40 hover:bg-white/10 border-white/15'
           }`}
           title={soundEnabled ? "Audio Haptics: Enabled" : "Audio Haptics: Muted"}
           aria-label={soundEnabled ? "Mute audio" : "Enable audio"}

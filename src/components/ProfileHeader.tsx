@@ -164,13 +164,13 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             isLightMode ? 'text-stone-500' : 'text-white/70'
           }`}
         >
-          <span className="text-[13px] inline-flex items-center gap-1">
+          <span className="hidden sm:inline-flex text-[13px] items-center gap-1">
             <span>📍</span>
             <span>{DESIGNER_INFO.location}</span>
           </span>
-          <span aria-hidden="true">·</span>
+          <span className="hidden sm:inline" aria-hidden="true">·</span>
           <span
-            className={`font-mono font-semibold ${
+            className={`font-mono font-bold ${
               isLightMode ? 'text-[#009966]' : 'text-emerald-400'
             }`}
           >
@@ -233,7 +233,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   setIsMenuOpen(false);
                   onOpenContact();
                 }}
-                className="w-full py-2.5 px-3.5 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white force-white active:scale-98 text-xs font-semibold transition-all shadow-[0_2px_12px_rgba(0,113,227,0.35)] flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-2.5 px-3.5 rounded-xl bg-[#0071e3] hover:bg-[#0077ed] text-white force-white active:scale-98 text-xs font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-none"
                 style={{ color: '#ffffff' }}
               >
                 <Send className="w-3.5 h-3.5 force-white" style={{ color: '#ffffff' }} />
@@ -244,7 +244,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               <div
                 className={`flex items-center justify-between gap-2 p-2.5 rounded-xl border ${
                   isLightMode
-                    ? 'bg-black/[0.03] border-black/10'
+                    ? 'bg-[#e5e5e5] border-black/10'
                     : 'bg-black/40 border-white/10'
                 }`}
               >
@@ -261,7 +261,11 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     sounds.playSuccess();
                     onCopyEmail();
                   }}
-                  className="px-2.5 py-1 rounded-lg bg-white/15 hover:bg-white/25 text-white text-[11px] font-semibold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer"
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer ${
+                    isLightMode
+                      ? 'bg-[#cccccc] hover:bg-[#c0c0c0] text-stone-800'
+                      : 'bg-white/15 hover:bg-white/25 text-white'
+                  }`}
                 >
                   {emailCopied ? (
                     <>

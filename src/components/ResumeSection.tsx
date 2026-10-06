@@ -184,49 +184,49 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
         {/* Three Foundational Pillars */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
           <div
-            className={`p-5 rounded-[22px] border transition-all ${
+            className={`p-5 rounded-[22px] border transition-all shadow-none ${
               isLightMode
-                ? 'bg-stone-50/80 border-stone-200/80 shadow-xs'
-                : 'bg-white/[0.03] border-white/10'
+                ? 'bg-stone-50/80 border-stone-200/80'
+                : 'bg-[#111111] border-white/10'
             }`}
           >
             <div className="flex items-center gap-2 mb-2 text-sky-400">
               <Code className="w-4 h-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Engineered</span>
             </div>
-            <p className={`text-xs leading-relaxed ${isLightMode ? 'text-stone-600' : 'text-white/70'}`}>
+            <p className={`text-[13px] leading-relaxed ${isLightMode ? 'text-stone-600' : 'text-white/70'}`}>
               Production React, TypeScript & GLSL shaders for zero-friction handoff.
             </p>
           </div>
 
           <div
-            className={`p-5 rounded-[22px] border transition-all ${
+            className={`p-5 rounded-[22px] border transition-all shadow-none ${
               isLightMode
-                ? 'bg-stone-50/80 border-stone-200/80 shadow-xs'
-                : 'bg-white/[0.03] border-white/10'
+                ? 'bg-stone-50/80 border-stone-200/80'
+                : 'bg-[#111111] border-white/10'
             }`}
           >
             <div className="flex items-center gap-2 mb-2 text-emerald-400">
               <Layers className="w-4 h-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Spatial Math</span>
             </div>
-            <p className={`text-xs leading-relaxed ${isLightMode ? 'text-stone-600' : 'text-white/70'}`}>
+            <p className={`text-[13px] leading-relaxed ${isLightMode ? 'text-stone-600' : 'text-white/70'}`}>
               3 US patents filed in gaze gesture anchoring & concentric geometry.
             </p>
           </div>
 
           <div
-            className={`p-5 rounded-[22px] border transition-all ${
+            className={`p-5 rounded-[22px] border transition-all shadow-none ${
               isLightMode
-                ? 'bg-stone-50/80 border-stone-200/80 shadow-xs'
-                : 'bg-white/[0.03] border-white/10'
+                ? 'bg-stone-50/80 border-stone-200/80'
+                : 'bg-[#111111] border-white/10'
             }`}
           >
             <div className="flex items-center gap-2 mb-2 text-amber-400">
               <Compass className="w-4 h-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Leadership</span>
             </div>
-            <p className={`text-xs leading-relaxed ${isLightMode ? 'text-stone-600' : 'text-white/70'}`}>
+            <p className={`text-[13px] leading-relaxed ${isLightMode ? 'text-stone-600' : 'text-white/70'}`}>
               Scaled systems adopted across 140+ teams; mentored 18+ designers.
             </p>
           </div>
@@ -433,7 +433,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                           {rec.name}
                         </div>
                         <div
-                          className={`text-xs ${
+                          className={`text-[13px] ${
                             isLightMode ? 'text-stone-500' : 'text-white/60'
                           }`}
                         >
@@ -501,9 +501,8 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                   </svg>
                 </div>
                 <div>
-                  <div className="text-xs font-black uppercase tracking-wider text-[#FC4C02] flex items-center gap-1.5">
-                    <span>Recent Activity</span>
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <div className="text-xs font-black uppercase tracking-wider text-[#FC4C02]">
+                    Recent Activity
                   </div>
                   <div className={`text-[11px] font-mono group-hover:underline ${isLightMode ? 'text-stone-500' : 'text-white/50'}`}>
                     strava.com/athletes/{LATEST_STRAVA_ACTIVITY.athleteHandle}
@@ -572,7 +571,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
               <h4 className={`text-base sm:text-lg font-bold tracking-tight ${isLightMode ? 'text-stone-900' : 'text-white'}`}>
                 {LATEST_STRAVA_ACTIVITY.title}
               </h4>
-              <p className={`text-xs ${isLightMode ? 'text-stone-500' : 'text-white/50'} mt-1`}>
+              <p className={`text-[13px] ${isLightMode ? 'text-stone-500' : 'text-white/50'} mt-1`}>
                 {LATEST_STRAVA_ACTIVITY.date} · {LATEST_STRAVA_ACTIVITY.distance} · {LATEST_STRAVA_ACTIVITY.location}
               </p>
             </div>

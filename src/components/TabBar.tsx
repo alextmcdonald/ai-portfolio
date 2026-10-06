@@ -19,10 +19,10 @@ interface TabItem {
 
 const TABS: TabItem[] = [
   { id: 'overview', label: 'Overview', icon: Compass },
-  { id: 'work', label: 'Case Studies', icon: Layers },
-  { id: 'interactive', label: 'AI Experiments', icon: Sliders },
-  { id: 'resume', label: 'About & Bio', icon: FileText },
-  { id: 'contact', label: 'Get in Touch', icon: Send }
+  { id: 'work', label: 'Case studies', icon: Layers },
+  { id: 'interactive', label: 'AI playground', icon: Sliders },
+  { id: 'resume', label: 'About me', icon: FileText },
+  { id: 'contact', label: 'Get in touch', icon: Send }
 ];
 
 export const TabBar: React.FC<TabBarProps> = ({

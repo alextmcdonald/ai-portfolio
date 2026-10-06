@@ -375,9 +375,9 @@ export default function App() {
             style={footerGlassStyle}
           >
             <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-center sm:text-left">
-              <span>© {new Date().getFullYear()} Crafted by {DESIGNER_INFO.name}</span>
+              <span className="font-normal">© {new Date().getFullYear()} Crafted by {DESIGNER_INFO.name}</span>
               <span aria-hidden="true" className="hidden sm:inline">·</span>
-              <span>Engineered by AI</span>
+              <span className="font-normal">Engineered by AI</span>
             </div>
 
             <div className="flex items-center justify-center">
@@ -391,7 +391,7 @@ export default function App() {
                 }`}
               >
                 <ArrowUp className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-y-0.5" />
-                <span>Back to top</span>
+                <span className="font-normal">Back to top</span>
               </button>
             </div>
           </footer>

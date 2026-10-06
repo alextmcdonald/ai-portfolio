@@ -44,7 +44,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 px-2 sm:px-0">
         <div>
           <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
-            Let's connect
+            Get in touch
           </h2>
         </div>
 
@@ -57,7 +57,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
           <span className={`w-2.5 h-2.5 rounded-full animate-pulse ${
             isLightMode ? 'bg-[#009966]' : 'bg-emerald-400'
           }`} />
-          <span className={`text-xs font-mono font-semibold ${
+          <span className={`text-xs font-mono font-bold ${
             isLightMode ? 'text-[#009966]' : 'text-emerald-400'
           }`}>
             {DESIGNER_INFO.status}
@@ -65,14 +65,24 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
         {/* Left Column: Direct channels and Socials (5 cols) */}
-        <div className="lg:col-span-5 space-y-6">
-          <div className="rounded-[28px] p-6 sm:p-7 bg-white/[0.03] border border-white/15 shadow-xl space-y-4">
+        <div className="lg:col-span-5 flex flex-col">
+          <div className="rounded-[28px] p-6 sm:p-7 bg-white/[0.03] border border-white/15 shadow-xl space-y-3.5 h-full flex flex-col justify-between">
             {/* Direct Email */}
             <div>
-              <div className="flex items-center justify-between gap-2 p-3.5 rounded-2xl bg-black/30 border border-white/10">
-                <span className="text-sm font-medium text-white font-mono truncate">
+              <div
+                className={`flex items-center justify-between gap-2 p-3.5 rounded-2xl border ${
+                  isLightMode
+                    ? 'bg-[#e5e5e5] border-black/10'
+                    : 'bg-black/30 border-white/10'
+                }`}
+              >
+                <span
+                  className={`text-sm font-normal font-mono truncate ${
+                    isLightMode ? 'text-stone-900' : 'text-white'
+                  }`}
+                >
                   {DESIGNER_INFO.email}
                 </span>
                 <button
@@ -80,7 +90,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                     sounds.playSuccess();
                     onCopyEmail();
                   }}
-                  className="px-3 py-1.5 rounded-full bg-white/15 hover:bg-white/30 text-white text-xs font-semibold transition-all shrink-0 active:scale-95 flex items-center gap-1.5"
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer ${
+                    isLightMode
+                      ? 'bg-[#cccccc] hover:bg-[#c0c0c0] text-stone-800'
+                      : 'bg-white/15 hover:bg-white/30 text-white'
+                  }`}
                 >
                   {emailCopied ? (
                     <>
@@ -181,21 +195,33 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
         </div>
 
         {/* Right Column: Interactive Contact Form (7 cols) */}
-        <div className="lg:col-span-7">
-          <div className="rounded-[28px] sm:rounded-[36px] p-6 sm:p-8 bg-white/[0.03] border border-white/15 shadow-xl">
-            <div className="flex items-center gap-3 mb-6">
-              <MessageSquare className="w-5 h-5 text-[#0071e3] shrink-0" style={{ color: '#0071e3' }} />
-              <h3
-                className={`text-[20px] leading-[28px] font-bold tracking-tight ${
-                  isLightMode ? 'text-stone-900' : 'text-white'
+        <div className="lg:col-span-7 flex flex-col">
+          <div className="rounded-[28px] sm:rounded-[32px] p-6 sm:p-7 bg-white/[0.03] border border-white/15 shadow-xl h-full flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-3">
+                <MessageSquare className="w-5 h-5 text-[#0071e3] shrink-0" style={{ color: '#0071e3' }} />
+                <h3
+                  className={`text-[20px] leading-[28px] font-bold tracking-tight ${
+                    isLightMode ? 'text-stone-900' : 'text-white'
+                  }`}
+                >
+                  Message me
+                </h3>
+              </div>
+
+              <p
+                className={`text-[16px] leading-relaxed mt-5 mb-5 font-medium ${
+                  isLightMode ? 'text-stone-600' : 'text-white/70'
                 }`}
               >
-                Message me
-              </h3>
+                Have a 0-to-1 idea, an ambitious project, or just want to talk shop?{' '}
+                <br className="hidden sm:inline" />{' '}
+                Drop a note below and I&apos;ll respond within 24-48 hours.
+              </p>
             </div>
 
             {isSubmitted ? (
-              <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-3">
+              <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-3 my-auto">
                 <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-400/40">
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
@@ -216,12 +242,106 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-4.5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Name */}
+              <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-3.5 flex-1 flex flex-col justify-between">
+                <div className="space-y-3 sm:space-y-3.5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+                    {/* Name */}
+                    <div
+                      className={`relative rounded-2xl border-[1.5px] min-h-[52px] sm:min-h-[54px] flex items-center transition-all duration-200 ${
+                        focusedField === 'name'
+                          ? isLightMode
+                            ? 'bg-white border-[#0071e3] ring-2 ring-[#0071e3]/20 shadow-sm'
+                            : 'bg-black/60 border-white/70 ring-2 ring-white/20 shadow-inner'
+                          : isLightMode
+                            ? 'bg-black/[0.03] border-black/15'
+                            : 'bg-black/40 border-white/20'
+                      }`}
+                    >
+                      <label
+                        htmlFor="contact-name"
+                        className={`absolute left-5 pointer-events-none transition-all duration-200 ease-out origin-left leading-none ${
+                          focusedField === 'name' || name.length > 0
+                            ? `top-2 translate-y-0 text-[10px] font-semibold tracking-wider uppercase ${
+                                focusedField === 'name'
+                                  ? isLightMode
+                                    ? 'text-[#0071e3]'
+                                    : 'text-sky-400'
+                                  : isLightMode
+                                    ? 'text-stone-500'
+                                    : 'text-white/50'
+                              }`
+                            : `top-1/2 -translate-y-1/2 text-sm sm:text-base font-medium ${
+                                isLightMode ? 'text-stone-400' : 'text-white/45'
+                              }`
+                        }`}
+                      >
+                        Name
+                      </label>
+                      <input
+                        id="contact-name"
+                        type="text"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        onFocus={() => setFocusedField('name')}
+                        onBlur={() => setFocusedField(null)}
+                        className={`w-full px-5 pt-4 pb-1 sm:pt-4.5 sm:pb-1 rounded-2xl bg-transparent border-0 text-sm font-medium focus:outline-none ${
+                          isLightMode ? 'text-stone-900' : 'text-white'
+                        }`}
+                      />
+                    </div>
+
+                    {/* Email */}
+                    <div
+                      className={`relative rounded-2xl border-[1.5px] min-h-[52px] sm:min-h-[54px] flex items-center transition-all duration-200 ${
+                        focusedField === 'email'
+                          ? isLightMode
+                            ? 'bg-white border-[#0071e3] ring-2 ring-[#0071e3]/20 shadow-sm'
+                            : 'bg-black/60 border-white/70 ring-2 ring-white/20 shadow-inner'
+                          : isLightMode
+                            ? 'bg-black/[0.03] border-black/15'
+                            : 'bg-black/40 border-white/20'
+                      }`}
+                    >
+                      <label
+                        htmlFor="contact-email"
+                        className={`absolute left-5 pointer-events-none transition-all duration-200 ease-out origin-left leading-none ${
+                          focusedField === 'email' || email.length > 0
+                            ? `top-2 translate-y-0 text-[10px] font-semibold tracking-wider uppercase ${
+                                focusedField === 'email'
+                                  ? isLightMode
+                                    ? 'text-[#0071e3]'
+                                    : 'text-sky-400'
+                                  : isLightMode
+                                    ? 'text-stone-500'
+                                    : 'text-white/50'
+                              }`
+                            : `top-1/2 -translate-y-1/2 text-sm sm:text-base font-medium ${
+                                isLightMode ? 'text-stone-400' : 'text-white/45'
+                              }`
+                        }`}
+                      >
+                        Email
+                      </label>
+                      <input
+                        id="contact-email"
+                        type="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        onFocus={() => setFocusedField('email')}
+                        onBlur={() => setFocusedField(null)}
+                        className={`w-full px-5 pt-4 pb-1 sm:pt-4.5 sm:pb-1 rounded-2xl bg-transparent border-0 text-sm font-medium focus:outline-none ${
+                          isLightMode ? 'text-stone-900' : 'text-white'
+                        }`}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Message */}
                   <div
-                    className={`relative rounded-2xl border-[1.5px] min-h-[58px] sm:min-h-[62px] flex items-center transition-all duration-200 ${
-                      focusedField === 'name'
+                    className={`relative rounded-2xl border-[1.5px] transition-all duration-200 ${
+                      focusedField === 'message'
                         ? isLightMode
                           ? 'bg-white border-[#0071e3] ring-2 ring-[#0071e3]/20 shadow-sm'
                           : 'bg-black/60 border-white/70 ring-2 ring-white/20 shadow-inner'
@@ -231,11 +351,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                     }`}
                   >
                     <label
-                      htmlFor="contact-name"
-                      className={`absolute left-5 pointer-events-none transition-all duration-200 ease-out origin-left leading-none ${
-                        focusedField === 'name' || name.length > 0
-                          ? `top-2.5 translate-y-0 text-[11px] font-semibold tracking-wider uppercase ${
-                              focusedField === 'name'
+                      htmlFor="contact-message"
+                      className={`absolute left-5 pointer-events-none transition-all duration-200 ease-out origin-left ${
+                        focusedField === 'message' || message.length > 0
+                          ? `top-2 text-[10px] font-semibold tracking-wider uppercase ${
+                              focusedField === 'message'
                                 ? isLightMode
                                   ? 'text-[#0071e3]'
                                   : 'text-sky-400'
@@ -243,124 +363,32 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                   ? 'text-stone-500'
                                   : 'text-white/50'
                             }`
-                          : `top-1/2 -translate-y-1/2 text-base sm:text-lg font-medium ${
+                          : `top-3 text-sm sm:text-base font-medium ${
                               isLightMode ? 'text-stone-400' : 'text-white/45'
                             }`
                       }`}
                     >
-                      Name
+                      Message
                     </label>
-                    <input
-                      id="contact-name"
-                      type="text"
+                    <textarea
+                      id="contact-message"
                       required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      onFocus={() => setFocusedField('name')}
+                      rows={3}
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      onFocus={() => setFocusedField('message')}
                       onBlur={() => setFocusedField(null)}
-                      className={`w-full px-5 pt-5 pb-1.5 sm:pt-5.5 sm:pb-2 rounded-2xl bg-transparent border-0 text-sm sm:text-base font-medium focus:outline-none ${
+                      className={`w-full px-5 pt-6 pb-2 rounded-2xl bg-transparent border-0 text-sm sm:text-base font-medium focus:outline-none resize-none min-h-[90px] sm:min-h-[96px] ${
                         isLightMode ? 'text-stone-900' : 'text-white'
                       }`}
                     />
                   </div>
-
-                  {/* Email */}
-                  <div
-                    className={`relative rounded-2xl border-[1.5px] min-h-[58px] sm:min-h-[62px] flex items-center transition-all duration-200 ${
-                      focusedField === 'email'
-                        ? isLightMode
-                          ? 'bg-white border-[#0071e3] ring-2 ring-[#0071e3]/20 shadow-sm'
-                          : 'bg-black/60 border-white/70 ring-2 ring-white/20 shadow-inner'
-                        : isLightMode
-                          ? 'bg-black/[0.03] border-black/15'
-                          : 'bg-black/40 border-white/20'
-                    }`}
-                  >
-                    <label
-                      htmlFor="contact-email"
-                      className={`absolute left-5 pointer-events-none transition-all duration-200 ease-out origin-left leading-none ${
-                        focusedField === 'email' || email.length > 0
-                          ? `top-2.5 translate-y-0 text-[11px] font-semibold tracking-wider uppercase ${
-                              focusedField === 'email'
-                                ? isLightMode
-                                  ? 'text-[#0071e3]'
-                                  : 'text-sky-400'
-                                : isLightMode
-                                  ? 'text-stone-500'
-                                  : 'text-white/50'
-                            }`
-                          : `top-1/2 -translate-y-1/2 text-base sm:text-lg font-medium ${
-                              isLightMode ? 'text-stone-400' : 'text-white/45'
-                            }`
-                      }`}
-                    >
-                      Email
-                    </label>
-                    <input
-                      id="contact-email"
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      onFocus={() => setFocusedField('email')}
-                      onBlur={() => setFocusedField(null)}
-                      className={`w-full px-5 pt-5 pb-1.5 sm:pt-5.5 sm:pb-2 rounded-2xl bg-transparent border-0 text-sm sm:text-base font-medium focus:outline-none ${
-                        isLightMode ? 'text-stone-900' : 'text-white'
-                      }`}
-                    />
-                  </div>
-                </div>
-
-                {/* Message */}
-                <div
-                  className={`relative rounded-2xl border-[1.5px] transition-all duration-200 ${
-                    focusedField === 'message'
-                      ? isLightMode
-                        ? 'bg-white border-[#0071e3] ring-2 ring-[#0071e3]/20 shadow-sm'
-                        : 'bg-black/60 border-white/70 ring-2 ring-white/20 shadow-inner'
-                      : isLightMode
-                        ? 'bg-black/[0.03] border-black/15'
-                        : 'bg-black/40 border-white/20'
-                  }`}
-                >
-                  <label
-                    htmlFor="contact-message"
-                    className={`absolute left-5 pointer-events-none transition-all duration-200 ease-out origin-left ${
-                      focusedField === 'message' || message.length > 0
-                        ? `top-2.5 text-[11px] font-semibold tracking-wider uppercase ${
-                            focusedField === 'message'
-                              ? isLightMode
-                                ? 'text-[#0071e3]'
-                                : 'text-sky-400'
-                              : isLightMode
-                                ? 'text-stone-500'
-                                : 'text-white/50'
-                          }`
-                        : `top-4 text-base sm:text-lg font-medium ${
-                            isLightMode ? 'text-stone-400' : 'text-white/45'
-                          }`
-                    }`}
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    id="contact-message"
-                    required
-                    rows={5}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    onFocus={() => setFocusedField('message')}
-                    onBlur={() => setFocusedField(null)}
-                    className={`w-full px-5 pt-7 pb-3 rounded-2xl bg-transparent border-0 text-sm sm:text-base font-medium focus:outline-none resize-none min-h-[140px] sm:min-h-[160px] ${
-                      isLightMode ? 'text-stone-900' : 'text-white'
-                    }`}
-                  />
                 </div>
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-3.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] active:scale-98 text-white force-white text-sm font-semibold transition-all shadow-[0_4px_20px_rgba(0,113,227,0.3)] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  className="w-full py-3 rounded-full bg-[#0071e3] hover:bg-[#0077ed] active:scale-98 text-white force-white text-sm font-semibold transition-all shadow-[0_4px_20px_rgba(0,113,227,0.3)] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-1"
                   style={{ color: '#ffffff' }}
                 >
                   {isSubmitting ? (

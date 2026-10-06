@@ -5,6 +5,7 @@ export interface CaseStudy {
   role: string;
   timeline: string;
   category: string;
+  cardTags?: string[];
   heroImage: string;
   videoUrl?: string;
   statsSummary?: string;

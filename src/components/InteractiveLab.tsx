@@ -319,7 +319,7 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
             isLightMode ? 'text-stone-900' : 'text-white'
           }`}
         >
-          AI experiments
+          AI playground
         </h2>
         <p
           className={`mt-3 text-base sm:text-lg leading-relaxed font-normal max-w-3xl ${
@@ -346,7 +346,7 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
             }`}
           >
             {/* Horizontal Thumbnail Image Frame */}
-            <div className="relative overflow-hidden shrink-0 w-full sm:w-56 md:w-64 lg:w-44 xl:w-52 h-48 sm:h-auto min-h-[180px] m-2.5 sm:m-3 sm:mr-0 rounded-[20px] sm:rounded-[24px]">
+            <div className="relative overflow-hidden shrink-0 w-[calc(100%-1.25rem)] sm:w-56 md:w-64 lg:w-44 xl:w-52 h-36 sm:h-auto max-sm:min-h-0 sm:min-h-[180px] mx-2.5 mt-2.5 mb-0 sm:m-3 sm:mr-0 rounded-[20px] sm:rounded-[24px]">
               <img
                 src={exp.heroImage}
                 alt={exp.title}
@@ -365,8 +365,8 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
             </div>
 
             {/* Horizontal Information Body: Title, Description, and CTA */}
-            <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between min-w-0">
-              <div>
+            <div className="flex-1 pt-3.5 px-5 pb-5 sm:p-6 flex flex-col justify-end min-w-0">
+              <div className="mt-auto">
                 <h3
                   className={`text-xl sm:text-2xl font-bold tracking-tight transition-colors duration-200 ${
                     isLightMode ? 'text-stone-900 group-hover:text-black' : 'text-white group-hover:text-sky-100'
@@ -385,7 +385,7 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
               </div>
 
               {/* CTA Action */}
-              <div className="mt-4 pt-2">
+              <div className="mt-4">
                 <button
                   type="button"
                   onClick={(e) => {

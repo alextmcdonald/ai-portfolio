@@ -24,7 +24,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
     const resumeText = `
 ALEX McDONALD
 Senior Product Designer · AI Design Engineer & Spatial Systems
-Location: Seattle, WA · Remote | Email: me@alextmcdonald.com
+Location: Seattle, WA | Email: me@alextmcdonald.com
 Portfolio: https://alexmcdonald.design
 
 ===================================================================
@@ -150,22 +150,6 @@ EXPERTISE
           <div className="flex-1 overflow-y-auto overscroll-contain px-6 sm:px-10 py-8 space-y-8 print:p-0">
             {/* Bio summary */}
             <div className="space-y-4">
-              <div className={`flex flex-wrap items-center gap-x-5 gap-y-2 text-xs ${
-                light ? 'text-stone-500' : 'text-white/60'
-              }`}>
-                <span className="inline-flex items-center gap-1.5">
-                  <span>📍</span>
-                  <span>{DESIGNER_INFO.location}</span>
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <span>✉️</span>
-                  <span>{DESIGNER_INFO.email}</span>
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <span>🟢</span>
-                  <span>{DESIGNER_INFO.status}</span>
-                </span>
-              </div>
               <p className={`text-sm sm:text-base leading-relaxed font-normal ${
                 light ? 'text-stone-700' : 'text-white/90'
               }`}>

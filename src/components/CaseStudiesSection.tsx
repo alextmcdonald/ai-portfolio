@@ -54,27 +54,27 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
                 )}
               </div>
 
-              {/* Top Row: Category Badge */}
-              <div className="relative z-10 self-end px-2 sm:px-0">
-                <div
-                  className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full backdrop-blur-md text-[11px] font-mono font-medium transition-colors ${
-                    isLightMode
-                      ? 'bg-white/85 border border-stone-900/10 text-stone-800 shadow-xs'
-                      : 'bg-black/60 border border-white/15 text-white'
-                  }`}
-                  style={isLightMode ? { color: '#1c1917' } : { color: '#ffffff' }}
-                >
-                  <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${
-                    isLightMode ? 'bg-[#0071e3]' : 'bg-emerald-400'
-                  }`} />
-                  <span className="font-mono">{study.category}</span>
-                </div>
+              {/* Top Row: Category / Tags Badges */}
+              <div className="relative z-10 self-end px-2 sm:px-0 flex items-center gap-2 flex-wrap justify-end">
+                {(study.cardTags || [study.category]).map((tag, idx) => (
+                  <div
+                    key={idx}
+                    className={`inline-flex items-center px-3.5 py-1.5 rounded-full backdrop-blur-md text-[11px] font-mono font-medium transition-colors ${
+                      isLightMode
+                        ? 'bg-white/85 border border-stone-900/10 text-stone-800 shadow-xs'
+                        : 'bg-black/60 border border-white/15 text-white'
+                    }`}
+                    style={isLightMode ? { color: '#1c1917' } : { color: '#ffffff' }}
+                  >
+                    <span className="font-mono">{tag}</span>
+                  </div>
+                ))}
               </div>
 
               {/* Bottom-Aligned Section: Left-aligned Title, Description, and Pill Button */}
               <div className="relative z-10 max-w-xl mt-auto pt-6 pb-2 px-2 sm:px-0">
                 <h3
-                  className={`text-3xl sm:text-5xl font-extrabold tracking-tight leading-[1.1] ${
+                  className={`text-3xl sm:text-5xl font-bold tracking-tight leading-[1.1] ${
                     isLightMode ? 'text-stone-950' : 'text-white'
                   }`}
                   style={isLightMode ? { color: '#0f0f10' } : { color: '#ffffff' }}

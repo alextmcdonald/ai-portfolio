@@ -117,6 +117,17 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Intro message */}
+              <p
+                className={`text-[16px] leading-relaxed -mt-2 mb-2 pb-[10px] font-medium ${
+                  light ? 'text-stone-600' : 'text-white/70'
+                }`}
+              >
+                Have a 0-to-1 idea, an ambitious project, or just want to talk shop?
+                <br className="hidden sm:inline" />{' '}
+                Drop a note below and I&apos;ll respond within 24-48 hours.
+              </p>
+
               {/* Name */}
               <div
                 className={`relative rounded-2xl border-[1.5px] min-h-[62px] flex items-center transition-all duration-200 ${
@@ -125,7 +136,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                       ? 'bg-white border-[#0071e3] ring-2 ring-[#0071e3]/20 shadow-sm'
                       : 'bg-black/60 border-white/70 ring-2 ring-white/20 shadow-inner'
                     : light
-                      ? 'bg-stone-100 hover:bg-stone-100/80 border-stone-200/90'
+                      ? 'bg-stone-100 hover:bg-stone-200/60 border-stone-200 hover:border-stone-300'
                       : 'bg-black/40 border-white/20'
                 }`}
               >
@@ -133,7 +144,11 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                   htmlFor="modal-name"
                   className={`absolute left-5 pointer-events-none transition-all duration-200 ease-out origin-left leading-none ${
                     focusedField === 'name' || name.length > 0
-                      ? 'top-2.5 translate-y-0 text-[11px] font-semibold tracking-wider uppercase ' + (light ? 'text-[#0071e3]' : 'text-sky-400')
+                      ? 'top-2.5 translate-y-0 text-[11px] font-semibold tracking-wider uppercase ' + (
+                          focusedField === 'name'
+                            ? (light ? 'text-[#0071e3]' : 'text-sky-400')
+                            : (light ? 'text-stone-500' : 'text-white/50')
+                        )
                       : 'top-1/2 -translate-y-1/2 text-base sm:text-lg font-medium ' + (light ? 'text-stone-500' : 'text-white/45')
                   }`}
                 >
@@ -147,7 +162,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                   onChange={(e) => setName(e.target.value)}
                   onFocus={() => setFocusedField('name')}
                   onBlur={() => setFocusedField(null)}
-                  style={{ color: light ? '#0f172a' : '#ffffff' }}
+                  style={{ color: light ? '#0f172a' : '#ffffff', backgroundColor: 'transparent' }}
                   className={`w-full px-5 pt-5 pb-1.5 sm:pt-5.5 sm:pb-2 rounded-2xl bg-transparent border-0 text-sm sm:text-base font-medium focus:outline-none ${
                     light ? 'text-stone-900' : 'text-white'
                   }`}
@@ -162,7 +177,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                       ? 'bg-white border-[#0071e3] ring-2 ring-[#0071e3]/20 shadow-sm'
                       : 'bg-black/60 border-white/70 ring-2 ring-white/20 shadow-inner'
                     : light
-                      ? 'bg-stone-100 hover:bg-stone-100/80 border-stone-200/90'
+                      ? 'bg-stone-100 hover:bg-stone-200/60 border-stone-200 hover:border-stone-300'
                       : 'bg-black/40 border-white/20'
                 }`}
               >
@@ -170,7 +185,11 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                   htmlFor="modal-email"
                   className={`absolute left-5 pointer-events-none transition-all duration-200 ease-out origin-left leading-none ${
                     focusedField === 'email' || email.length > 0
-                      ? 'top-2.5 translate-y-0 text-[11px] font-semibold tracking-wider uppercase ' + (light ? 'text-[#0071e3]' : 'text-sky-400')
+                      ? 'top-2.5 translate-y-0 text-[11px] font-semibold tracking-wider uppercase ' + (
+                          focusedField === 'email'
+                            ? (light ? 'text-[#0071e3]' : 'text-sky-400')
+                            : (light ? 'text-stone-500' : 'text-white/50')
+                        )
                       : 'top-1/2 -translate-y-1/2 text-base sm:text-lg font-medium ' + (light ? 'text-stone-500' : 'text-white/45')
                   }`}
                 >
@@ -184,7 +203,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                   onChange={(e) => setEmail(e.target.value)}
                   onFocus={() => setFocusedField('email')}
                   onBlur={() => setFocusedField(null)}
-                  style={{ color: light ? '#0f172a' : '#ffffff' }}
+                  style={{ color: light ? '#0f172a' : '#ffffff', backgroundColor: 'transparent' }}
                   className={`w-full px-5 pt-5 pb-1.5 sm:pt-5.5 sm:pb-2 rounded-2xl bg-transparent border-0 text-sm sm:text-base font-medium focus:outline-none ${
                     light ? 'text-stone-900' : 'text-white'
                   }`}
@@ -199,7 +218,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                       ? 'bg-white border-[#0071e3] ring-2 ring-[#0071e3]/20 shadow-sm'
                       : 'bg-black/60 border-white/70 ring-2 ring-white/20 shadow-inner'
                     : light
-                      ? 'bg-stone-100 hover:bg-stone-100/80 border-stone-200/90'
+                      ? 'bg-stone-100 hover:bg-stone-200/60 border-stone-200 hover:border-stone-300'
                       : 'bg-black/40 border-white/20'
                 }`}
               >
@@ -207,7 +226,11 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                   htmlFor="modal-note"
                   className={`absolute left-5 pointer-events-none transition-all duration-200 ease-out origin-left ${
                     focusedField === 'note' || note.length > 0
-                      ? 'top-2.5 text-[11px] font-semibold tracking-wider uppercase ' + (light ? 'text-[#0071e3]' : 'text-sky-400')
+                      ? 'top-2.5 text-[11px] font-semibold tracking-wider uppercase ' + (
+                          focusedField === 'note'
+                            ? (light ? 'text-[#0071e3]' : 'text-sky-400')
+                            : (light ? 'text-stone-500' : 'text-white/50')
+                        )
                       : 'top-4 text-base sm:text-lg font-medium ' + (light ? 'text-stone-500' : 'text-white/45')
                   }`}
                 >
@@ -221,7 +244,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                   onChange={(e) => setNote(e.target.value)}
                   onFocus={() => setFocusedField('note')}
                   onBlur={() => setFocusedField(null)}
-                  style={{ color: light ? '#0f172a' : '#ffffff' }}
+                  style={{ color: light ? '#0f172a' : '#ffffff', backgroundColor: 'transparent' }}
                   className={`w-full px-5 pt-7.5 pb-3 rounded-2xl bg-transparent border-0 text-sm sm:text-base font-medium focus:outline-none resize-none min-h-[135px] ${
                     light ? 'text-stone-900' : 'text-white'
                   }`}

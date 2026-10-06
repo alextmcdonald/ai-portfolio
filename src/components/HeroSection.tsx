@@ -37,7 +37,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <div className="relative px-2 sm:px-0">
       {/* Hero Headline & Manifesto */}
-      <div className="w-full">
+      <div className="w-full -mt-[5px] pb-[5px]">
         <h2 className={`text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.18] text-balance ${
           isLightMode ? 'text-stone-900' : 'text-white'
         }`}>
@@ -81,7 +81,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </p>
 
         {/* Call to Actions (Prominent White Capsule + Recessed Capsule) */}
-        <div className="flex flex-wrap items-center gap-4 mt-8">
+        <div className="flex flex-wrap items-center gap-4 mt-5 sm:mt-6 mb-3">
           {/* Prominent visionOS Button */}
           <button
             onClick={() => {
@@ -101,32 +101,36 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               sounds.playTap();
               onOpenResume();
             }}
-            className={`group/btn px-6 py-3.5 rounded-full text-sm font-semibold active:scale-97 transition-all duration-200 flex items-center gap-2 cursor-pointer ${
+            className={`group/btn px-6 py-3.5 rounded-full text-sm font-semibold active:scale-95 transition-all duration-150 flex items-center gap-2 cursor-pointer border ${
               isLightMode
-                ? 'bg-white/80 hover:bg-white text-stone-800 hover:text-stone-950 border border-black/10 shadow-[0_2px_8px_rgba(0,0,0,0.04)] backdrop-blur-md'
-                : 'bg-black/25 hover:bg-white/15 text-white border border-white/15 backdrop-blur-md'
+                ? 'bg-black/[0.05] hover:bg-black/[0.09] active:bg-black/15 text-stone-700 hover:text-stone-950 border-black/10 shadow-xs backdrop-blur-md active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)]'
+                : 'bg-white/10 hover:bg-white/20 active:bg-black/40 text-white/80 hover:text-white border-white/15 backdrop-blur-md active:shadow-[inset_0_2px_5px_rgba(0,0,0,0.5)]'
             }`}
           >
             <span>View resume & bio</span>
-            <ArrowUpRight className={`w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform duration-200 ${isLightMode ? 'text-stone-500' : 'text-white/70'}`} />
+            <ArrowUpRight className={`w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform duration-200 ${isLightMode ? 'text-stone-500 group-hover/btn:text-stone-800' : 'text-white/70 group-hover/btn:text-white'}`} />
           </button>
         </div>
       </div>
 
       {/* Quantitative Rigor Bento Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10 max-w-4xl mt-6">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mt-6">
         {DESIGNER_INFO.stats.map((stat, idx) => (
           <div
             key={idx}
-            className="transition-colors duration-200"
+            className={`p-4 sm:p-5 rounded-[22px] border transition-all shadow-none ${
+              isLightMode
+                ? 'bg-stone-50/80 border-stone-200/80'
+                : 'bg-[#111111] border-white/10'
+            }`}
           >
-            <div className={`text-[32px] font-bold not-italic tracking-tight tabular-nums leading-tight ${
+            <div className={`text-[28px] sm:text-[32px] font-bold not-italic tracking-tight tabular-nums leading-tight ${
               isLightMode ? 'text-stone-900' : 'text-white'
             }`}>
               {stat.value}
             </div>
-            <div className={`text-base font-normal mt-1 ${
-              isLightMode ? 'text-stone-700' : 'text-white/80'
+            <div className={`text-xs sm:text-sm font-normal mt-1 leading-snug ${
+              isLightMode ? 'text-stone-600' : 'text-white/75'
             }`}>
               {stat.label}
             </div>
