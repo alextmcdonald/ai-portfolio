@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import confetti from 'canvas-confetti';
 import {
   MoreHorizontal,
   Send,
@@ -26,6 +27,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAvatarHovered, setIsAvatarHovered] = useState(false);
+  const [avatarRotation, setAvatarRotation] = useState(0);
+  const [clickCount, setClickCount] = useState(0);
+  const [floatingCounters, setFloatingCounters] = useState<Array<{ id: number; count: number }>>([]);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const handleAvatarMouseEnter = () => {
@@ -37,7 +41,47 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   };
 
   const handleAvatarClick = () => {
-    // Sound removed as requested
+    sounds.playAvatarClick();
+    setAvatarRotation((prev) => prev + 360);
+
+    const nextCount = clickCount + 1;
+    setClickCount(nextCount);
+    const newId = Date.now() + Math.random();
+    setFloatingCounters((prev) => [...prev, { id: newId, count: nextCount }]);
+
+    // Easter egg every 100 clicks: shoot confetti and play triumphant crystal milestone chime
+    if (nextCount > 0 && nextCount % 100 === 0) {
+      // Confetti burst
+      try {
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.35 },
+          colors: ['#0071e3', '#38bdf8', '#fbbf24', '#f43f5e', '#a855f7', '#34d399']
+        });
+        setTimeout(() => {
+          confetti({
+            particleCount: 70,
+            angle: 60,
+            spread: 65,
+            origin: { x: 0.15, y: 0.45 },
+            colors: ['#0071e3', '#34d399', '#f59e0b', '#ec4899', '#a855f7']
+          });
+          confetti({
+            particleCount: 70,
+            angle: 120,
+            spread: 65,
+            origin: { x: 0.85, y: 0.45 },
+            colors: ['#0071e3', '#34d399', '#f59e0b', '#ec4899', '#a855f7']
+          });
+        }, 220);
+      } catch {
+        // guarded
+      }
+
+      // Celebratory ascending crystal arpeggio sound
+      sounds.playMilestone();
+    }
   };
 
   // Close menu on outside click or Escape key
@@ -69,7 +113,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
         onMouseEnter={handleAvatarMouseEnter}
         onMouseLeave={handleAvatarMouseLeave}
         onClick={handleAvatarClick}
-        title="Alex McDonald — Currently open to Senior & Lead level roles"
+        title={`Alex McDonald — ${DESIGNER_INFO.status}`}
       >
           {/* Ambient Electric Sky/Cobalt Glow Bloom on Hover */}
           <motion.div
@@ -82,28 +126,32 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           />
 
           {/* Avatar Capsule Container */}
-          <div className="relative w-20 h-20 sm:w-22 sm:h-22 rounded-full p-1.5 shadow-xl transition-transform duration-300 ease-out">
-            {/* Outer Specular Chromatic Rim */}
+          <motion.div
+            animate={{ rotate: avatarRotation }}
+            transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+            className="relative w-20 h-20 sm:w-22 sm:h-22 rounded-full p-1.5 shadow-none transition-transform duration-300 ease-out"
+          >
+            {/* Outer Specular Chromatic Rim - Continuously clockwise circling border */}
             <div
-              className={`absolute inset-0 rounded-full transition-all duration-300 ${
-                isAvatarHovered
-                  ? isLightMode
-                    ? 'p-[2px] bg-gradient-to-tr from-sky-400 via-stone-400 to-indigo-400 shadow-[0_0_18px_rgba(56,189,248,0.35)]'
-                    : 'p-[2px] bg-gradient-to-tr from-sky-400 via-white/85 to-indigo-400 shadow-[0_0_20px_rgba(56,189,248,0.4)]'
-                  : isLightMode
-                    ? 'p-[1.5px] bg-gradient-to-tr from-black/20 via-black/5 to-transparent'
-                    : 'p-[1.5px] bg-gradient-to-tr from-white/35 via-white/10 to-transparent'
-              }`}
-            >
-              <div
-                className={`w-full h-full rounded-full backdrop-blur-md ${
-                  isLightMode ? 'bg-white/60' : 'bg-stone-950/40'
-                }`}
-              />
-            </div>
+              className="absolute inset-0 rounded-full pointer-events-none avatar-circling-border transition-opacity duration-300"
+              style={{
+                padding: '1.5px',
+                opacity: isAvatarHovered ? 1 : 0.75,
+                background: isAvatarHovered
+                  ? (isLightMode
+                      ? 'linear-gradient(135deg, #38bdf8, #a8a29e, #818cf8)'
+                      : 'linear-gradient(135deg, #38bdf8, rgba(255,255,255,0.85), #818cf8)')
+                  : (isLightMode
+                      ? 'conic-gradient(from 0deg, rgba(0,0,0,0.26) 0deg, rgba(0,0,0,0.10) 60deg, rgba(0,0,0,0.03) 120deg, transparent 180deg, transparent 300deg, rgba(0,0,0,0.26) 360deg)'
+                      : 'conic-gradient(from 0deg, rgba(255,255,255,0.38) 0deg, rgba(255,255,255,0.15) 60deg, rgba(255,255,255,0.04) 120deg, transparent 180deg, transparent 300deg, rgba(255,255,255,0.38) 360deg)'),
+                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                WebkitMaskComposite: 'xor',
+                maskComposite: 'exclude'
+              }}
+            />
 
             {/* Avatar Photo Frame */}
-            <div className="relative w-full h-full rounded-full overflow-hidden shadow-inner">
+            <div className="relative w-full h-full rounded-full overflow-hidden">
               <img
                 src={DESIGNER_INFO.avatarUrl}
                 alt={DESIGNER_INFO.name}
@@ -121,23 +169,66 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             {/* Status Indicator: positioned bottom-right, half on half off the image */}
             <div className="absolute bottom-1.5 right-1.5 z-20 pointer-events-none">
               <div
-                className={`w-[22px] h-[22px] rounded-full flex items-center justify-center shadow-lg border transition-transform duration-200 ${
+                className={`w-[22px] h-[22px] rounded-full flex items-center justify-center border transition-transform duration-200 ${
                   isLightMode
-                    ? 'bg-white border-white/90 shadow-[0_2px_8px_rgba(0,0,0,0.15)]'
-                    : 'bg-stone-900 border-stone-800 shadow-[0_2px_8px_rgba(0,0,0,0.6)]'
+                    ? 'bg-white border-white/90'
+                    : 'bg-stone-900 border-stone-800'
                 }`}
-                title="Active — Currently open to Senior & Lead level roles"
+                title={`Active — ${DESIGNER_INFO.status}`}
               >
                 <span className="relative flex h-2.5 w-2.5 shrink-0 items-center justify-center">
-                  <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
-                    isLightMode ? 'bg-[#009966]' : 'bg-emerald-400'
-                  }`} />
+                  <span
+                    className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                      isLightMode ? 'bg-[#009966]' : 'bg-emerald-400'
+                    }`}
+                    style={{ animationDuration: '2.4s' }}
+                  />
                   <span className={`relative inline-flex rounded-full h-2 w-2 ${
                     isLightMode ? 'bg-[#009966]' : 'bg-emerald-400'
                   }`} />
                 </span>
               </div>
             </div>
+          </motion.div>
+
+          {/* Floating click counter: +1, +2, +3... (or "Oh yeah! 🎉" at every 100) to top-right that floats up and fades out */}
+          <div className="absolute top-0 right-0 pointer-events-none z-30">
+            <AnimatePresence>
+              {floatingCounters.map((item) => {
+                const isMilestone = item.count > 0 && item.count % 100 === 0;
+                return (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 6, scale: 0.6 }}
+                    animate={{
+                      opacity: [0, 1, 1, 0],
+                      y: [6, -16, -28, -42],
+                      scale: isMilestone ? [0.6, 1.2, 1.1, 0.9] : [0.6, 1.12, 1, 0.85]
+                    }}
+                    transition={{
+                      duration: isMilestone ? 1.3 : 1.0,
+                      times: [0, 0.18, 0.65, 1],
+                      ease: 'easeOut'
+                    }}
+                    onAnimationComplete={() => {
+                      setFloatingCounters((prev) => prev.filter((c) => c.id !== item.id));
+                    }}
+                    className={`absolute right-0 top-0 whitespace-nowrap font-mono font-bold text-[11px] sm:text-xs px-2 py-0.5 rounded-full shadow-lg border select-none force-white keep-white ${
+                      isMilestone
+                        ? 'bg-gradient-to-r from-amber-500 via-rose-500 to-indigo-500 text-white border-amber-300/70 shadow-[0_4px_16px_rgba(245,158,11,0.6)]'
+                        : isLightMode
+                          ? 'bg-[#0071e3] text-white border-white/40 shadow-[0_4px_12px_rgba(0,113,227,0.35)]'
+                          : 'bg-[#0071e3] text-white border-white/30 shadow-[0_4px_14px_rgba(0,113,227,0.5)]'
+                    }`}
+                    style={{ color: '#ffffff' }}
+                  >
+                    <span className="force-white keep-white" style={{ color: '#ffffff' }}>
+                      {isMilestone ? 'Oh yeah! 🎉' : `+${item.count}`}
+                    </span>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
           </div>
         </div>
 

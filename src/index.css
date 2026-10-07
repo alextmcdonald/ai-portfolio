@@ -182,8 +182,8 @@ html.light-mode .bg-white\/\[0\.03\],
 html.light-mode .bg-white\/\[0\.04\],
 html.light-mode .bg-white\/\[0\.05\],
 html.light-mode .bg-white\/\[0\.08\] {
-  background-color: rgba(255, 255, 255, 0.72) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  background-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
 html.light-mode .bg-black\/20,
@@ -444,5 +444,20 @@ p[class*="text-[11px]"],
 p[class*="text-[10px]"],
 .text-xs p {
   letter-spacing: -0.022em !important;
+}
+
+/* Continuous clockwise circling border for avatar */
+@keyframes avatarCirclingBorder {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.avatar-circling-border {
+  animation: avatarCirclingBorder 5s linear infinite !important;
+  will-change: transform;
 }
 

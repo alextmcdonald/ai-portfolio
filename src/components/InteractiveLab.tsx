@@ -79,11 +79,11 @@ function analyzeSwingFrame(landmarks: PoseLandmarks, timestampMs: number) {
   {
     id: "neural-shader",
     category: "Generative Graphics",
-    title: "NeuralShader",
+    title: "EverydayUX",
     subtitle: "Conversational natural language to real-time WebGL fragment shaders with zero-latency compilation.",
     heroImage: "/src/assets/images/experiment_neural_shader_1790967365207.jpg",
     readTime: "4 min read",
-    summary: "NeuralShader explores real-time generative computer graphics by compiling natural language descriptions into valid, hardware-accelerated GLSL fragment shaders on the fly. Includes an AST sanitizer and hot-reloading WebGL preview pipeline.",
+    summary: "EverydayUX explores real-time generative computer graphics by compiling natural language descriptions into valid, hardware-accelerated GLSL fragment shaders on the fly. Includes an AST sanitizer and hot-reloading WebGL preview pipeline.",
     technicalArchitecture: [
       "Hot-reloading WebGL fragment shader compiler with real-time GLSL syntax sanitization",
       "Zero-allocation GPU uniform bridging for mouse, audio spectrum, and temporal delta variables",
@@ -341,7 +341,7 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
             }}
             className={`group relative rounded-[28px] sm:rounded-[32px] overflow-hidden transition-all duration-300 cursor-pointer flex flex-col sm:flex-row items-stretch ${
               isLightMode
-                ? 'bg-white/80 hover:bg-white border border-stone-900/10 hover:border-stone-900/25 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)]'
+                ? 'bg-black/[0.03] hover:bg-black/[0.06] border border-black/10 hover:border-black/20 shadow-sm hover:shadow-md'
                 : 'bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/25 shadow-xl hover:shadow-2xl'
             }`}
           >

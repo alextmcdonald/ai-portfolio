@@ -120,8 +120,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             key={idx}
             className={`p-4 sm:p-5 rounded-[22px] border transition-all shadow-none ${
               isLightMode
-                ? 'bg-stone-50/80 border-stone-200/80'
-                : 'bg-[#111111] border-white/10'
+                ? 'bg-black/[0.03] border-black/10'
+                : 'bg-white/[0.04] border-white/10'
             }`}
           >
             <div className={`text-[28px] sm:text-[32px] font-bold not-italic tracking-tight tabular-nums leading-tight ${

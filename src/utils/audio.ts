@@ -45,6 +45,53 @@ class SoundEngine {
     }
   }
 
+  public playAvatarClick() {
+    if (!this.enabled) return;
+    try {
+      this.initCtx();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+
+      // Warm, lower-register 3-note ascending glass chime (C5 -> E5 -> G5)
+      const chimeNotes = [
+        { freq: 523.25, delay: 0.0, gain: 0.05, decay: 0.5 },
+        { freq: 659.25, delay: 0.065, gain: 0.055, decay: 0.6 },
+        { freq: 783.99, delay: 0.13, gain: 0.06, decay: 0.75 }
+      ];
+
+      chimeNotes.forEach(({ freq, delay, gain, decay }) => {
+        if (!this.ctx) return;
+        const start = now + delay;
+
+        // Warm fundamental tone
+        const osc1 = this.ctx.createOscillator();
+        const gain1 = this.ctx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(freq, start);
+        gain1.gain.setValueAtTime(gain, start);
+        gain1.gain.exponentialRampToValueAtTime(0.0001, start + decay);
+        osc1.connect(gain1);
+        gain1.connect(this.ctx.destination);
+        osc1.start(start);
+        osc1.stop(start + decay + 0.01);
+
+        // Soft crystal overtone (2nd harmonic)
+        const osc2 = this.ctx.createOscillator();
+        const gain2 = this.ctx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(freq * 2.0, start);
+        gain2.gain.setValueAtTime(gain * 0.22, start);
+        gain2.gain.exponentialRampToValueAtTime(0.0001, start + (decay * 0.45));
+        osc2.connect(gain2);
+        gain2.connect(this.ctx.destination);
+        osc2.start(start);
+        osc2.stop(start + decay * 0.45 + 0.01);
+      });
+    } catch {
+      // Audio playback silently guarded
+    }
+  }
+
   public playGlassChime() {
     if (!this.enabled) return;
     try {
@@ -69,6 +116,59 @@ class SoundEngine {
 
         osc.start(now + i * 0.02);
         osc.stop(now + 0.36);
+      });
+    } catch {
+      // Guarded
+    }
+  }
+
+  public playMilestone() {
+    if (!this.enabled) return;
+    try {
+      this.initCtx();
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+
+      // Celebratory ascending crystal arpeggio (C5 -> E5 -> G5 -> C6 -> E6)
+      const notes = [
+        { freq: 523.25, time: 0.0, gain: 0.06, decay: 0.4 },
+        { freq: 659.25, time: 0.07, gain: 0.065, decay: 0.45 },
+        { freq: 783.99, time: 0.14, gain: 0.07, decay: 0.5 },
+        { freq: 1046.50, time: 0.21, gain: 0.08, decay: 0.65 },
+        { freq: 1318.51, time: 0.28, gain: 0.075, decay: 0.85 }
+      ];
+
+      notes.forEach(({ freq, time, gain, decay }) => {
+        if (!this.ctx) return;
+        const start = now + time;
+
+        const osc = this.ctx.createOscillator();
+        const gainNode = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, start);
+
+        gainNode.gain.setValueAtTime(gain, start);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, start + decay);
+
+        osc.connect(gainNode);
+        gainNode.connect(this.ctx.destination);
+
+        osc.start(start);
+        osc.stop(start + decay + 0.01);
+
+        // High crystal sparkle on resolve
+        if (freq >= 1046) {
+          const shimmer = this.ctx.createOscillator();
+          const shimmerGain = this.ctx.createGain();
+          shimmer.type = 'sine';
+          shimmer.frequency.setValueAtTime(freq * 2, start);
+          shimmerGain.gain.setValueAtTime(gain * 0.25, start);
+          shimmerGain.gain.exponentialRampToValueAtTime(0.0001, start + decay * 0.5);
+          shimmer.connect(shimmerGain);
+          shimmerGain.connect(this.ctx.destination);
+          shimmer.start(start);
+          shimmer.stop(start + decay * 0.5 + 0.01);
+        }
       });
     } catch {
       // Guarded

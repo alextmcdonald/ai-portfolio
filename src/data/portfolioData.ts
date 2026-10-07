@@ -6,7 +6,7 @@ export const DESIGNER_INFO = {
   roleSubtext: "AI Design Engineer",
   location: "Seattle, WA",
   email: "me@alextmcdonald.com",
-  status: "Open to Senior & Lead level roles",
+  status: "Open to new opportunities",
   avatarUrl: "/src/assets/images/alex_portrait_blue_1790739680820.jpg",
   bio: "Over a decade shaping products at the intersection of human ergonomics, spatial computing, and high-frequency software. Known for relentless craft, Cupertino-grade micro-interactions, and robust cross-platform design systems.",
   socials: {

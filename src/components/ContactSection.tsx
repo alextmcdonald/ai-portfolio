@@ -68,7 +68,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
         {/* Left Column: Direct channels and Socials (5 cols) */}
         <div className="lg:col-span-5 flex flex-col">
-          <div className="rounded-[28px] p-6 sm:p-7 bg-white/[0.03] border border-white/15 shadow-xl space-y-3.5 h-full flex flex-col justify-between">
+          <div className={`rounded-[28px] p-6 sm:p-7 border shadow-xl space-y-3.5 h-full flex flex-col justify-between ${
+            isLightMode
+              ? 'bg-black/[0.03] border-black/10'
+              : 'bg-white/[0.03] border-white/15'
+          }`}>
             {/* Direct Email */}
             <div>
               <div
@@ -196,7 +200,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
         {/* Right Column: Interactive Contact Form (7 cols) */}
         <div className="lg:col-span-7 flex flex-col">
-          <div className="rounded-[28px] sm:rounded-[32px] p-6 sm:p-7 bg-white/[0.03] border border-white/15 shadow-xl h-full flex flex-col justify-between">
+          <div className={`rounded-[28px] sm:rounded-[32px] p-6 sm:p-7 border shadow-xl h-full flex flex-col justify-between ${
+            isLightMode
+              ? 'bg-black/[0.03] border-black/10'
+              : 'bg-white/[0.03] border-white/15'
+          }`}>
             <div>
               <div className="flex items-center gap-3">
                 <MessageSquare className="w-5 h-5 text-[#0071e3] shrink-0" style={{ color: '#0071e3' }} />

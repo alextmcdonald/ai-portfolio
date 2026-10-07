@@ -186,7 +186,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
           <div
             className={`p-5 rounded-[22px] border transition-all shadow-none ${
               isLightMode
-                ? 'bg-stone-50/80 border-stone-200/80'
+                ? 'bg-black/[0.03] border-black/10'
                 : 'bg-[#111111] border-white/10'
             }`}
           >
@@ -202,7 +202,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
           <div
             className={`p-5 rounded-[22px] border transition-all shadow-none ${
               isLightMode
-                ? 'bg-stone-50/80 border-stone-200/80'
+                ? 'bg-black/[0.03] border-black/10'
                 : 'bg-[#111111] border-white/10'
             }`}
           >
@@ -218,7 +218,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
           <div
             className={`p-5 rounded-[22px] border transition-all shadow-none ${
               isLightMode
-                ? 'bg-stone-50/80 border-stone-200/80'
+                ? 'bg-black/[0.03] border-black/10'
                 : 'bg-[#111111] border-white/10'
             }`}
           >
@@ -333,7 +333,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
         <div
           className={`lg:col-span-7 rounded-[30px] p-6 sm:p-8 border relative overflow-hidden transition-colors duration-300 flex flex-col justify-between min-h-[440px] sm:min-h-[410px] ${
             isLightMode
-              ? 'bg-stone-50/90 border-stone-200/90 text-stone-900 shadow-sm'
+              ? 'bg-black/[0.03] border-black/10 text-stone-900 shadow-sm'
               : 'bg-white/[0.03] border-white/15 text-white shadow-md'
           }`}
           onMouseEnter={() => setIsPaused(true)}
@@ -341,10 +341,10 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
         >
           {/* Slideshow Header & Navigation Controls */}
           <div>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 relative z-10">
-              <div>
+            <div className="flex items-center justify-between gap-3 sm:gap-4 mb-6 relative z-10">
+              <div className="min-w-0">
                 <h3
-                  className={`text-lg sm:text-xl font-bold tracking-tight ${
+                  className={`text-lg sm:text-xl font-bold tracking-tight truncate ${
                     isLightMode ? 'text-stone-900' : 'text-white'
                   }`}
                 >
@@ -353,9 +353,9 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
               </div>
 
               {/* Navigation Controls: Arrows and Index Indicator */}
-              <div className="flex items-center gap-2 self-end sm:self-auto">
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                 <span
-                  className={`text-xs font-mono mr-2 ${
+                  className={`hidden sm:inline text-xs font-mono mr-2 ${
                     isLightMode ? 'text-stone-500' : 'text-white/50'
                   }`}
                 >
@@ -482,7 +482,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
         <div
           className={`lg:col-span-5 rounded-[30px] p-6 sm:p-7 border relative overflow-hidden transition-colors duration-300 flex flex-col justify-between ${
             isLightMode
-              ? 'bg-stone-50/90 border-stone-200/90 text-stone-900 shadow-sm'
+              ? 'bg-black/[0.03] border-black/10 text-stone-900 shadow-sm'
               : 'bg-white/[0.03] border-white/15 text-white shadow-md'
           }`}
         >
