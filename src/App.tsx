@@ -300,8 +300,8 @@ export default function App() {
           {/* TOP PROFILE CARD: Image, Name & Ellipsis Menu */}
           <section
             id="overview"
-            className={headerGlassClasses}
-            style={headerGlassStyle}
+            className={`${headerGlassClasses} relative z-30`}
+            style={{ ...headerGlassStyle, zIndex: 30 }}
           >
             <ProfileHeader
               onOpenContact={() => setIsContactModalOpen(true)}
@@ -313,8 +313,8 @@ export default function App() {
 
           {/* HEADLINE, MANIFESTO & BENTO GRID CARD */}
           <section
-            className={cardGlassClasses}
-            style={cardGlassStyle}
+            className={`${cardGlassClasses} relative z-10`}
+            style={{ ...cardGlassStyle, zIndex: 10 }}
           >
             <HeroSection
               onScrollToSection={handleScrollToSection}

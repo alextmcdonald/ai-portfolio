@@ -265,7 +265,7 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
         }`}
         style={{ fontSize: '13px' }}
       >
-        *This entire portfolio was built using AI
+        *This portfolio was designed, coded, and shipped by myself (with the help of AI)
       </p>
     </div>
   );

@@ -184,7 +184,9 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           - Mobile Landscape & up (sm:): order-3, pushed to the right of all other elements
       */}
       <div
-        className="col-start-2 row-start-1 justify-self-end sm:order-3 sm:shrink-0 sm:ml-auto relative self-center sm:self-auto"
+        className={`col-start-2 row-start-1 justify-self-end sm:order-3 sm:shrink-0 sm:ml-auto relative self-center sm:self-auto ${
+          isMenuOpen ? 'z-50' : 'z-20'
+        }`}
         ref={menuRef}
       >
         <button
