@@ -285,14 +285,14 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             sounds.playTap();
             setIsMenuOpen(!isMenuOpen);
           }}
-          className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-150 active:scale-95 border ${
+          className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-150 active:scale-95 border cursor-pointer ${
             isMenuOpen
               ? isLightMode
-                ? 'bg-black/12 text-stone-950 border-black/20 shadow-[inset_0_2px_5px_rgba(0,0,0,0.2)] ring-1 ring-black/5'
-                : 'bg-black/50 text-white border-white/25 shadow-[inset_0_2px_6px_rgba(0,0,0,0.65)] ring-1 ring-white/10'
+                ? 'bg-stone-200 text-stone-950 border-black/15 shadow-xs'
+                : 'bg-white/22 text-white border-white/25 shadow-xs backdrop-blur-md'
               : isLightMode
-                ? 'bg-black/[0.05] hover:bg-black/[0.09] active:bg-black/15 text-stone-700 hover:text-stone-950 border-black/10 shadow-xs backdrop-blur-md active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)]'
-                : 'bg-white/12 hover:bg-white/20 text-white border-white/15 backdrop-blur-md'
+                ? 'bg-white/95 hover:bg-white active:bg-stone-200 text-stone-800 hover:text-stone-950 active:text-stone-950 border-black/10 shadow-xs backdrop-blur-md'
+                : 'bg-white/12 hover:bg-white/20 active:bg-white/25 text-white border-white/15 backdrop-blur-md'
           }`}
           title="Contact & Email Options"
           aria-label="More contact options"
@@ -356,7 +356,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   }}
                   className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer ${
                     isLightMode
-                      ? 'bg-[#cccccc] hover:bg-[#c0c0c0] text-stone-800'
+                      ? 'bg-white hover:bg-stone-50 text-stone-800 border border-black/10 shadow-xs'
                       : 'bg-white/15 hover:bg-white/25 text-white'
                   }`}
                 >

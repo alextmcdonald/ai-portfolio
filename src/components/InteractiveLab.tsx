@@ -466,7 +466,7 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
                       aria-label="Close experiment details"
                       className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90 border shrink-0 ml-4 cursor-pointer ${
                         light
-                          ? 'bg-black/5 hover:bg-black/10 text-stone-700 hover:text-stone-950 border-black/10'
+                          ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
                           : 'bg-white/12 hover:bg-white/20 text-white border-white/15'
                       }`}
                     >

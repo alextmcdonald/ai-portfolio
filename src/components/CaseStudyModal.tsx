@@ -366,7 +366,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
               aria-label="Close case study details"
               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90 border shrink-0 ml-4 cursor-pointer ${
                 light
-                  ? 'bg-black/5 hover:bg-black/10 text-stone-700 hover:text-stone-950 border-black/10'
+                  ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
                   : 'bg-white/12 hover:bg-white/20 text-white border-white/15'
               }`}
             >
@@ -563,7 +563,9 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                       className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer border ${
                         activeScreenIndex === idx
                           ? 'bg-sky-500/25 text-sky-200 border-sky-400/40'
-                          : 'bg-white/12 text-white hover:bg-white/20 border-white/15'
+                          : light
+                            ? 'bg-white/95 text-stone-800 hover:bg-white border-black/10 shadow-xs'
+                            : 'bg-white/12 text-white hover:bg-white/20 border-white/15'
                       }`}
                     >
                       {screen.name}

@@ -103,12 +103,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             }}
             className={`group/btn px-6 py-3.5 rounded-full text-sm font-semibold active:scale-95 transition-all duration-150 flex items-center gap-2 cursor-pointer border ${
               isLightMode
-                ? 'bg-black/[0.05] hover:bg-black/[0.09] active:bg-black/15 text-stone-700 hover:text-stone-950 border-black/10 shadow-xs backdrop-blur-md active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)]'
+                ? 'bg-white/95 hover:bg-white active:bg-stone-100 text-stone-800 hover:text-stone-950 border-black/10 shadow-xs backdrop-blur-md'
                 : 'bg-white/12 hover:bg-white/20 text-white border-white/15 backdrop-blur-md'
             }`}
           >
             <span>View resume & bio</span>
-            <ArrowUpRight className={`w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform duration-200 ${isLightMode ? 'text-stone-500 group-hover/btn:text-stone-800' : 'text-white'}`} />
+            <ArrowUpRight className={`w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform duration-200 ${isLightMode ? 'text-stone-600 group-hover/btn:text-stone-900' : 'text-white'}`} />
           </button>
         </div>
       </div>

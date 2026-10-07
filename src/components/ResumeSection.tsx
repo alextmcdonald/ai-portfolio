@@ -152,7 +152,11 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
               sounds.playTap();
               onOpenResumeModal();
             }}
-            className="px-4 py-2.5 rounded-full bg-white/12 hover:bg-white/20 text-white text-sm font-semibold border border-white/15 transition-all active:scale-95 flex items-center gap-2 cursor-pointer"
+            className={`px-4 py-2.5 rounded-full text-sm font-semibold transition-all active:scale-95 flex items-center gap-2 cursor-pointer border ${
+              isLightMode
+                ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs backdrop-blur-md'
+                : 'bg-white/12 hover:bg-white/20 text-white border-white/15'
+            }`}
           >
             <FileText className="w-4 h-4" />
             <span className="text-[14px] leading-[20px]">View resume</span>
@@ -367,7 +371,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                   aria-label="Previous recommendation"
                   className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all active:scale-95 cursor-pointer ${
                     isLightMode
-                      ? 'bg-black/[0.04] hover:bg-black/[0.08] border-black/10 text-stone-800'
+                      ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
                       : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
                   }`}
                 >
@@ -379,7 +383,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                   aria-label="Next recommendation"
                   className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all active:scale-95 cursor-pointer ${
                     isLightMode
-                      ? 'bg-black/[0.04] hover:bg-black/[0.08] border-black/10 text-stone-800'
+                      ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
                       : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
                   }`}
                 >
@@ -517,7 +521,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                 aria-label="View Strava Profile"
                 className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all active:scale-95 cursor-pointer ${
                   isLightMode
-                    ? 'bg-black/[0.04] hover:bg-black/[0.08] border-black/10 text-stone-800'
+                    ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
                     : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
                 }`}
               >
@@ -586,7 +590,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                 hasGivenKudos
                   ? 'bg-[#FC4C02] text-white border-[#FC4C02] shadow-sm shadow-[#FC4C02]/40'
                   : isLightMode
-                    ? 'bg-black/[0.04] hover:bg-black/[0.08] border-black/10 text-stone-700'
+                    ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
                     : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
               }`}
             >

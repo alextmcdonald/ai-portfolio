@@ -227,7 +227,7 @@ export default function App() {
   const headerGlassStyle: React.CSSProperties = {
     borderRadius: '36px',
     borderWidth: '1px',
-    backgroundColor: isLightMode ? 'rgba(255, 255, 255, 0.40)' : 'rgba(18, 20, 26, 0.38)',
+    backgroundColor: isLightMode ? 'rgba(255, 255, 255, 0.68)' : 'rgba(18, 20, 26, 0.38)',
     backdropFilter: 'blur(40px) saturate(190%)',
     WebkitBackdropFilter: 'blur(40px) saturate(190%)',
     boxShadow: isLightMode
@@ -244,7 +244,7 @@ export default function App() {
   const cardGlassStyle: React.CSSProperties = {
     borderRadius: '36px',
     borderWidth: '1px',
-    backgroundColor: isLightMode ? 'rgba(255, 255, 255, 0.40)' : 'rgba(18, 20, 26, 0.38)',
+    backgroundColor: isLightMode ? 'rgba(255, 255, 255, 0.68)' : 'rgba(18, 20, 26, 0.38)',
     backdropFilter: 'blur(40px) saturate(190%)',
     WebkitBackdropFilter: 'blur(40px) saturate(190%)',
     boxShadow: isLightMode
@@ -261,7 +261,7 @@ export default function App() {
   const footerGlassStyle: React.CSSProperties = {
     borderRadius: '28px',
     borderWidth: '1px',
-    backgroundColor: isLightMode ? 'rgba(255, 255, 255, 0.40)' : 'rgba(18, 20, 26, 0.38)',
+    backgroundColor: isLightMode ? 'rgba(255, 255, 255, 0.68)' : 'rgba(18, 20, 26, 0.38)',
     backdropFilter: 'blur(40px) saturate(190%)',
     WebkitBackdropFilter: 'blur(40px) saturate(190%)',
     boxShadow: isLightMode
