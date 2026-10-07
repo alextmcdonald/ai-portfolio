@@ -181,7 +181,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   onClick={() => sounds.playTap()}
                   className={`flex items-center justify-between p-3 rounded-xl border text-xs sm:text-sm font-medium transition-all group ${
                     isLightMode
-                      ? 'bg-black/[0.03] hover:bg-black/[0.07] border-black/10 text-stone-800 hover:text-stone-950'
+                      ? 'bg-white hover:bg-black/[0.07] border-black/10 text-stone-800 hover:text-stone-950 shadow-xs'
                       : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
                   }`}
                 >

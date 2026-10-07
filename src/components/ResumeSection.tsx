@@ -127,7 +127,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
   return (
     <div className="relative">
       {/* Section Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 px-2 sm:px-0">
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8 px-2 sm:px-0">
         <div>
           <h2
             className={`text-3xl sm:text-4xl font-bold tracking-tight ${
@@ -146,13 +146,13 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
         </div>
 
         {/* Primary Action Button */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 self-start">
           <button
             onClick={() => {
               sounds.playTap();
               onOpenResumeModal();
             }}
-            className={`px-4 py-2.5 rounded-full text-sm font-semibold transition-all active:scale-95 flex items-center gap-2 cursor-pointer border ${
+            className={`px-4 py-2.5 rounded-full text-sm font-semibold transition-all active:scale-95 flex items-center gap-2 cursor-pointer border self-start ${
               isLightMode
                 ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs backdrop-blur-md'
                 : 'bg-white/12 hover:bg-white/20 text-white border-white/15'

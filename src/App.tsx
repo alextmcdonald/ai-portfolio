@@ -220,7 +220,7 @@ export default function App() {
   // Modular visionOS Glass Card styles for separated sections
   const headerGlassClasses = `glass w-full rounded-[36px] px-4 sm:px-8 lg:px-10 py-5 sm:py-6 transition-all duration-300 border scroll-mt-14 ${
     isLightMode
-      ? 'border-white/60 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.10)]'
+      ? 'border-black/10 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.08)]'
       : 'border-white/[0.08] shadow-[0_28px_70px_-18px_rgba(0,0,0,0.72)]'
   }`;
 
@@ -231,13 +231,13 @@ export default function App() {
     backdropFilter: 'blur(40px) saturate(190%)',
     WebkitBackdropFilter: 'blur(40px) saturate(190%)',
     boxShadow: isLightMode
-      ? 'inset 0 1px 0 0 rgba(255, 255, 255, 0.9), inset 0 0 0 1px rgba(255, 255, 255, 0.4), 0 20px 50px -15px rgba(0,0,0,0.10)'
+      ? '0 20px 50px -15px rgba(0,0,0,0.08)'
       : 'inset 0 1px 0 0 rgba(255, 255, 255, 0.08), inset 0 -1px 0 0 rgba(0, 0, 0, 0.6), 0 28px 70px -18px rgba(0,0,0,0.72)'
   };
 
   const cardGlassClasses = `glass w-full rounded-[36px] px-4 sm:px-8 lg:px-10 py-8 sm:py-12 transition-all duration-300 border scroll-mt-14 ${
     isLightMode
-      ? 'border-white/60 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.10)]'
+      ? 'border-black/10 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.08)]'
       : 'border-white/[0.08] shadow-[0_28px_70px_-18px_rgba(0,0,0,0.72)]'
   }`;
 
@@ -248,13 +248,13 @@ export default function App() {
     backdropFilter: 'blur(40px) saturate(190%)',
     WebkitBackdropFilter: 'blur(40px) saturate(190%)',
     boxShadow: isLightMode
-      ? 'inset 0 1px 0 0 rgba(255, 255, 255, 0.9), inset 0 0 0 1px rgba(255, 255, 255, 0.4), 0 20px 50px -15px rgba(0,0,0,0.10)'
+      ? '0 20px 50px -15px rgba(0,0,0,0.08)'
       : 'inset 0 1px 0 0 rgba(255, 255, 255, 0.08), inset 0 -1px 0 0 rgba(0, 0, 0, 0.6), 0 28px 70px -18px rgba(0,0,0,0.72)'
   };
 
   const footerGlassClasses = `glass w-full rounded-[28px] px-4 sm:px-8 lg:px-10 py-5 transition-all duration-300 border flex flex-col sm:flex-row items-center justify-center sm:justify-between text-center sm:text-left gap-3.5 sm:gap-4 text-xs font-mono ${
     isLightMode
-      ? 'border-white/60 text-stone-600 shadow-[0_12px_32px_-10px_rgba(0,0,0,0.08)]'
+      ? 'border-black/10 text-stone-600 shadow-[0_12px_32px_-10px_rgba(0,0,0,0.06)]'
       : 'border-white/[0.08] text-white/55 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.60)]'
   }`;
 
@@ -265,7 +265,7 @@ export default function App() {
     backdropFilter: 'blur(40px) saturate(190%)',
     WebkitBackdropFilter: 'blur(40px) saturate(190%)',
     boxShadow: isLightMode
-      ? 'inset 0 1px 0 0 rgba(255, 255, 255, 0.9), 0 12px 32px -10px rgba(0,0,0,0.08)'
+      ? '0 12px 32px -10px rgba(0,0,0,0.06)'
       : 'inset 0 1px 0 0 rgba(255, 255, 255, 0.08), inset 0 -1px 0 0 rgba(0, 0, 0, 0.6), 0 16px 40px -12px rgba(0,0,0,0.60)'
   };
 
