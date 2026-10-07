@@ -196,7 +196,7 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
                   aria-label={item.name}
                   className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer ${
                     isLightMode
-                      ? 'bg-white/95 text-stone-800 border border-stone-200/90 ring-2 ring-white/90 shadow-[0_2px_8px_rgba(0,0,0,0.06)]'
+                      ? 'bg-[#DFE0E4] text-stone-800 border border-[#D3D5D9] ring-2 ring-[#F7F8FB] shadow-[0_2px_8px_rgba(0,0,0,0.06)]'
                       : 'bg-[#111111] text-white border border-white/15 ring-2 ring-[#0c0d12]/90 shadow-[0_4px_14px_rgba(0,0,0,0.45)]'
                   } ${isHovered ? '-translate-y-1.5 scale-110 shadow-xl' : 'hover:-translate-y-0.5'}`}
                 >

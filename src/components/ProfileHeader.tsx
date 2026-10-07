@@ -337,7 +337,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               <div
                 className={`flex items-center justify-between gap-2 p-2.5 rounded-xl border ${
                   isLightMode
-                    ? 'bg-[#e5e5e5] border-black/10'
+                    ? 'bg-white/50 border-black/10'
                     : 'bg-black/40 border-white/10'
                 }`}
               >
@@ -354,10 +354,10 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     sounds.playSuccess();
                     onCopyEmail();
                   }}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer border ${
                     isLightMode
-                      ? 'bg-white hover:bg-stone-50 text-stone-800 border border-black/10 shadow-xs'
-                      : 'bg-white/15 hover:bg-white/25 text-white'
+                      ? 'bg-white hover:bg-stone-50 text-stone-800 border-black/10 shadow-xs'
+                      : 'bg-white/15 hover:bg-white/25 text-white border-white/15'
                   }`}
                 >
                   {emailCopied ? (

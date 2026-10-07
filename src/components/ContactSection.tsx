@@ -78,7 +78,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               <div
                 className={`flex items-center justify-between gap-2 p-3.5 rounded-2xl border ${
                   isLightMode
-                    ? 'bg-[#e5e5e5] border-black/10'
+                    ? 'bg-white/50 border-black/10'
                     : 'bg-black/30 border-white/10'
                 }`}
               >
@@ -94,10 +94,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                     sounds.playSuccess();
                     onCopyEmail();
                   }}
-                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer border ${
                     isLightMode
-                      ? 'bg-white hover:bg-stone-50 text-stone-800 border border-black/10 shadow-xs'
-                      : 'bg-white/15 hover:bg-white/30 text-white'
+                      ? 'bg-white hover:bg-stone-50 text-stone-800 border-black/10 shadow-xs'
+                      : 'bg-white/15 hover:bg-white/30 text-white border-white/15'
                   }`}
                 >
                   {emailCopied ? (
