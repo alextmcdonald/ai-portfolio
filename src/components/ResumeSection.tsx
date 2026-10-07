@@ -190,7 +190,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
           <div
             className={`p-5 rounded-[22px] border transition-all shadow-none ${
               isLightMode
-                ? 'bg-black/[0.03] border-black/10'
+                ? 'bg-black/[0.06] border-black/10'
                 : 'bg-black/30 border-white/10'
             }`}
           >
@@ -206,7 +206,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
           <div
             className={`p-5 rounded-[22px] border transition-all shadow-none ${
               isLightMode
-                ? 'bg-black/[0.03] border-black/10'
+                ? 'bg-black/[0.06] border-black/10'
                 : 'bg-black/30 border-white/10'
             }`}
           >
@@ -222,7 +222,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
           <div
             className={`p-5 rounded-[22px] border transition-all shadow-none ${
               isLightMode
-                ? 'bg-black/[0.03] border-black/10'
+                ? 'bg-black/[0.06] border-black/10'
                 : 'bg-black/30 border-white/10'
             }`}
           >
