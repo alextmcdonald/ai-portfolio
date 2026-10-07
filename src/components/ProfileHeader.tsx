@@ -292,7 +292,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 : 'bg-black/50 text-white border-white/25 shadow-[inset_0_2px_6px_rgba(0,0,0,0.65)] ring-1 ring-white/10'
               : isLightMode
                 ? 'bg-black/[0.05] hover:bg-black/[0.09] active:bg-black/15 text-stone-700 hover:text-stone-950 border-black/10 shadow-xs backdrop-blur-md active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)]'
-                : 'bg-white/10 hover:bg-white/20 active:bg-black/40 text-white/80 hover:text-white border-white/15 backdrop-blur-md active:shadow-[inset_0_2px_5px_rgba(0,0,0,0.5)]'
+                : 'bg-white/12 hover:bg-white/20 text-white border-white/15 backdrop-blur-md'
           }`}
           title="Contact & Email Options"
           aria-label="More contact options"
@@ -451,19 +451,19 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                       sounds.playTap();
                       setIsMenuOpen(false);
                     }}
-                    className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all group ${
+                    className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all group border ${
                       isLightMode
-                        ? 'bg-black/[0.03] hover:bg-black/[0.07] border border-black/8 text-stone-800 hover:text-stone-950'
-                        : 'bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-white/85 hover:text-white'
+                        ? 'bg-black/[0.03] hover:bg-black/[0.07] border-black/8 text-stone-800 hover:text-stone-950'
+                        : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
                     }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="text-white/60 group-hover:text-white transition-colors shrink-0">
+                      <span className={`${isLightMode ? 'text-stone-600 group-hover:text-stone-900' : 'text-white'} transition-colors shrink-0`}>
                         {social.icon}
                       </span>
                       <span className="truncate">{social.name}</span>
                     </div>
-                    <ArrowUpRight className="w-3.5 h-3.5 text-white/40 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0" />
+                    <ArrowUpRight className={`w-3.5 h-3.5 ${isLightMode ? 'text-stone-400 group-hover:text-stone-900' : 'text-white'} group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0`} />
                   </a>
                 ))}
               </div>

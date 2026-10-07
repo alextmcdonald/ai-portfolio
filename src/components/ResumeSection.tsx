@@ -187,7 +187,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
             className={`p-5 rounded-[22px] border transition-all shadow-none ${
               isLightMode
                 ? 'bg-black/[0.03] border-black/10'
-                : 'bg-[#111111] border-white/10'
+                : 'bg-black/30 border-white/10'
             }`}
           >
             <div className="flex items-center gap-2 mb-2 text-sky-400">
@@ -203,7 +203,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
             className={`p-5 rounded-[22px] border transition-all shadow-none ${
               isLightMode
                 ? 'bg-black/[0.03] border-black/10'
-                : 'bg-[#111111] border-white/10'
+                : 'bg-black/30 border-white/10'
             }`}
           >
             <div className="flex items-center gap-2 mb-2 text-emerald-400">
@@ -219,7 +219,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
             className={`p-5 rounded-[22px] border transition-all shadow-none ${
               isLightMode
                 ? 'bg-black/[0.03] border-black/10'
-                : 'bg-[#111111] border-white/10'
+                : 'bg-black/30 border-white/10'
             }`}
           >
             <div className="flex items-center gap-2 mb-2 text-amber-400">
@@ -368,7 +368,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                   className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all active:scale-95 cursor-pointer ${
                     isLightMode
                       ? 'bg-black/[0.04] hover:bg-black/[0.08] border-black/10 text-stone-800'
-                      : 'bg-white/10 hover:bg-white/20 border-white/15 text-white'
+                      : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
                   }`}
                 >
                   <ChevronLeft className="w-4 h-4" />
@@ -380,7 +380,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                   className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all active:scale-95 cursor-pointer ${
                     isLightMode
                       ? 'bg-black/[0.04] hover:bg-black/[0.08] border-black/10 text-stone-800'
-                      : 'bg-white/10 hover:bg-white/20 border-white/15 text-white'
+                      : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
                   }`}
                 >
                   <ChevronRight className="w-4 h-4" />
@@ -518,7 +518,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                 className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all active:scale-95 cursor-pointer ${
                   isLightMode
                     ? 'bg-black/[0.04] hover:bg-black/[0.08] border-black/10 text-stone-800'
-                    : 'bg-white/10 hover:bg-white/20 border-white/15 text-white'
+                    : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
                 }`}
               >
                 <ExternalLink className="w-4 h-4" />
@@ -587,7 +587,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                   ? 'bg-[#FC4C02] text-white border-[#FC4C02] shadow-sm shadow-[#FC4C02]/40'
                   : isLightMode
                     ? 'bg-black/[0.04] hover:bg-black/[0.08] border-black/10 text-stone-700'
-                    : 'bg-white/10 hover:bg-white/20 border-white/15 text-white'
+                    : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
               }`}
             >
               <Heart className={`w-3.5 h-3.5 ${hasGivenKudos ? 'fill-white stroke-white' : ''}`} />

@@ -104,11 +104,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             className={`group/btn px-6 py-3.5 rounded-full text-sm font-semibold active:scale-95 transition-all duration-150 flex items-center gap-2 cursor-pointer border ${
               isLightMode
                 ? 'bg-black/[0.05] hover:bg-black/[0.09] active:bg-black/15 text-stone-700 hover:text-stone-950 border-black/10 shadow-xs backdrop-blur-md active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)]'
-                : 'bg-white/10 hover:bg-white/20 active:bg-black/40 text-white/80 hover:text-white border-white/15 backdrop-blur-md active:shadow-[inset_0_2px_5px_rgba(0,0,0,0.5)]'
+                : 'bg-white/12 hover:bg-white/20 text-white border-white/15 backdrop-blur-md'
             }`}
           >
             <span>View resume & bio</span>
-            <ArrowUpRight className={`w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform duration-200 ${isLightMode ? 'text-stone-500 group-hover/btn:text-stone-800' : 'text-white/70 group-hover/btn:text-white'}`} />
+            <ArrowUpRight className={`w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform duration-200 ${isLightMode ? 'text-stone-500 group-hover/btn:text-stone-800' : 'text-white'}`} />
           </button>
         </div>
       </div>
@@ -121,7 +121,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             className={`p-4 sm:p-5 rounded-[22px] border transition-all shadow-none ${
               isLightMode
                 ? 'bg-black/[0.03] border-black/10'
-                : 'bg-white/[0.04] border-white/10'
+                : 'bg-black/30 border-white/10'
             }`}
           >
             <div className={`text-[28px] sm:text-[32px] font-bold not-italic tracking-tight tabular-nums leading-tight ${

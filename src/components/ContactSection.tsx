@@ -182,16 +182,16 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   className={`flex items-center justify-between p-3 rounded-xl border text-xs sm:text-sm font-medium transition-all group ${
                     isLightMode
                       ? 'bg-black/[0.03] hover:bg-black/[0.07] border-black/10 text-stone-800 hover:text-stone-950'
-                      : 'bg-white/[0.04] hover:bg-white/[0.1] border-white/10 text-white/85 hover:text-white'
+                      : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <span className="text-white/60 group-hover:text-white transition-colors shrink-0">
+                    <span className={`${isLightMode ? 'text-stone-600 group-hover:text-stone-900' : 'text-white'} transition-colors shrink-0`}>
                       {item.icon}
                     </span>
                     <span className="truncate">{item.name}</span>
                   </div>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-white/40 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0 ml-1" />
+                  <ArrowUpRight className={`w-3.5 h-3.5 ${isLightMode ? 'text-stone-400 group-hover:text-stone-900' : 'text-white'} group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0 ml-1`} />
                 </a>
               ))}
             </div>
