@@ -136,7 +136,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                       ? 'bg-white border-[#0071e3] ring-2 ring-[#0071e3]/20 shadow-sm'
                       : 'bg-black/60 border-white/70 ring-2 ring-white/20 shadow-inner'
                     : light
-                      ? 'bg-stone-100 hover:bg-stone-200/60 border-stone-200 hover:border-stone-300'
+                      ? 'bg-white/80 hover:bg-white border-black/10 hover:border-black/20 shadow-xs'
                       : 'bg-black/40 border-white/20'
                 }`}
               >
@@ -177,7 +177,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                       ? 'bg-white border-[#0071e3] ring-2 ring-[#0071e3]/20 shadow-sm'
                       : 'bg-black/60 border-white/70 ring-2 ring-white/20 shadow-inner'
                     : light
-                      ? 'bg-stone-100 hover:bg-stone-200/60 border-stone-200 hover:border-stone-300'
+                      ? 'bg-white/80 hover:bg-white border-black/10 hover:border-black/20 shadow-xs'
                       : 'bg-black/40 border-white/20'
                 }`}
               >
@@ -218,7 +218,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                       ? 'bg-white border-[#0071e3] ring-2 ring-[#0071e3]/20 shadow-sm'
                       : 'bg-black/60 border-white/70 ring-2 ring-white/20 shadow-inner'
                     : light
-                      ? 'bg-stone-100 hover:bg-stone-200/60 border-stone-200 hover:border-stone-300'
+                      ? 'bg-white/80 hover:bg-white border-black/10 hover:border-black/20 shadow-xs'
                       : 'bg-black/40 border-white/20'
                 }`}
               >

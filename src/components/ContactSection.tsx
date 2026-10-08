@@ -181,7 +181,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   onClick={() => sounds.playTap()}
                   className={`flex items-center justify-between p-3 rounded-xl border text-xs sm:text-sm font-medium transition-all group ${
                     isLightMode
-                      ? 'bg-white hover:bg-black/[0.07] border-black/10 text-stone-800 hover:text-stone-950 shadow-xs'
+                      ? 'bg-white hover:bg-stone-100 border-black/10 text-stone-800 hover:text-stone-950 shadow-xs'
                       : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
                   }`}
                 >
@@ -255,13 +255,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
                     {/* Name */}
                     <div
-                      className={`relative rounded-2xl border-[1.5px] min-h-[52px] sm:min-h-[54px] flex items-center transition-all duration-200 ${
+                      className={`relative rounded-2xl border-[1.5px] min-h-[62px] flex items-center transition-all duration-200 ${
                         focusedField === 'name'
                           ? isLightMode
                             ? 'bg-white border-[#0071e3] ring-2 ring-[#0071e3]/20 shadow-sm'
                             : 'bg-black/60 border-white/70 ring-2 ring-white/20 shadow-inner'
                           : isLightMode
-                            ? 'bg-black/[0.03] border-black/15'
+                            ? 'bg-white/80 hover:bg-white border-black/10 hover:border-black/20 shadow-xs'
                             : 'bg-black/40 border-white/20'
                       }`}
                     >
@@ -269,7 +269,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                         htmlFor="contact-name"
                         className={`absolute left-5 pointer-events-none transition-all duration-200 ease-out origin-left leading-none ${
                           focusedField === 'name' || name.length > 0
-                            ? `top-2 translate-y-0 text-[10px] font-semibold tracking-wider uppercase ${
+                            ? `top-2.5 translate-y-0 text-[11px] font-semibold tracking-wider uppercase ${
                                 focusedField === 'name'
                                   ? isLightMode
                                     ? 'text-[#0071e3]'
@@ -278,8 +278,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                     ? 'text-stone-500'
                                     : 'text-white/50'
                               }`
-                            : `top-1/2 -translate-y-1/2 text-sm sm:text-base font-medium ${
-                                isLightMode ? 'text-stone-400' : 'text-white/45'
+                            : `top-1/2 -translate-y-1/2 text-base sm:text-lg font-medium ${
+                                isLightMode ? 'text-stone-500' : 'text-white/45'
                               }`
                         }`}
                       >
@@ -293,7 +293,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                         onChange={(e) => setName(e.target.value)}
                         onFocus={() => setFocusedField('name')}
                         onBlur={() => setFocusedField(null)}
-                        className={`w-full px-5 pt-4 pb-1 sm:pt-4.5 sm:pb-1 rounded-2xl bg-transparent border-0 text-sm font-medium focus:outline-none ${
+                        style={{ color: isLightMode ? '#0f172a' : '#ffffff', backgroundColor: 'transparent' }}
+                        className={`w-full px-5 pt-5 pb-1.5 sm:pt-5.5 sm:pb-2 rounded-2xl bg-transparent border-0 text-sm sm:text-base font-medium focus:outline-none ${
                           isLightMode ? 'text-stone-900' : 'text-white'
                         }`}
                       />
@@ -301,13 +302,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
                     {/* Email */}
                     <div
-                      className={`relative rounded-2xl border-[1.5px] min-h-[52px] sm:min-h-[54px] flex items-center transition-all duration-200 ${
+                      className={`relative rounded-2xl border-[1.5px] min-h-[62px] flex items-center transition-all duration-200 ${
                         focusedField === 'email'
                           ? isLightMode
                             ? 'bg-white border-[#0071e3] ring-2 ring-[#0071e3]/20 shadow-sm'
                             : 'bg-black/60 border-white/70 ring-2 ring-white/20 shadow-inner'
                           : isLightMode
-                            ? 'bg-black/[0.03] border-black/15'
+                            ? 'bg-white/80 hover:bg-white border-black/10 hover:border-black/20 shadow-xs'
                             : 'bg-black/40 border-white/20'
                       }`}
                     >
@@ -315,7 +316,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                         htmlFor="contact-email"
                         className={`absolute left-5 pointer-events-none transition-all duration-200 ease-out origin-left leading-none ${
                           focusedField === 'email' || email.length > 0
-                            ? `top-2 translate-y-0 text-[10px] font-semibold tracking-wider uppercase ${
+                            ? `top-2.5 translate-y-0 text-[11px] font-semibold tracking-wider uppercase ${
                                 focusedField === 'email'
                                   ? isLightMode
                                     ? 'text-[#0071e3]'
@@ -324,8 +325,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                     ? 'text-stone-500'
                                     : 'text-white/50'
                               }`
-                            : `top-1/2 -translate-y-1/2 text-sm sm:text-base font-medium ${
-                                isLightMode ? 'text-stone-400' : 'text-white/45'
+                            : `top-1/2 -translate-y-1/2 text-base sm:text-lg font-medium ${
+                                isLightMode ? 'text-stone-500' : 'text-white/45'
                               }`
                         }`}
                       >
@@ -339,7 +340,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                         onChange={(e) => setEmail(e.target.value)}
                         onFocus={() => setFocusedField('email')}
                         onBlur={() => setFocusedField(null)}
-                        className={`w-full px-5 pt-4 pb-1 sm:pt-4.5 sm:pb-1 rounded-2xl bg-transparent border-0 text-sm font-medium focus:outline-none ${
+                        style={{ color: isLightMode ? '#0f172a' : '#ffffff', backgroundColor: 'transparent' }}
+                        className={`w-full px-5 pt-5 pb-1.5 sm:pt-5.5 sm:pb-2 rounded-2xl bg-transparent border-0 text-sm sm:text-base font-medium focus:outline-none ${
                           isLightMode ? 'text-stone-900' : 'text-white'
                         }`}
                       />
@@ -354,7 +356,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                           ? 'bg-white border-[#0071e3] ring-2 ring-[#0071e3]/20 shadow-sm'
                           : 'bg-black/60 border-white/70 ring-2 ring-white/20 shadow-inner'
                         : isLightMode
-                          ? 'bg-black/[0.03] border-black/15'
+                          ? 'bg-white/80 hover:bg-white border-black/10 hover:border-black/20 shadow-xs'
                           : 'bg-black/40 border-white/20'
                     }`}
                   >
@@ -362,7 +364,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                       htmlFor="contact-message"
                       className={`absolute left-5 pointer-events-none transition-all duration-200 ease-out origin-left ${
                         focusedField === 'message' || message.length > 0
-                          ? `top-2 text-[10px] font-semibold tracking-wider uppercase ${
+                          ? `top-2.5 text-[11px] font-semibold tracking-wider uppercase ${
                               focusedField === 'message'
                                 ? isLightMode
                                   ? 'text-[#0071e3]'
@@ -371,8 +373,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                   ? 'text-stone-500'
                                   : 'text-white/50'
                             }`
-                          : `top-3 text-sm sm:text-base font-medium ${
-                              isLightMode ? 'text-stone-400' : 'text-white/45'
+                          : `top-4 text-base sm:text-lg font-medium ${
+                              isLightMode ? 'text-stone-500' : 'text-white/45'
                             }`
                       }`}
                     >
@@ -386,7 +388,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                       onChange={(e) => setMessage(e.target.value)}
                       onFocus={() => setFocusedField('message')}
                       onBlur={() => setFocusedField(null)}
-                      className={`w-full px-5 pt-6 pb-2 rounded-2xl bg-transparent border-0 text-sm sm:text-base font-medium focus:outline-none resize-none min-h-[90px] sm:min-h-[96px] ${
+                      style={{ color: isLightMode ? '#0f172a' : '#ffffff', backgroundColor: 'transparent' }}
+                      className={`w-full px-5 pt-7.5 pb-3 rounded-2xl bg-transparent border-0 text-sm sm:text-base font-medium focus:outline-none resize-none min-h-[110px] sm:min-h-[120px] ${
                         isLightMode ? 'text-stone-900' : 'text-white'
                       }`}
                     />
