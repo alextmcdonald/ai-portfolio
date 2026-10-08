@@ -11,13 +11,15 @@ import {
   ExternalLink,
   Flame,
   Activity,
-  Heart
+  Heart,
+  Music,
+  BookOpen
 } from 'lucide-react';
-import { RECOMMENDATIONS } from '../data/portfolioData';
+import { RECOMMENDATIONS, STATUS_CARD_MEDIA } from '../data/portfolioData';
 import { sounds } from '../utils/audio';
 
 const LATEST_STRAVA_ACTIVITY = {
-  title: 'Morning Ride · Mercer Island Loop',
+  title: 'Morning Mile',
   type: 'Ride',
   date: 'Yesterday at 7:14 AM',
   location: 'Seattle, WA',
@@ -72,22 +74,6 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
   const [recIndex, setRecIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const autoPlayTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Strava State (Latest Activity)
-  const [kudosCount, setKudosCount] = useState(38);
-  const [hasGivenKudos, setHasGivenKudos] = useState(false);
-
-  const handleGiveKudos = () => {
-    if (!hasGivenKudos) {
-      sounds.playSuccess();
-      setKudosCount((prev) => prev + 1);
-      setHasGivenKudos(true);
-    } else {
-      sounds.playTap();
-      setKudosCount((prev) => prev - 1);
-      setHasGivenKudos(false);
-    }
-  };
 
   const currentRec = RECOMMENDATIONS[recIndex];
 
@@ -193,7 +179,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
               <Code className="w-4 h-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Engineered</span>
             </div>
-            <p className={`text-[13px] leading-relaxed ${isLightMode ? 'text-stone-600' : 'text-white/70'}`}>
+            <p className={`text-sm leading-relaxed ${isLightMode ? 'text-stone-600' : 'text-white/70'}`}>
               Production React, TypeScript & GLSL shaders for zero-friction handoff.
             </p>
           </div>
@@ -209,7 +195,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
               <Layers className="w-4 h-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Spatial Math</span>
             </div>
-            <p className={`text-[13px] leading-relaxed ${isLightMode ? 'text-stone-600' : 'text-white/70'}`}>
+            <p className={`text-sm leading-relaxed ${isLightMode ? 'text-stone-600' : 'text-white/70'}`}>
               3 US patents filed in gaze gesture anchoring & concentric geometry.
             </p>
           </div>
@@ -225,7 +211,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
               <Compass className="w-4 h-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Leadership</span>
             </div>
-            <p className={`text-[13px] leading-relaxed ${isLightMode ? 'text-stone-600' : 'text-white/70'}`}>
+            <p className={`text-sm leading-relaxed ${isLightMode ? 'text-stone-600' : 'text-white/70'}`}>
               Scaled systems adopted across 140+ teams; mentored 18+ designers.
             </p>
           </div>
@@ -332,7 +318,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
         <div
           className={`lg:col-span-7 rounded-[30px] p-6 sm:p-8 border relative overflow-hidden transition-colors duration-300 flex flex-col justify-between min-h-[440px] sm:min-h-[410px] ${
             isLightMode
-              ? 'bg-black/[0.03] border-black/10 text-stone-900 shadow-sm'
+              ? 'bg-white/55 border-black/10 text-stone-900 shadow-sm'
               : 'bg-white/[0.03] border-white/15 text-white shadow-md'
           }`}
           onMouseEnter={() => setIsPaused(true)}
@@ -412,15 +398,28 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
 
                     {/* Recommender Metadata */}
                     <div className="pt-3 flex items-center gap-3.5">
-                      {/* Avatar Initials Circle */}
+                      {/* Avatar Headshot Image */}
                       <div
-                        className={`w-10 h-10 rounded-full border flex items-center justify-center font-bold text-xs tracking-wider shrink-0 ${
+                        className={`w-10 h-10 rounded-full overflow-hidden flex items-center justify-center shrink-0 ${
                           isLightMode
-                            ? 'bg-stone-200 border-black/10 text-stone-700'
-                            : 'bg-white/10 border-white/20 text-white'
+                            ? 'bg-stone-200 text-stone-700'
+                            : 'bg-white/10 text-white'
                         }`}
                       >
-                        {rec.avatarInitials}
+                        {rec.avatarUrl ? (
+                          <img
+                            src={rec.avatarUrl}
+                            alt={`${rec.name} headshot`}
+                            className="w-full h-full object-cover select-none"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                            }}
+                          />
+                        ) : (
+                          <span className="font-bold text-xs tracking-wider">
+                            {rec.avatarInitials}
+                          </span>
+                        )}
                       </div>
 
                       <div>
@@ -432,7 +431,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                           {rec.name}
                         </div>
                         <div
-                          className={`text-[13px] ${
+                          className={`text-sm ${
                             isLightMode ? 'text-stone-500' : 'text-white/60'
                           }`}
                         >
@@ -477,122 +476,167 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
           </div>
         </div>
 
-        {/* CUSTOM STRAVA ATHLETIC INTEGRATION (Right Column, col-span-5) */}
-        <div
-          className={`lg:col-span-5 rounded-[30px] p-6 sm:p-7 border relative overflow-hidden transition-colors duration-300 flex flex-col justify-between ${
-            isLightMode
-              ? 'bg-black/[0.03] border-black/10 text-stone-900 shadow-sm'
-              : 'bg-white/[0.03] border-white/15 text-white shadow-md'
-          }`}
-        >
-          <div>
-            {/* Header: Strava Logo, Athlete Handle & Direct Profile Link */}
-            <div className="flex items-center justify-between gap-3 mb-4">
-              <a
-                href={LATEST_STRAVA_ACTIVITY.athleteUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-2.5 group cursor-pointer"
-              >
-                <div className="w-8 h-8 rounded-xl bg-[#FC4C02]/15 border border-[#FC4C02]/30 flex items-center justify-center shrink-0 transition-transform group-hover:scale-105">
-                  <svg className="w-4 h-4 fill-[#FC4C02]" viewBox="0 0 24 24">
-                    <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7.925 15.626h4.171" />
-                  </svg>
-                </div>
-                <div>
-                  <div className="text-xs font-black uppercase tracking-wider text-[#FC4C02]">
-                    Recent Activity
-                  </div>
-                  <div className={`text-[11px] font-mono group-hover:underline ${isLightMode ? 'text-stone-500' : 'text-white/50'}`}>
-                    strava.com/athletes/{LATEST_STRAVA_ACTIVITY.athleteHandle}
-                  </div>
-                </div>
-              </a>
-
-              <a
-                href={LATEST_STRAVA_ACTIVITY.athleteUrl}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="View Strava Profile"
-                className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all active:scale-95 cursor-pointer ${
-                  isLightMode
-                    ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
-                    : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
-                }`}
-              >
-                <ExternalLink className="w-4 h-4" />
-              </a>
-            </div>
-
-            {/* GPS Vector Route Map Visualizer (Placed above Activity Title) */}
-            <div className={`relative h-44 sm:h-48 rounded-2xl border p-2 mb-4 overflow-hidden flex items-center justify-center ${
+        {/* RIGHT COLUMN: 3 Stacked Status Cards (col-span-5) */}
+        <div className="lg:col-span-5 flex flex-col gap-4 justify-between h-full">
+          {/* 1. STRAVA CARD (Simplified with Right Map) */}
+          <a
+            href="https://www.strava.com/athletes/almcd"
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => sounds.playTap()}
+            className={`rounded-[28px] sm:rounded-[32px] p-5 sm:p-6 border transition-all duration-300 flex flex-row items-stretch justify-between gap-4 flex-1 cursor-pointer no-underline text-inherit ${
               isLightMode
-                ? 'bg-stone-200/50 border-black/5'
-                : 'bg-black/40 border-white/10'
-            }`}>
-              <div className="absolute inset-0 opacity-[0.06] bg-[radial-gradient(#FC4C02_1px,transparent_1px)] [background-size:12px_12px]" />
+                ? 'bg-white/55 border-black/10 text-stone-900 shadow-sm'
+                : 'bg-white/[0.03] border-white/15 text-white shadow-md'
+            }`}
+          >
+            <div className="min-w-0 flex-1 self-stretch flex flex-col justify-between">
+              <div className="flex items-center gap-2 mb-1.5">
+                <svg className="w-4 h-4 fill-[#FC4C02] shrink-0" viewBox="0 0 24 24">
+                  <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7.925 15.626h4.171" />
+                </svg>
+                <span className="text-xs font-bold uppercase tracking-wider text-[#FC4C02]">
+                  RECENT ACTIVITY
+                </span>
+              </div>
 
-              <svg viewBox="18 12 262 118" className="w-full h-full relative z-10 overflow-visible" preserveAspectRatio="xMidYMid meet">
-                <defs>
-                  <linearGradient id="stravaRouteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#FC4C02" />
-                    <stop offset="100%" stopColor="#FF8A3D" />
-                  </linearGradient>
-                </defs>
-                {/* Glow route underlay */}
-                <path
-                  d={LATEST_STRAVA_ACTIVITY.path}
-                  fill="none"
-                  stroke="#FC4C02"
-                  strokeWidth="6"
-                  strokeOpacity="0.25"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                {/* Main GPS Route path */}
-                <path
-                  d={LATEST_STRAVA_ACTIVITY.path}
-                  fill="none"
-                  stroke="url(#stravaRouteGrad)"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                {/* Start Pin */}
-                <circle cx={30} cy={75} r="4" fill="#30D158" stroke="#fff" strokeWidth="1.5" />
-                {/* Finish Pin */}
-                <circle cx={50} cy={95} r="4.5" fill="#FC4C02" stroke="#fff" strokeWidth="1.5" />
-              </svg>
+              <div className="mt-auto">
+                <h4 className={`text-lg font-bold tracking-tight leading-snug ${isLightMode ? 'text-stone-900' : 'text-white'}`}>
+                  {LATEST_STRAVA_ACTIVITY.title}
+                </h4>
+                <div className="flex items-center gap-4 sm:gap-6 mt-1.5">
+                  <div>
+                    <div className={`text-[10px] leading-[12px] font-medium uppercase tracking-wider mb-1 ${isLightMode ? 'text-stone-400' : 'text-white/45'}`}>
+                      Distance
+                    </div>
+                    <div className={`text-sm font-normal leading-none ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
+                      1.46mi
+                    </div>
+                  </div>
+                  <div>
+                    <div className={`text-[10px] leading-[12px] font-medium uppercase tracking-wider mb-1 ${isLightMode ? 'text-stone-400' : 'text-white/45'}`}>
+                      Pace
+                    </div>
+                    <div className={`text-sm font-normal leading-none ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
+                      7:59/mi
+                    </div>
+                  </div>
+                  <div>
+                    <div className={`text-[10px] leading-[12px] font-medium uppercase tracking-wider mb-1 ${isLightMode ? 'text-stone-400' : 'text-white/45'}`}>
+                      Time
+                    </div>
+                    <div className={`text-sm font-normal leading-none ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
+                      11m 41s
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Activity Title & Timestamp */}
-            <div className="mb-2">
-              <h4 className={`text-base sm:text-lg font-bold tracking-tight ${isLightMode ? 'text-stone-900' : 'text-white'}`}>
-                {LATEST_STRAVA_ACTIVITY.title}
-              </h4>
-              <p className={`text-[13px] ${isLightMode ? 'text-stone-500' : 'text-white/50'} mt-1`}>
-                {LATEST_STRAVA_ACTIVITY.date} · {LATEST_STRAVA_ACTIVITY.distance} · {LATEST_STRAVA_ACTIVITY.location}
-              </p>
-            </div>
-          </div>
-
-          {/* Footer: Give Kudos Button */}
-          <div className="pt-2 flex items-center">
-            <button
-              onClick={handleGiveKudos}
-              aria-label="Give Kudos"
-              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all duration-200 active:scale-95 cursor-pointer border ${
-                hasGivenKudos
-                  ? 'bg-[#FC4C02] text-white border-[#FC4C02] shadow-sm shadow-[#FC4C02]/40'
-                  : isLightMode
-                    ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
-                    : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
+            {/* Right Side: Strava Map Square (Uploadable Image) */}
+            <div
+              className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 relative flex items-center justify-center ${
+                isLightMode ? 'bg-stone-100' : 'bg-stone-900'
               }`}
+              title="Strava Map Preview"
             >
-              <Heart className={`w-3.5 h-3.5 ${hasGivenKudos ? 'fill-white stroke-white' : ''}`} />
-              <span>{kudosCount} Kudos</span>
-            </button>
-          </div>
+              <img
+                src={STATUS_CARD_MEDIA.stravaMap}
+                alt="Strava Activity Route Map"
+                className="w-full h-full object-cover select-none transition-transform duration-300 hover:scale-105"
+              />
+            </div>
+          </a>
+
+          {/* 2. CURRENTLY LISTENING TO CARD */}
+          <a
+            href="https://open.spotify.com/track/5yUAQrjLRFDW4yqZI9L5v6"
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => sounds.playTap()}
+            className={`rounded-[28px] sm:rounded-[32px] p-5 sm:p-6 border transition-all duration-300 flex flex-row items-stretch justify-between gap-4 flex-1 cursor-pointer no-underline text-inherit ${
+              isLightMode
+                ? 'bg-white/55 border-black/10 text-stone-900 shadow-sm'
+                : 'bg-white/[0.03] border-white/15 text-white shadow-md'
+            }`}
+          >
+            <div className="min-w-0 flex-1 self-stretch flex flex-col justify-between">
+              <div className="flex items-center gap-2 mb-1.5">
+                <Music className="w-4 h-4 text-emerald-500 shrink-0" />
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald-500">
+                  CURRENTLY LISTENING
+                </span>
+              </div>
+
+              <div className="mt-auto">
+                <h4 className={`text-lg font-bold tracking-tight leading-snug ${isLightMode ? 'text-stone-900' : 'text-white'}`}>
+                  Blessed
+                </h4>
+                <p className={`text-sm font-normal ${isLightMode ? 'text-stone-500' : 'text-white/60'} mt-1`}>
+                  August Charles
+                </p>
+              </div>
+            </div>
+
+            {/* Right Side: Album Cover Square (Uploadable Image) */}
+            <div
+              className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 relative ${
+                isLightMode ? 'bg-stone-100' : 'bg-stone-900'
+              }`}
+              title="Blessed by August Charles"
+            >
+              <img
+                src={STATUS_CARD_MEDIA.albumCover}
+                alt="August Charles - Blessed Album Cover"
+                className="w-full h-full object-cover select-none transition-transform duration-300 hover:scale-105"
+              />
+            </div>
+          </a>
+
+          {/* 3. CURRENTLY READING CARD */}
+          <a
+            href="https://www.goodreads.com/en/book/show/13436116-lean-ux"
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => sounds.playTap()}
+            className={`rounded-[28px] sm:rounded-[32px] p-5 sm:p-6 border transition-all duration-300 flex flex-row items-stretch justify-between gap-4 flex-1 cursor-pointer no-underline text-inherit ${
+              isLightMode
+                ? 'bg-white/55 border-black/10 text-stone-900 shadow-sm'
+                : 'bg-white/[0.03] border-white/15 text-white shadow-md'
+            }`}
+          >
+            <div className="min-w-0 flex-1 self-stretch flex flex-col justify-between">
+              <div className="flex items-center gap-2 mb-1.5">
+                <BookOpen className={`w-4 h-4 shrink-0 ${isLightMode ? 'text-indigo-600' : 'text-indigo-400'}`} />
+                <span className={`text-xs font-bold uppercase tracking-wider ${isLightMode ? 'text-indigo-600' : 'text-indigo-400'}`}>
+                  CURRENTLY READING
+                </span>
+              </div>
+
+              <div className="mt-auto">
+                <h4 className={`text-lg font-bold tracking-tight leading-snug ${isLightMode ? 'text-stone-900' : 'text-white'}`}>
+                  Lean UX
+                </h4>
+                <p className={`text-sm font-normal ${isLightMode ? 'text-stone-500' : 'text-white/60'} mt-1`}>
+                  Jeff Gothelf & Josh Seiden
+                </p>
+              </div>
+            </div>
+
+            {/* Right Side: Book Cover Square (Uploadable Image) */}
+            <div
+              className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 relative ${
+                isLightMode ? 'bg-stone-100' : 'bg-stone-900'
+              }`}
+              title="Lean UX by Jeff Gothelf & Josh Seiden"
+            >
+              <img
+                src={STATUS_CARD_MEDIA.bookCover}
+                alt="Lean UX Book Cover"
+                className="w-full h-full object-cover select-none transition-transform duration-300 hover:scale-105"
+              />
+            </div>
+          </a>
         </div>
       </div>
     </div>

@@ -41,15 +41,17 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
   return (
     <div className="relative">
       {/* Section Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 px-2 sm:px-0">
+      <div className="flex flex-col landscape:flex-row landscape:items-center sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 mb-8 px-2 sm:px-0">
         <div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+          <h2 className={`text-3xl sm:text-4xl font-bold tracking-tight ${
+            isLightMode ? 'text-stone-900' : 'text-white'
+          }`}>
             Get in touch
           </h2>
         </div>
 
         {/* Availability Badge */}
-        <div className={`flex items-center gap-2.5 px-4 py-2 rounded-full self-start md:self-auto ${
+        <div className={`flex items-center gap-2.5 px-4 py-2 rounded-full self-start landscape:self-auto sm:self-auto md:self-auto shrink-0 ${
           isLightMode
             ? 'bg-emerald-500/10 border border-[#009966]/25'
             : 'bg-emerald-500/10 border border-emerald-500/25'
@@ -68,10 +70,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
         {/* Left Column: Direct channels and Socials (5 cols) */}
         <div className="lg:col-span-5 flex flex-col">
-          <div className={`rounded-[28px] p-6 sm:p-7 border shadow-xl space-y-3.5 h-full flex flex-col justify-between ${
+          <div className={`rounded-[28px] p-6 sm:p-7 border space-y-3.5 h-full flex flex-col justify-between ${
             isLightMode
-              ? 'bg-black/[0.03] border-black/10'
-              : 'bg-white/[0.03] border-white/15'
+              ? 'bg-white/55 border-black/10 shadow-sm'
+              : 'bg-white/[0.03] border-white/15 shadow-md'
           }`}>
             {/* Direct Email */}
             <div>
@@ -179,7 +181,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => sounds.playTap()}
-                  className={`flex items-center justify-between p-3 rounded-xl border text-xs sm:text-sm font-medium transition-all group ${
+                  className={`flex items-center justify-between p-3 rounded-xl border text-sm font-medium transition-all group ${
                     isLightMode
                       ? 'bg-white hover:bg-stone-100 border-black/10 text-stone-800 hover:text-stone-950 shadow-xs'
                       : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
@@ -200,10 +202,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
 
         {/* Right Column: Interactive Contact Form (7 cols) */}
         <div className="lg:col-span-7 flex flex-col">
-          <div className={`rounded-[28px] sm:rounded-[32px] p-6 sm:p-7 border shadow-xl h-full flex flex-col justify-between ${
+          <div className={`rounded-[28px] sm:rounded-[32px] p-6 sm:p-7 border h-full flex flex-col justify-between ${
             isLightMode
-              ? 'bg-black/[0.03] border-black/10'
-              : 'bg-white/[0.03] border-white/15'
+              ? 'bg-white/55 border-black/10 shadow-sm'
+              : 'bg-white/[0.03] border-white/15 shadow-md'
           }`}>
             <div>
               <div className="flex items-center gap-3">

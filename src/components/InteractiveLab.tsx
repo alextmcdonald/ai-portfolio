@@ -341,7 +341,7 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
             }}
             className={`group relative rounded-[28px] sm:rounded-[32px] overflow-hidden transition-all duration-300 cursor-pointer flex flex-col sm:flex-row items-stretch ${
               isLightMode
-                ? 'bg-black/[0.03] hover:bg-black/[0.06] border border-black/10 hover:border-black/20 shadow-sm hover:shadow-md'
+                ? 'bg-white/55 hover:bg-white/75 border border-black/10 hover:border-black/20 shadow-sm hover:shadow-md'
                 : 'bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/25 shadow-xl hover:shadow-2xl'
             }`}
           >
@@ -376,7 +376,7 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
                 </h3>
 
                 <p
-                  className={`mt-2 text-xs sm:text-sm leading-relaxed line-clamp-3 ${
+                  className={`mt-2 text-sm leading-relaxed line-clamp-3 ${
                     isLightMode ? 'text-stone-600' : 'text-white/75'
                   }`}
                 >

@@ -28,6 +28,12 @@ export const DESIGNER_INFO = {
   ]
 };
 
+export const STATUS_CARD_MEDIA = {
+  stravaMap: "/assets/images/strava_map.jpg?v=2",
+  albumCover: "/assets/images/album_blessed.jpg?v=2",
+  bookCover: "/assets/images/book_lean_ux.jpg?v=2"
+};
+
 export const CASE_STUDIES: CaseStudy[] = [
   {
     id: "aura-spatial-os",
@@ -36,7 +42,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     role: "Lead Spatial Designer & Systems Architect",
     timeline: "2024 — 2025",
     category: "B2B Enterprise",
-    cardTags: ["B2B Enterprise", "Automotive"],
+    cardTags: ["B2B Enterprise", "Automotive", "Marketing"],
     heroImage: "/src/assets/images/casestudy_spatial_device_1790887169601.jpg",
     videoUrl: "/assets/videos/driveauto.mp4",
     statsSummary: "Task switching 42% faster, 38% gaze fatigue reduction. Adopted across 140+ engineers.",
@@ -397,6 +403,7 @@ export const RECOMMENDATIONS: Recommendation[] = [
     role: "VP of Product Design",
     company: "Horizon OS / Spatial Ecosystems",
     relationship: "Managed Alex directly",
+    avatarUrl: "/assets/images/headshot_elena_rostova.jpg",
     avatarInitials: "ER",
     highlight: "Rare multi-dimensional systems thinker down to the sub-pixel shader.",
     quote: "Alex is the rare designer who thinks in multi-dimensional systems and executes down to the sub-pixel shader. His work on vision ergonomics and spatial depth hierarchies set the benchmark for our entire product organization. He doesn't merely solve surface-level interface challenges; he digs into technical constraints, aligns cross-functional partners effortlessly, and consistently models what modern product leadership should look like at scale.",
@@ -409,6 +416,7 @@ export const RECOMMENDATIONS: Recommendation[] = [
     role: "Staff Software Engineer",
     company: "Apple Ecosystem & macOS Platforms",
     relationship: "Collaborated on cross-platform core frameworks",
+    avatarUrl: "/assets/images/headshot_marcus_vance.jpg",
     avatarInitials: "MV",
     highlight: "Writes production-grade code and respects engineering reality.",
     quote: "Collaborating with Alex is effortless because he doesn't just hand off static Figma files—he writes clean, production-grade code, understands GPU rendering pipelines, and respects real engineering constraints. He speaks our language fluently, builds working interactive prototypes to resolve edge cases well before sprint planning, and bridges the gap between design aspiration and engineering delivery better than anyone I have worked with.",
@@ -421,6 +429,7 @@ export const RECOMMENDATIONS: Recommendation[] = [
     role: "Head of Product",
     company: "Apex Global Financial Systems",
     relationship: "Senior stakeholder on enterprise transaction suites",
+    avatarUrl: "/assets/images/headshot_sarah_linchen.jpg",
     avatarInitials: "SL",
     highlight: "Turned our most complex workflows into fluid, delightful spatial experiences.",
     quote: "Alex turned our most complex financial transaction suite into a fluid, intuitive, and delightful spatial experience. He communicates with extraordinary clarity, translates ambiguity into actionable product roadmaps, and champions end-user needs while keeping strategic business metrics front and center. His ability to facilitate design sprints and consistently deliver world-class work under intense deadlines was invaluable to our launch.",
@@ -433,6 +442,7 @@ export const RECOMMENDATIONS: Recommendation[] = [
     role: "Principal Design Director",
     company: "Spatial Systems & HCI Lab",
     relationship: "Collaborated across multiple spatial hardware programs",
+    avatarUrl: "/assets/images/headshot_david_oconnor.jpg",
     avatarInitials: "DO",
     highlight: "Brings infectious curiosity and narrative depth to every design challenge.",
     quote: "Beyond his impeccable visual craft and precision, Alex brings infectious curiosity and narrative depth to every design challenge. He approaches complex human-computer interaction problems with deep empathy, rigorous user research, and an unrelenting commitment to elegance. Any product organization looking to define new industry standards will see their creative bar rise immediately with Alex on board.",
@@ -445,6 +455,7 @@ export const RECOMMENDATIONS: Recommendation[] = [
     role: "Director of Design Systems",
     company: "CloudScale & Enterprise AI",
     relationship: "Partnered on multi-platform design token architecture",
+    avatarUrl: "/assets/images/headshot_maya_patel.jpg",
     avatarInitials: "MP",
     highlight: "A visionary systems architect who bridges design tokens and production scale.",
     quote: "Alex's mastery of design token architecture and scalable component ecosystems transformed our product development lifecycle. He spearheaded our multi-platform tokenization initiative, reducing design debt by over 40% and uniting dozens of disparate feature squads under one cohesive design language. He is not only a visionary systems architect, but an inspiring mentor who elevates everyone around him.",

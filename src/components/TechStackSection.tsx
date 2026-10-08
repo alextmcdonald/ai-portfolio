@@ -260,10 +260,10 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
 
       {/* Small text disclaimer */}
       <p
-        className={`mt-3.5 text-[13px] font-normal tracking-tight ${
+        className={`mt-3.5 text-sm font-normal tracking-tight ${
           isLightMode ? 'text-stone-500' : 'text-white/45'
         }`}
-        style={{ fontSize: '13px' }}
+        style={{ fontSize: '14px' }}
       >
         *This portfolio was designed, coded, and shipped by myself (with the help of AI)
       </p>

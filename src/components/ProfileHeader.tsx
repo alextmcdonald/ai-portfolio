@@ -221,8 +221,8 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                       isMilestone
                         ? 'bg-gradient-to-r from-amber-500 via-rose-500 to-indigo-500 text-white border-amber-300/70 shadow-[0_4px_16px_rgba(245,158,11,0.6)]'
                         : isLightMode
-                          ? 'bg-[#0071e3] text-white border-white/40 shadow-[0_4px_12px_rgba(0,113,227,0.35)]'
-                          : 'bg-[#0071e3] text-white border-white/30 shadow-[0_4px_14px_rgba(0,113,227,0.5)]'
+                          ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white border-amber-200/60 shadow-[0_4px_12px_rgba(245,158,11,0.4)]'
+                          : 'bg-gradient-to-r from-amber-500 to-orange-500 text-white border-amber-300/40 shadow-[0_4px_14px_rgba(245,158,11,0.5)]'
                     }`}
                     style={{ color: '#ffffff' }}
                   >
