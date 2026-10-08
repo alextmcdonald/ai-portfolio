@@ -434,12 +434,23 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
 
               {/* Hero Showcase Image */}
               <div className="relative rounded-2xl overflow-hidden aspect-video max-h-84 w-full group border border-white/15">
-                <img
-                  src={caseStudy.heroImage}
-                  alt={caseStudy.title}
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
-                />
+                {caseStudy.videoUrl ? (
+                  <video
+                    src={caseStudy.videoUrl}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
+                  />
+                ) : (
+                  <img
+                    src={caseStudy.heroImage}
+                    alt={caseStudy.title}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent flex items-end p-6">
                   <p className="text-sm sm:text-base font-medium text-white/95 max-w-2xl text-balance">
                     {caseStudy.subtitle}

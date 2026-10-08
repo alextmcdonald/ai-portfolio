@@ -31,14 +31,25 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
                   : 'border border-white/15 hover:border-white/30 shadow-2xl bg-stone-950'
               }`}
             >
-              {/* Full-bleed Image Backdrop Spanning Entire Div */}
+              {/* Full-bleed Image / Video Backdrop Spanning Entire Div */}
               <div className={`absolute inset-0 z-0 overflow-hidden ${isLightMode ? 'bg-stone-100' : 'bg-stone-950'}`}>
-                <img
-                  src={study.heroImage}
-                  alt={study.title}
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
-                />
+                {study.videoUrl ? (
+                  <video
+                    src={study.videoUrl}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                  />
+                ) : (
+                  <img
+                    src={study.heroImage}
+                    alt={study.title}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                  />
+                )}
 
                 {/* Mode-Adaptive Gradient Scrims: Soft light scrim for daylight mode, cinematic dark scrim for dark mode */}
                 {isLightMode ? (

@@ -107,7 +107,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 : 'bg-white/12 hover:bg-white/20 text-white border-white/15 backdrop-blur-md'
             }`}
           >
-            <span>View resume & bio</span>
+            <span>View resume</span>
             <ArrowUpRight className={`w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform duration-200 ${isLightMode ? 'text-stone-600 group-hover/btn:text-stone-900' : 'text-white'}`} />
           </button>
         </div>

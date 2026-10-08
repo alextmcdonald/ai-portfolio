@@ -43,19 +43,14 @@ const PERSONAL_PHOTOS = [
     tilt: 'rotate-2'
   },
   {
-    id: 'candid-focus',
-    url: '/src/assets/images/alex_portrait_blue_1790739680820.jpg',
-    tilt: '-rotate-1'
-  },
-  {
     id: 'design-workshop',
     url: '/src/assets/images/alex_design_workshop_1790966343011.jpg',
-    tilt: 'rotate-2'
+    tilt: '-rotate-1'
   },
   {
     id: 'coastal-mist',
     url: '/src/assets/images/env_light_coast_1790741180007.jpg',
-    tilt: '-rotate-2'
+    tilt: 'rotate-2'
   }
 ];
 

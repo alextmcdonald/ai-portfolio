@@ -7,7 +7,8 @@ export const DESIGNER_INFO = {
   location: "Seattle, WA",
   email: "me@alextmcdonald.com",
   status: "Open to new opportunities",
-  avatarUrl: "/src/assets/images/alex_portrait_blue_1790739680820.jpg",
+  avatarUrl: "/assets/images/alex_portrait_regular_1790739680820.jpg",
+  avatarLightUrl: "/assets/images/alex_portrait_blue_1790739680820.jpg",
   bio: "Over a decade shaping products at the intersection of human ergonomics, spatial computing, and high-frequency software. Known for relentless craft, Cupertino-grade micro-interactions, and robust cross-platform design systems.",
   socials: {
     linkedin: "https://linkedin.com/in/alextmcdonald",
@@ -37,6 +38,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     category: "B2B Enterprise",
     cardTags: ["B2B Enterprise", "Automotive"],
     heroImage: "/src/assets/images/casestudy_spatial_device_1790887169601.jpg",
+    videoUrl: "/assets/videos/driveauto.mp4",
     statsSummary: "Task switching 42% faster, 38% gaze fatigue reduction. Adopted across 140+ engineers.",
     summary: "Designed and engineered an end-to-end spatial computing interface system built from the ground up for floating glass environments. Solved ergonomic fatigue from extended gaze selection, dynamic ambient lighting occlusion, and multi-window depth collisions.",
     problem: "Early spatial apps suffered from eye fatigue due to high-contrast white frost cards, disorienting 3D floating z-depth layers, and clunky touch metaphors ported carelessly from 2D tablet operating systems.",

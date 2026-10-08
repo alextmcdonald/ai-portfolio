@@ -41,6 +41,13 @@ export const DARK_ENVIRONMENTS: EnvironmentItem[] = [
 
 export const LIGHT_ENVIRONMENTS: EnvironmentItem[] = [
   {
+    id: 'coastal-pavilion',
+    name: 'Pacific coastline',
+    subtitle: 'Travertine deck & turquoise ocean',
+    url: '/src/assets/images/env_light_coast_1790741180007.jpg',
+    theme: 'light'
+  },
+  {
     id: 'apple-park-daylight',
     name: 'Park daylight',
     subtitle: 'Sun-drenched minimalist studio',
@@ -52,13 +59,6 @@ export const LIGHT_ENVIRONMENTS: EnvironmentItem[] = [
     name: 'Scandinavian studio',
     subtitle: 'Clean oak, glass & morning sun',
     url: '/src/assets/images/env_light_scandi_1790741166705.jpg',
-    theme: 'light'
-  },
-  {
-    id: 'coastal-pavilion',
-    name: 'Pacific coastline',
-    subtitle: 'Travertine deck & turquoise ocean',
-    url: '/src/assets/images/env_light_coast_1790741180007.jpg',
     theme: 'light'
   },
   {

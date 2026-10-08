@@ -153,7 +153,11 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             {/* Avatar Photo Frame */}
             <div className="relative w-full h-full rounded-full overflow-hidden">
               <img
-                src={DESIGNER_INFO.avatarUrl}
+                src={
+                  isLightMode
+                    ? (DESIGNER_INFO.avatarLightUrl || '/assets/images/alex_portrait_blue_1790739680820.jpg')
+                    : DESIGNER_INFO.avatarUrl
+                }
                 alt={DESIGNER_INFO.name}
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover rounded-full transition-transform duration-500 will-change-transform"
@@ -289,16 +293,16 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             isMenuOpen
               ? isLightMode
                 ? 'bg-stone-200 text-stone-950 border-black/15 shadow-xs'
-                : 'bg-white/22 text-white border-white/25 shadow-xs backdrop-blur-md'
+                : 'bg-black/35 hover:bg-black/45 active:bg-black/50 text-white border-white/20 shadow-xs backdrop-blur-md'
               : isLightMode
                 ? 'bg-white/95 hover:bg-white active:bg-stone-200 text-stone-800 hover:text-stone-950 active:text-stone-950 border-black/10 shadow-xs backdrop-blur-md'
-                : 'bg-white/12 hover:bg-white/20 active:bg-white/25 text-white border-white/15 backdrop-blur-md'
+                : 'bg-white/12 hover:bg-white/20 active:bg-black/35 text-white border-white/15 backdrop-blur-md'
           }`}
           title="Contact & Email Options"
           aria-label="More contact options"
           aria-expanded={isMenuOpen}
         >
-          <MoreHorizontal className="w-5 h-5 stroke-[2.2]" />
+          <MoreHorizontal className={`w-5 h-5 stroke-[2.2] ${isLightMode ? '' : 'text-white'}`} />
         </button>
 
         {/* VisionOS Floating Context Menu */}
@@ -354,10 +358,10 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     sounds.playSuccess();
                     onCopyEmail();
                   }}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer border ${
+                  className={`px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer border border-transparent shadow-none ${
                     isLightMode
-                      ? 'bg-white hover:bg-stone-50 text-stone-800 border-black/10 shadow-xs'
-                      : 'bg-white/15 hover:bg-white/25 text-white border-white/15'
+                      ? 'bg-stone-200 hover:bg-stone-300 text-black'
+                      : 'bg-white/15 hover:bg-white/25 text-white'
                   }`}
                 >
                   {emailCopied ? (

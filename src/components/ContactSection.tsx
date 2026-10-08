@@ -94,10 +94,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                     sounds.playSuccess();
                     onCopyEmail();
                   }}
-                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer border ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer border border-transparent shadow-none ${
                     isLightMode
-                      ? 'bg-white hover:bg-stone-50 text-stone-800 border-black/10 shadow-xs'
-                      : 'bg-white/15 hover:bg-white/30 text-white border-white/15'
+                      ? 'bg-stone-200 hover:bg-stone-300 text-black'
+                      : 'bg-white/15 hover:bg-white/25 text-white'
                   }`}
                 >
                   {emailCopied ? (

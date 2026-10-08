@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
-    "build": "mkdir -p public/src/assets && cp -r src/assets/images public/src/assets/ 2>/dev/null || true; mkdir -p public/assets && cp -r src/assets/images public/assets/ 2>/dev/null || true; vite build",
+    "build": "mkdir -p public/src/assets && cp -r src/assets/images public/src/assets/ 2>/dev/null || true; mkdir -p public/assets && cp -r src/assets/images public/assets/ 2>/dev/null || true; mkdir -p public/assets/videos && cp -r src/assets/videos/* public/assets/videos/ 2>/dev/null || true; vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit"

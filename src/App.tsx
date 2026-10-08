@@ -31,7 +31,7 @@ export default function App() {
 
   // Environment and theme state with localStorage persistence
   const [currentDarkEnvId, setCurrentDarkEnvId] = useState<string>('cupertino-studio');
-  const [currentLightEnvId, setCurrentLightEnvId] = useState<string>('apple-park-daylight');
+  const [currentLightEnvId, setCurrentLightEnvId] = useState<string>('coastal-pavilion');
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [isLightMode, setIsLightMode] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
