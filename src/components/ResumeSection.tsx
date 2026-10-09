@@ -56,7 +56,11 @@ const PERSONAL_PHOTOS = [
   }
 ];
 
-const MARQUEE_PHOTOS = [...PERSONAL_PHOTOS, ...PERSONAL_PHOTOS];
+const TRACK_PHOTOS = [
+  ...PERSONAL_PHOTOS,
+  ...PERSONAL_PHOTOS,
+  ...PERSONAL_PHOTOS
+];
 
 interface ResumeSectionProps {
   onOpenResumeModal: () => void;
@@ -220,51 +224,86 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
 
       {/* Personal Pictures: Infinite Scrolling Ribbon (Strictly zero background, pure images) */}
       <div
-        className="mb-12 overflow-hidden -mx-2 sm:mx-0 relative"
+        className="mb-12 overflow-hidden -mx-2 sm:mx-0 relative select-none"
         style={{ background: 'transparent' }}
       >
         <style>{`
           @keyframes infiniteScrollLeft {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
           }
         `}</style>
         <div
-          className="flex items-center gap-4 sm:gap-6 w-max py-3 px-1 hover:[animation-play-state:paused]"
+          className="flex items-center w-max py-3 px-1 hover:[animation-play-state:paused]"
           style={{
-            animation: 'infiniteScrollLeft 38s linear infinite',
+            animation: 'infiniteScrollLeft 60s linear infinite',
             willChange: 'transform',
             background: 'transparent'
           }}
         >
-          {MARQUEE_PHOTOS.map((photo, idx) => (
-            <motion.div
-              key={`${photo.id}-${idx}`}
-              whileHover={{ scale: 1.05, y: -6, zIndex: 30 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ type: 'spring', stiffness: 340, damping: 24 }}
-              onClick={() => {
-                sounds.playTap();
-                setSelectedPhoto(photo.url);
-              }}
-              className={`shrink-0 cursor-pointer relative rounded-[22px] sm:rounded-[26px] overflow-hidden transition-transform duration-300 ${
-                photo.tilt
-              } hover:rotate-0`}
-              style={{
-                width: idx % 2 === 0 ? '240px' : '205px',
-                height: '290px',
-                background: 'transparent'
-              }}
-            >
-              <img
-                src={photo.url}
-                alt=""
-                aria-hidden="true"
-                className="w-full h-full object-cover select-none pointer-events-none rounded-[22px] sm:rounded-[26px]"
-                loading="lazy"
-              />
-            </motion.div>
-          ))}
+          {/* Primary Track */}
+          <div className="flex shrink-0 items-center gap-4 sm:gap-6 pr-4 sm:pr-6">
+            {TRACK_PHOTOS.map((photo, idx) => (
+              <motion.div
+                key={`track1-${photo.id}-${idx}`}
+                whileHover={{ scale: 1.05, y: -6, zIndex: 30 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: 'spring', stiffness: 340, damping: 24 }}
+                onClick={() => {
+                  sounds.playTap();
+                  setSelectedPhoto(photo.url);
+                }}
+                className={`shrink-0 cursor-pointer relative rounded-[22px] sm:rounded-[26px] overflow-hidden transition-transform duration-300 ${
+                  photo.tilt
+                } hover:rotate-0`}
+                style={{
+                  width: idx % 2 === 0 ? '240px' : '205px',
+                  height: '290px',
+                  background: 'transparent'
+                }}
+              >
+                <img
+                  src={photo.url}
+                  alt=""
+                  aria-hidden="true"
+                  className="w-full h-full object-cover select-none pointer-events-none rounded-[22px] sm:rounded-[26px]"
+                  loading="lazy"
+                />
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Secondary Track (Identical clone for seamless continuous looping) */}
+          <div className="flex shrink-0 items-center gap-4 sm:gap-6 pr-4 sm:pr-6" aria-hidden="true">
+            {TRACK_PHOTOS.map((photo, idx) => (
+              <motion.div
+                key={`track2-${photo.id}-${idx}`}
+                whileHover={{ scale: 1.05, y: -6, zIndex: 30 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: 'spring', stiffness: 340, damping: 24 }}
+                onClick={() => {
+                  sounds.playTap();
+                  setSelectedPhoto(photo.url);
+                }}
+                className={`shrink-0 cursor-pointer relative rounded-[22px] sm:rounded-[26px] overflow-hidden transition-transform duration-300 ${
+                  photo.tilt
+                } hover:rotate-0`}
+                style={{
+                  width: idx % 2 === 0 ? '240px' : '205px',
+                  height: '290px',
+                  background: 'transparent'
+                }}
+              >
+                <img
+                  src={photo.url}
+                  alt=""
+                  aria-hidden="true"
+                  className="w-full h-full object-cover select-none pointer-events-none rounded-[22px] sm:rounded-[26px]"
+                  loading="lazy"
+                />
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
 

@@ -27,6 +27,8 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAvatarHovered, setIsAvatarHovered] = useState(false);
+  const [isStatusHovered, setIsStatusHovered] = useState(false);
+  const [isLocationHovered, setIsLocationHovered] = useState(false);
   const [avatarRotation, setAvatarRotation] = useState(0);
   const [clickCount, setClickCount] = useState(0);
   const [floatingCounters, setFloatingCounters] = useState<Array<{ id: number; count: number }>>([]);
@@ -169,30 +171,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               {/* Top-down Specular Horizon Arc */}
               <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/25 via-white/5 to-transparent pointer-events-none rounded-t-full" />
             </div>
-
-            {/* Status Indicator: positioned bottom-right, half on half off the image */}
-            <div className="absolute bottom-1.5 right-1.5 z-20 pointer-events-none">
-              <div
-                className={`w-[22px] h-[22px] rounded-full flex items-center justify-center border transition-transform duration-200 ${
-                  isLightMode
-                    ? 'bg-white border-white/90'
-                    : 'bg-stone-900 border-stone-800'
-                }`}
-                title={`Active — ${DESIGNER_INFO.status}`}
-              >
-                <span className="relative flex h-2.5 w-2.5 shrink-0 items-center justify-center">
-                  <span
-                    className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
-                      isLightMode ? 'bg-[#009966]' : 'bg-emerald-400'
-                    }`}
-                    style={{ animationDuration: '2.4s' }}
-                  />
-                  <span className={`relative inline-flex rounded-full h-2 w-2 ${
-                    isLightMode ? 'bg-[#009966]' : 'bg-emerald-400'
-                  }`} />
-                </span>
-              </div>
-            </div>
           </motion.div>
 
           {/* Floating click counter: +1, +2, +3... (or "Oh yeah! 🎉" at every 100) to top-right that floats up and fades out */}
@@ -239,39 +217,140 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       {/* Profile Text Metadata: Below row 1 on mobile portrait, between avatar and ellipsis on mobile landscape & up */}
       <div className="col-span-2 row-start-2 sm:order-2 sm:flex-1 sm:min-w-0">
         <h1
-          className={`text-2xl sm:text-3xl font-bold tracking-tight ${
+          className={`text-2xl sm:text-3xl font-bold tracking-tight inline-flex items-center gap-2.5 sm:gap-3 ${
             isLightMode ? 'text-stone-900' : 'text-white'
           }`}
         >
-          {DESIGNER_INFO.name}
+          <span>{DESIGNER_INFO.name}</span>
+
+          {/* Interactive Pulsing Status Dot & Hover Tooltip */}
+          <div
+            className="relative inline-flex items-center justify-center cursor-pointer select-none group -ml-[5px]"
+            onMouseEnter={() => setIsStatusHovered(true)}
+            onMouseLeave={() => setIsStatusHovered(false)}
+            onTouchStart={() => setIsStatusHovered((prev) => !prev)}
+            onClick={() => {
+              sounds.playTap();
+              setIsStatusHovered((prev) => !prev);
+            }}
+            onFocus={() => setIsStatusHovered(true)}
+            onBlur={() => setIsStatusHovered(false)}
+            tabIndex={0}
+            role="button"
+            aria-label="Open to new opportunities"
+          >
+            {/* Tooltip floating above dot - styled to match tech stack icons */}
+            <AnimatePresence>
+              {isStatusHovered && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6, scale: 0.92 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 4, scale: 0.94 }}
+                  transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 z-50 pointer-events-none flex flex-col items-center"
+                >
+                  <div
+                    className="px-2.5 py-1.5 rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.45)] border border-white/20 bg-stone-900/95 backdrop-blur-xl whitespace-nowrap text-center force-white keep-white"
+                    style={{ color: '#ffffff' }}
+                  >
+                    <div
+                      className="text-xs font-semibold leading-tight tracking-tight force-white keep-white"
+                      style={{ color: '#ffffff' }}
+                    >
+                      Open to new opportunities
+                    </div>
+                  </div>
+                  {/* Downward triangle caret */}
+                  <div className="w-2 h-2 rotate-45 -mt-1 border-r border-b bg-stone-900/95 border-white/20" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Pulsing Status Dot Container */}
+            <div
+              className="w-[20px] h-[20px] sm:w-[22px] sm:h-[22px] rounded-full flex items-center justify-center transition-all duration-200 group-hover:scale-110 active:scale-95 shadow-none"
+              style={{ boxShadow: 'none' }}
+            >
+              <span className="relative flex h-2.5 w-2.5 shrink-0 items-center justify-center">
+                <span
+                  className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                    isLightMode ? 'bg-[#009966]' : 'bg-emerald-400'
+                  }`}
+                  style={{ animationDuration: '2.4s', boxShadow: 'none' }}
+                />
+                <span
+                  className={`relative inline-flex rounded-full h-2 w-2 ${
+                    isLightMode ? 'bg-[#009966]' : 'bg-emerald-400'
+                  }`}
+                  style={{ boxShadow: 'none' }}
+                />
+              </span>
+            </div>
+          </div>
+
+          {/* Interactive Location Pin & Hover Tooltip */}
+          <div
+            className="relative inline-flex items-center justify-center cursor-pointer select-none group"
+            onMouseEnter={() => setIsLocationHovered(true)}
+            onMouseLeave={() => setIsLocationHovered(false)}
+            onTouchStart={() => setIsLocationHovered((prev) => !prev)}
+            onClick={() => {
+              sounds.playTap();
+              setIsLocationHovered((prev) => !prev);
+            }}
+            onFocus={() => setIsLocationHovered(true)}
+            onBlur={() => setIsLocationHovered(false)}
+            tabIndex={0}
+            role="button"
+            aria-label={`Based in ${DESIGNER_INFO.location}`}
+          >
+            {/* Tooltip floating above pin - styled to match tech stack icons and status dot */}
+            <AnimatePresence>
+              {isLocationHovered && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6, scale: 0.92 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 4, scale: 0.94 }}
+                  transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 z-50 pointer-events-none flex flex-col items-center"
+                >
+                  <div
+                    className="px-2.5 py-1.5 rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.45)] border border-white/20 bg-stone-900/95 backdrop-blur-xl whitespace-nowrap text-center force-white keep-white"
+                    style={{ color: '#ffffff' }}
+                  >
+                    <div
+                      className="text-xs font-semibold leading-tight tracking-tight force-white keep-white"
+                      style={{ color: '#ffffff' }}
+                    >
+                      Based in {DESIGNER_INFO.location}
+                    </div>
+                  </div>
+                  {/* Downward triangle caret */}
+                  <div className="w-2 h-2 rotate-45 -mt-1 border-r border-b bg-stone-900/95 border-white/20" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Pin Container */}
+            <div
+              className="w-[20px] h-[20px] sm:w-[22px] sm:h-[22px] rounded-full flex items-center justify-center transition-all duration-200 group-hover:scale-110 active:scale-95 shadow-none"
+              style={{ boxShadow: 'none' }}
+            >
+              <span className="text-sm sm:text-base leading-none select-none flex items-center justify-center">
+                📍
+              </span>
+            </div>
+          </div>
         </h1>
         <p
-          className={`text-sm sm:text-base font-medium mt-0.5 ${
-            isLightMode ? 'text-stone-600' : 'text-white/75'
+          className={`text-base sm:text-xl font-normal leading-relaxed mt-0.5 ${
+            isLightMode ? 'text-stone-600' : 'text-white/80'
           }`}
         >
           {DESIGNER_INFO.title}{' '}
           <span className={isLightMode ? 'text-stone-400' : 'text-white/40'}>/</span>{' '}
           {DESIGNER_INFO.roleSubtext}
         </p>
-        <div
-          className={`flex items-center gap-2 text-xs font-medium mt-2 flex-wrap ${
-            isLightMode ? 'text-stone-500' : 'text-white/70'
-          }`}
-        >
-          <span className="hidden sm:inline-flex text-[13px] items-center gap-1">
-            <span>📍</span>
-            <span>{DESIGNER_INFO.location}</span>
-          </span>
-          <span className="hidden sm:inline" aria-hidden="true">·</span>
-          <span
-            className={`font-mono font-bold ${
-              isLightMode ? 'text-[#009966]' : 'text-emerald-400'
-            }`}
-          >
-            {DESIGNER_INFO.status}
-          </span>
-        </div>
       </div>
 
       {/* Interactive Ellipsis Action Menu:
