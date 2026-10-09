@@ -258,15 +258,22 @@ export const Ornament: React.FC<OrnamentProps> = ({
                 triggerSoundFeedback();
               }
             }}
-            className={`flex items-center justify-center w-7 h-7 rounded-full transition-all duration-200 ${
+            className={`group flex items-center justify-center w-7 h-7 rounded-full transition-all duration-200 cursor-pointer ${
               isLightMode
-                ? 'bg-white text-amber-500 shadow-sm'
+                ? 'bg-[#555555] hover:bg-[#636363] text-white shadow-xs'
                 : 'text-white/50 hover:text-white/80'
             }`}
             title="Switch to Apple Light Glass Mode"
             aria-label="Light mode"
           >
-            <Sun className="w-3.5 h-3.5 stroke-[2.2]" />
+            <Sun
+              className={`w-3.5 h-3.5 stroke-[2.2] transition-colors duration-200 ${
+                isLightMode
+                  ? 'force-white keep-white text-white group-hover:opacity-85'
+                  : 'text-white/50 group-hover:text-white/80'
+              }`}
+              style={isLightMode ? { color: '#ffffff' } : undefined}
+            />
           </button>
 
           {/* Dark Mode Pill */}
@@ -277,9 +284,9 @@ export const Ornament: React.FC<OrnamentProps> = ({
                 triggerSoundFeedback();
               }
             }}
-            className={`flex items-center justify-center w-7 h-7 rounded-full transition-all duration-200 ${
+            className={`flex items-center justify-center w-7 h-7 rounded-full transition-all duration-200 cursor-pointer ${
               !isLightMode
-                ? 'bg-white/25 text-sky-200 shadow-sm'
+                ? 'bg-white/25 text-white shadow-sm'
                 : 'text-stone-500 hover:text-stone-800'
             }`}
             title="Switch to Apple Dark Glass Mode"

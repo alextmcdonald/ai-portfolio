@@ -7,7 +7,8 @@ import {
   Mail,
   Check,
   Copy,
-  ArrowUpRight
+  ArrowUpRight,
+  Zap
 } from 'lucide-react';
 import { DESIGNER_INFO } from '../data/portfolioData';
 import { sounds } from '../utils/audio';
@@ -29,6 +30,52 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const [isAvatarHovered, setIsAvatarHovered] = useState(false);
   const [isStatusHovered, setIsStatusHovered] = useState(false);
   const [isLocationHovered, setIsLocationHovered] = useState(false);
+  const [isEnergyHovered, setIsEnergyHovered] = useState(false);
+  const [seattleTime, setSeattleTime] = useState<string>(() => {
+    try {
+      return new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Los_Angeles',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      }).format(new Date());
+    } catch {
+      return '';
+    }
+  });
+
+  useEffect(() => {
+    const updateTime = () => {
+      try {
+        setSeattleTime(
+          new Intl.DateTimeFormat('en-US', {
+            timeZone: 'America/Los_Angeles',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+          }).format(new Date())
+        );
+      } catch {
+        // fallback
+      }
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Eagerly preload and decode both avatars so switching theme is instantaneous (0ms delay)
+  useEffect(() => {
+    const urls = [DESIGNER_INFO.avatarUrl, DESIGNER_INFO.avatarLightUrl].filter(Boolean) as string[];
+    urls.forEach((url) => {
+      const img = new Image();
+      img.src = url;
+      if (img.decode) {
+        img.decode().catch(() => {});
+      }
+    });
+  }, []);
   const [avatarRotation, setAvatarRotation] = useState(0);
   const [clickCount, setClickCount] = useState(0);
   const [floatingCounters, setFloatingCounters] = useState<Array<{ id: number; count: number }>>([]);
@@ -120,11 +167,11 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           {/* Ambient Electric Sky/Cobalt Glow Bloom on Hover */}
           <motion.div
             animate={{
-              scale: isAvatarHovered ? 1.18 : 0.92,
-              opacity: isAvatarHovered ? (isLightMode ? 0.35 : 0.55) : 0
+              scale: isAvatarHovered ? 1.08 : 0.95,
+              opacity: isAvatarHovered ? (isLightMode ? 0.16 : 0.24) : 0
             }}
             transition={{ duration: 0.35, ease: 'easeOut' }}
-            className="absolute -inset-2 rounded-full bg-gradient-to-tr from-sky-400 via-blue-500 to-indigo-500 blur-xl pointer-events-none"
+            className="absolute -inset-1 rounded-full bg-gradient-to-tr from-sky-400/70 via-blue-500/60 to-indigo-400/70 blur-xl pointer-events-none"
           />
 
           {/* Avatar Capsule Container */}
@@ -154,22 +201,38 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
             {/* Avatar Photo Frame */}
             <div className="relative w-full h-full rounded-full overflow-hidden">
+              {/* Dark mode portrait */}
               <img
-                src={
-                  isLightMode
-                    ? (DESIGNER_INFO.avatarLightUrl || '/assets/images/alex_portrait_blue_1790739680820.jpg')
-                    : DESIGNER_INFO.avatarUrl
-                }
+                src={DESIGNER_INFO.avatarUrl}
                 alt={DESIGNER_INFO.name}
+                loading="eager"
+                decoding="async"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover rounded-full transition-transform duration-500 will-change-transform"
+                className={`w-full h-full object-cover rounded-full transition-opacity duration-300 will-change-transform absolute inset-0 ${
+                  isLightMode ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                }`}
+                style={{
+                  transform: isAvatarHovered ? 'scale(1.05)' : 'scale(1)'
+                }}
+              />
+
+              {/* Light mode portrait (preloaded and present in DOM for instant 0ms switch) */}
+              <img
+                src={DESIGNER_INFO.avatarLightUrl || '/assets/images/alex_portrait_blue_1790739680820.jpg'}
+                alt={DESIGNER_INFO.name}
+                loading="eager"
+                decoding="async"
+                referrerPolicy="no-referrer"
+                className={`w-full h-full object-cover rounded-full transition-opacity duration-300 will-change-transform absolute inset-0 ${
+                  isLightMode ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                }`}
                 style={{
                   transform: isAvatarHovered ? 'scale(1.05)' : 'scale(1)'
                 }}
               />
 
               {/* Top-down Specular Horizon Arc */}
-              <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/25 via-white/5 to-transparent pointer-events-none rounded-t-full" />
+              <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/25 via-white/5 to-transparent pointer-events-none rounded-t-full z-10" />
             </div>
           </motion.div>
 
@@ -225,13 +288,12 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
           {/* Interactive Pulsing Status Dot & Hover Tooltip */}
           <div
-            className="relative inline-flex items-center justify-center cursor-pointer select-none group -ml-[5px]"
+            className="relative inline-flex items-center justify-center cursor-pointer select-none group -ml-[2px]"
             onMouseEnter={() => setIsStatusHovered(true)}
             onMouseLeave={() => setIsStatusHovered(false)}
-            onTouchStart={() => setIsStatusHovered((prev) => !prev)}
-            onClick={() => {
-              sounds.playTap();
-              setIsStatusHovered((prev) => !prev);
+            onTouchStart={() => setIsStatusHovered(true)}
+            onClick={(e) => {
+              e.preventDefault();
             }}
             onFocus={() => setIsStatusHovered(true)}
             onBlur={() => setIsStatusHovered(false)}
@@ -290,19 +352,18 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
           {/* Interactive Location Pin & Hover Tooltip */}
           <div
-            className="relative inline-flex items-center justify-center cursor-pointer select-none group"
+            className="relative inline-flex items-center justify-center cursor-pointer select-none group -ml-[4px] sm:-ml-[5px]"
             onMouseEnter={() => setIsLocationHovered(true)}
             onMouseLeave={() => setIsLocationHovered(false)}
-            onTouchStart={() => setIsLocationHovered((prev) => !prev)}
-            onClick={() => {
-              sounds.playTap();
-              setIsLocationHovered((prev) => !prev);
+            onTouchStart={() => setIsLocationHovered(true)}
+            onClick={(e) => {
+              e.preventDefault();
             }}
             onFocus={() => setIsLocationHovered(true)}
             onBlur={() => setIsLocationHovered(false)}
             tabIndex={0}
             role="button"
-            aria-label={`Based in ${DESIGNER_INFO.location}`}
+            aria-label={`Based in ${DESIGNER_INFO.location}${seattleTime ? ` – Local time: ${seattleTime}` : ''}`}
           >
             {/* Tooltip floating above pin - styled to match tech stack icons and status dot */}
             <AnimatePresence>
@@ -322,7 +383,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                       className="text-xs font-semibold leading-tight tracking-tight force-white keep-white"
                       style={{ color: '#ffffff' }}
                     >
-                      Based in {DESIGNER_INFO.location}
+                      Based in {DESIGNER_INFO.location}{seattleTime ? ` – Local time: ${seattleTime}` : ''}
                     </div>
                   </div>
                   {/* Downward triangle caret */}
@@ -333,7 +394,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
 
             {/* Pin Container */}
             <div
-              className="w-[20px] h-[20px] sm:w-[22px] sm:h-[22px] rounded-full flex items-center justify-center transition-all duration-200 group-hover:scale-110 active:scale-95 shadow-none"
+              className="w-[20px] h-[20px] sm:w-[22px] sm:h-[22px] rounded-full flex items-center justify-center shadow-none"
               style={{ boxShadow: 'none' }}
             >
               <span className="text-sm sm:text-base leading-none select-none flex items-center justify-center">
@@ -341,9 +402,64 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               </span>
             </div>
           </div>
+
+          {/* Interactive Lightning Bolt & Hover Tooltip */}
+          <div
+            className="relative inline-flex items-center justify-center cursor-pointer select-none group -ml-[4px] sm:-ml-[5px]"
+            onMouseEnter={() => setIsEnergyHovered(true)}
+            onMouseLeave={() => setIsEnergyHovered(false)}
+            onTouchStart={() => setIsEnergyHovered(true)}
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+            onFocus={() => setIsEnergyHovered(true)}
+            onBlur={() => setIsEnergyHovered(false)}
+            tabIndex={0}
+            role="button"
+            aria-label="Powered by coffee & curiosity"
+          >
+            {/* Tooltip floating above lightning bolt */}
+            <AnimatePresence>
+              {isEnergyHovered && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6, scale: 0.92 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 4, scale: 0.94 }}
+                  transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 z-50 pointer-events-none flex flex-col items-center"
+                >
+                  <div
+                    className="px-2.5 py-1.5 rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.45)] border border-white/20 bg-stone-900/95 backdrop-blur-xl whitespace-nowrap text-center force-white keep-white"
+                    style={{ color: '#ffffff' }}
+                  >
+                    <div
+                      className="text-xs font-semibold leading-tight tracking-tight force-white keep-white"
+                      style={{ color: '#ffffff' }}
+                    >
+                      Powered by coffee & curiosity
+                    </div>
+                  </div>
+                  {/* Downward triangle caret */}
+                  <div className="w-2 h-2 rotate-45 -mt-1 border-r border-b bg-stone-900/95 border-white/20" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Lightning Bolt Container */}
+            <div
+              className="w-[20px] h-[20px] sm:w-[22px] sm:h-[22px] rounded-full flex items-center justify-center shadow-none"
+              style={{ boxShadow: 'none' }}
+            >
+              <Zap
+                className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-yellow-400 fill-yellow-400"
+                strokeWidth={1.5}
+                aria-hidden="true"
+              />
+            </div>
+          </div>
         </h1>
         <p
-          className={`text-base sm:text-xl font-normal leading-relaxed mt-0.5 ${
+          className={`text-base sm:text-xl font-normal leading-relaxed mt-0.5 mobile-landscape-text-18 [@media(orientation:landscape)_and_(max-height:550px)]:text-[18px] [@media(orientation:landscape)_and_(max-width:932px)_and_(max-height:600px)]:text-[18px] [@media(orientation:landscape)_and_(max-width:896px)]:text-[18px] ${
             isLightMode ? 'text-stone-600' : 'text-white/80'
           }`}
         >

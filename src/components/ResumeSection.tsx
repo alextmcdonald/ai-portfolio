@@ -4,9 +4,6 @@ import {
   FileText,
   ChevronLeft,
   ChevronRight,
-  Code,
-  Layers,
-  Compass,
   X,
   ExternalLink,
   Flame,
@@ -65,14 +62,31 @@ const TRACK_PHOTOS = [
 interface ResumeSectionProps {
   onOpenResumeModal: () => void;
   isLightMode?: boolean;
+  onPhotoModalChange?: (isOpen: boolean) => void;
 }
 
 export const ResumeSection: React.FC<ResumeSectionProps> = ({
   onOpenResumeModal,
-  isLightMode = false
+  isLightMode = false,
+  onPhotoModalChange
 }) => {
   // Lightbox State for Personal Photos
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+
+  useEffect(() => {
+    onPhotoModalChange?.(Boolean(selectedPhoto));
+  }, [selectedPhoto, onPhotoModalChange]);
+
+  useEffect(() => {
+    if (!selectedPhoto) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedPhoto(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedPhoto]);
 
   // Recommendations Slideshow State
   const [recIndex, setRecIndex] = useState(0);
@@ -168,57 +182,6 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
           >
             Rather than treating design and engineering as separate disciplines, I prototype in production code—authoring responsive React/TypeScript systems, GLSL spatial glass shaders, and physics-based spring curves. When designers write code, products retain their soul from conception to shipment.
           </p>
-        </div>
-
-        {/* Three Foundational Pillars */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
-          <div
-            className={`p-5 rounded-[22px] border transition-all shadow-none ${
-              isLightMode
-                ? 'bg-black/[0.06] border-black/10'
-                : 'bg-black/30 border-white/10'
-            }`}
-          >
-            <div className="flex items-center gap-2 mb-2 text-sky-400">
-              <Code className="w-4 h-4" />
-              <span className="text-xs font-bold uppercase tracking-wider">Engineered</span>
-            </div>
-            <p className={`text-sm leading-relaxed ${isLightMode ? 'text-stone-600' : 'text-white/70'}`}>
-              Production React, TypeScript & GLSL shaders for zero-friction handoff.
-            </p>
-          </div>
-
-          <div
-            className={`p-5 rounded-[22px] border transition-all shadow-none ${
-              isLightMode
-                ? 'bg-black/[0.06] border-black/10'
-                : 'bg-black/30 border-white/10'
-            }`}
-          >
-            <div className="flex items-center gap-2 mb-2 text-emerald-400">
-              <Layers className="w-4 h-4" />
-              <span className="text-xs font-bold uppercase tracking-wider">Spatial Math</span>
-            </div>
-            <p className={`text-sm leading-relaxed ${isLightMode ? 'text-stone-600' : 'text-white/70'}`}>
-              3 US patents filed in gaze gesture anchoring & concentric geometry.
-            </p>
-          </div>
-
-          <div
-            className={`p-5 rounded-[22px] border transition-all shadow-none ${
-              isLightMode
-                ? 'bg-black/[0.06] border-black/10'
-                : 'bg-black/30 border-white/10'
-            }`}
-          >
-            <div className="flex items-center gap-2 mb-2 text-amber-400">
-              <Compass className="w-4 h-4" />
-              <span className="text-xs font-bold uppercase tracking-wider">Leadership</span>
-            </div>
-            <p className={`text-sm leading-relaxed ${isLightMode ? 'text-stone-600' : 'text-white/70'}`}>
-              Scaled systems adopted across 140+ teams; mentored 18+ designers.
-            </p>
-          </div>
         </div>
       </div>
 
@@ -318,7 +281,9 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/80 backdrop-blur-xl"
+              className={`fixed inset-0 backdrop-blur-xl transition-all ${
+                isLightMode ? 'bg-black/50' : 'bg-black/80'
+              }`}
             />
 
             <motion.div
@@ -342,7 +307,11 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                   setSelectedPhoto(null);
                 }}
                 aria-label="Close"
-                className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center bg-black/60 hover:bg-black/80 text-white/90 hover:text-white transition-all duration-200 border border-white/20 backdrop-blur-md cursor-pointer active:scale-90"
+                className={`absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-md cursor-pointer active:scale-90 border ${
+                  isLightMode
+                    ? 'bg-white/45 hover:bg-white/65 text-stone-900 border-white/50 shadow-xs'
+                    : 'bg-black/60 hover:bg-black/80 text-white/90 hover:text-white border-white/20'
+                }`}
               >
                 <X className="w-4 h-4 stroke-[2]" />
               </button>
@@ -355,7 +324,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* RECOMMENDATIONS SLIDESHOW (Left Column, col-span-7) */}
         <div
-          className={`lg:col-span-7 rounded-[30px] p-6 sm:p-8 border relative overflow-hidden transition-colors duration-300 flex flex-col justify-between min-h-[440px] sm:min-h-[410px] ${
+          className={`lg:col-span-7 rounded-[30px] p-6 sm:p-8 border relative overflow-hidden transition-colors duration-300 flex flex-col justify-between min-h-[460px] lg:h-[460px] ${
             isLightMode
               ? 'bg-white/55 border-black/10 text-stone-900 shadow-sm'
               : 'bg-white/[0.03] border-white/15 text-white shadow-md'
@@ -428,11 +397,25 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                   >
                     {/* Full Testimonial Quote */}
                     <p
-                      className={`text-sm sm:text-base md:text-[17px] leading-relaxed font-normal italic ${
+                      className={`text-sm sm:text-base md:text-[17px] leading-relaxed font-normal italic whitespace-pre-line ${
                         isLightMode ? 'text-stone-800' : 'text-white/85'
                       }`}
                     >
                       &ldquo;{rec.quote}&rdquo;
+                      {rec.readMoreUrl && (
+                        <span className="inline-block ml-1.5 font-normal italic">
+                          <a
+                            href={rec.readMoreUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="inline-flex items-center gap-1 font-normal italic text-[#0071e3] hover:underline hover:text-[#0077ed] transition-colors cursor-pointer"
+                          >
+                            <span className="italic">Read more</span>
+                            <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4 inline-block shrink-0 not-italic" />
+                          </a>
+                        </span>
+                      )}
                     </p>
 
                     {/* Recommender Metadata */}
@@ -474,14 +457,19 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                             isLightMode ? 'text-stone-500' : 'text-white/60'
                           }`}
                         >
-                          {rec.role} ·{' '}
-                          <span
-                            className={
-                              isLightMode ? 'text-stone-700 font-medium' : 'text-white/80'
-                            }
-                          >
-                            {rec.company}
-                          </span>
+                          {rec.role}
+                          {rec.company && (
+                            <>
+                              {' '}·{' '}
+                              <span
+                                className={
+                                  isLightMode ? 'text-stone-700 font-medium' : 'text-white/80'
+                                }
+                              >
+                                {rec.company}
+                              </span>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -516,25 +504,25 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
         </div>
 
         {/* RIGHT COLUMN: 3 Stacked Status Cards (col-span-5) */}
-        <div className="lg:col-span-5 flex flex-col gap-4 justify-between h-full">
+        <div className="lg:col-span-5 flex flex-col gap-3 justify-between h-full lg:h-[460px]">
           {/* 1. STRAVA CARD (Simplified with Right Map) */}
           <a
             href="https://www.strava.com/athletes/almcd"
             target="_blank"
             rel="noreferrer"
             onClick={() => sounds.playTap()}
-            className={`rounded-[28px] sm:rounded-[32px] p-5 sm:p-6 border transition-all duration-300 flex flex-row items-stretch justify-between gap-4 flex-1 cursor-pointer no-underline text-inherit ${
+            className={`rounded-[28px] sm:rounded-[32px] p-5 border transition-all duration-300 flex flex-row items-stretch justify-between gap-4 cursor-pointer no-underline text-inherit ${
               isLightMode
                 ? 'bg-white/55 border-black/10 text-stone-900 shadow-sm'
                 : 'bg-white/[0.03] border-white/15 text-white shadow-md'
             }`}
           >
-            <div className="min-w-0 flex-1 self-stretch flex flex-col justify-between">
-              <div className="flex items-center gap-2 mb-1.5">
+            <div className="min-w-0 flex-1 self-stretch flex flex-col justify-between pl-0 ml-[5px] mt-[3px] mb-0 h-[90px]">
+              <div className="flex items-center gap-2 h-5 mb-1.5">
                 <svg className="w-4 h-4 fill-[#FC4C02] shrink-0" viewBox="0 0 24 24">
                   <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7.925 15.626h4.171" />
                 </svg>
-                <span className="text-xs font-bold uppercase tracking-wider text-[#FC4C02]">
+                <span className="text-[13px] font-bold uppercase tracking-wider text-[#FC4C02]">
                   RECENT ACTIVITY
                 </span>
               </div>
@@ -543,7 +531,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                 <h4 className={`text-lg font-bold tracking-tight leading-snug ${isLightMode ? 'text-stone-900' : 'text-white'}`}>
                   {LATEST_STRAVA_ACTIVITY.title}
                 </h4>
-                <div className="flex items-center gap-4 sm:gap-6 mt-1.5">
+                <div className="flex items-center gap-4 sm:gap-6 mt-[7px] h-[30px] leading-6">
                   <div>
                     <div className={`text-[10px] leading-[12px] font-medium uppercase tracking-wider mb-1 ${isLightMode ? 'text-stone-400' : 'text-white/45'}`}>
                       Distance
@@ -587,31 +575,31 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
             </div>
           </a>
 
-          {/* 2. CURRENTLY LISTENING TO CARD */}
+          {/* 2. CURRENT LISTENING CARD */}
           <a
             href="https://open.spotify.com/track/5yUAQrjLRFDW4yqZI9L5v6"
             target="_blank"
             rel="noreferrer"
             onClick={() => sounds.playTap()}
-            className={`rounded-[28px] sm:rounded-[32px] p-5 sm:p-6 border transition-all duration-300 flex flex-row items-stretch justify-between gap-4 flex-1 cursor-pointer no-underline text-inherit ${
+            className={`rounded-[24px] sm:rounded-[28px] p-3.5 sm:px-5 h-[138px] min-h-[138px] border transition-all duration-300 flex flex-row items-center justify-between gap-4 cursor-pointer no-underline text-inherit ${
               isLightMode
                 ? 'bg-white/55 border-black/10 text-stone-900 shadow-sm'
                 : 'bg-white/[0.03] border-white/15 text-white shadow-md'
             }`}
           >
-            <div className="min-w-0 flex-1 self-stretch flex flex-col justify-between">
-              <div className="flex items-center gap-2 mb-1.5">
+            <div className="min-w-0 flex-1 self-center h-[90px] flex flex-col justify-between ml-[5px] mt-[3px]">
+              <div className="flex items-center gap-2 h-5">
                 <Music className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span className="text-xs font-bold uppercase tracking-wider text-emerald-500">
-                  CURRENTLY LISTENING
+                <span className="text-[13px] font-bold uppercase tracking-wider text-emerald-500 leading-none">
+                  CURRENT LISTENING
                 </span>
               </div>
 
               <div className="mt-auto">
-                <h4 className={`text-lg font-bold tracking-tight leading-snug ${isLightMode ? 'text-stone-900' : 'text-white'}`}>
+                <h4 className={`text-base sm:text-lg font-bold tracking-tight leading-snug ${isLightMode ? 'text-stone-900' : 'text-white'}`}>
                   Blessed
                 </h4>
-                <p className={`text-sm font-normal ${isLightMode ? 'text-stone-500' : 'text-white/60'} mt-1`}>
+                <p className={`text-[14px] leading-[20px] font-normal ${isLightMode ? 'text-stone-500' : 'text-white/60'} mt-[5px]`}>
                   August Charles
                 </p>
               </div>
@@ -619,7 +607,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
 
             {/* Right Side: Album Cover Square (Uploadable Image) */}
             <div
-              className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 relative ${
+              className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 self-center relative ${
                 isLightMode ? 'bg-stone-100' : 'bg-stone-900'
               }`}
               title="Blessed by August Charles"
@@ -632,31 +620,31 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
             </div>
           </a>
 
-          {/* 3. CURRENTLY READING CARD */}
+          {/* 3. CURRENT READING CARD */}
           <a
             href="https://www.goodreads.com/en/book/show/13436116-lean-ux"
             target="_blank"
             rel="noreferrer"
             onClick={() => sounds.playTap()}
-            className={`rounded-[28px] sm:rounded-[32px] p-5 sm:p-6 border transition-all duration-300 flex flex-row items-stretch justify-between gap-4 flex-1 cursor-pointer no-underline text-inherit ${
+            className={`rounded-[24px] sm:rounded-[28px] p-3.5 sm:px-5 h-[138px] min-h-[138px] border transition-all duration-300 flex flex-row items-center justify-between gap-4 cursor-pointer no-underline text-inherit ${
               isLightMode
                 ? 'bg-white/55 border-black/10 text-stone-900 shadow-sm'
                 : 'bg-white/[0.03] border-white/15 text-white shadow-md'
             }`}
           >
-            <div className="min-w-0 flex-1 self-stretch flex flex-col justify-between">
-              <div className="flex items-center gap-2 mb-1.5">
+            <div className="min-w-0 flex-1 self-center h-[90px] flex flex-col justify-between ml-[5px] mt-[3px]">
+              <div className="flex items-center gap-2 h-5">
                 <BookOpen className={`w-4 h-4 shrink-0 ${isLightMode ? 'text-indigo-600' : 'text-indigo-400'}`} />
-                <span className={`text-xs font-bold uppercase tracking-wider ${isLightMode ? 'text-indigo-600' : 'text-indigo-400'}`}>
-                  CURRENTLY READING
+                <span className={`text-[13px] font-bold uppercase tracking-wider leading-none ${isLightMode ? 'text-indigo-600' : 'text-indigo-400'}`}>
+                  CURRENT READING
                 </span>
               </div>
 
               <div className="mt-auto">
-                <h4 className={`text-lg font-bold tracking-tight leading-snug ${isLightMode ? 'text-stone-900' : 'text-white'}`}>
+                <h4 className={`text-base sm:text-lg font-bold tracking-tight leading-snug ${isLightMode ? 'text-stone-900' : 'text-white'}`}>
                   Lean UX
                 </h4>
-                <p className={`text-sm font-normal ${isLightMode ? 'text-stone-500' : 'text-white/60'} mt-1`}>
+                <p className={`text-[14px] leading-[20px] font-normal ${isLightMode ? 'text-stone-500' : 'text-white/60'} mt-[5px]`}>
                   Jeff Gothelf & Josh Seiden
                 </p>
               </div>
@@ -664,7 +652,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
 
             {/* Right Side: Book Cover Square (Uploadable Image) */}
             <div
-              className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 relative ${
+              className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 self-center relative ${
                 isLightMode ? 'bg-stone-100' : 'bg-stone-900'
               }`}
               title="Lean UX by Jeff Gothelf & Josh Seiden"

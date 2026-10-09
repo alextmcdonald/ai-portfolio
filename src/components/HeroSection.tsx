@@ -34,15 +34,15 @@ const AUDIENCE_TABS: AudienceTab[] = [
 
 const AUDIENCE_DESCRIPTIONS: Record<AudienceId, string> = {
   everyone:
-    "I’m drawn to complex problems, thoughtful interfaces, and the systems that make great products possible. From early-stage ideas to enterprise platforms built at scale, I incorporate product design, design systems, and front-end design engineering to create experiences that feel simple, cohesive, and purposeful.",
+    "I’m a generalist drawn to complex problems, thoughtful interfaces, and the systems that make great products possible. From early-stage ideas to enterprise platforms built at scale, I incorporate product design, design systems, and front-end design engineering to create experiences that feel simple, cohesive, and purposeful.",
   recruiters:
-    "Staff Product Designer & Design Systems Architect with 10+ years shipping multi-platform consumer apps, enterprise financial suites, and spatial computing interfaces. Proven track record partnering with cross-functional leadership, standardizing design tokens, and multiplying engineering velocity.",
+    "I bring 15 years of product thinking, visual craft, and technical fluency to the teams I work with. With experience spanning early-stage startups and complex enterprise products, I’m comfortable navigating ambiguity, collaborating across disciplines, and taking ideas from concept to execution.",
   'design-directors':
-    "I champion design cultures rooted in systematic rigor, spatial ergonomics, and uncompromising craft. My methodology bridges scalable multi-brand design tokens with tactile prototyping—ensuring teams elevate creative standards while accelerating delivery velocity.",
+    "I take pride in my craft and believe truly great design balances user needs, business goals, and thoughtful execution. I enjoy bringing clarity to complex problems, raising the bar for design quality, and building the systems and shared practices that help teams create better, more consistent experiences.",
   'product-managers':
-    "A high-leverage product partner who anchors design decisions in user telemetry, market viability, and clear technical trade-offs. I de-risk ambiguity through rapid interactive prototypes and structured frameworks that help teams ship high-conviction features faster.",
+    "I thrive in ambiguous environments and enjoy partnering with product teams to turn ambitious ideas into useful, intuitive experiences. By connecting user needs with business objectives and technical realities, I help teams find clarity, align on priorities, and move from problem to solution with purpose.",
   engineers:
-    "A design partner who writes code and understands implementation realities—fluent in TypeScript, React, GPU frame budgets, and state machines. I design with real layout engines and accessibility specs in mind, bridging the gap between design vision and production reality."
+    "I value the partnership between design and engineering and believe the best products come from building together and collaborating early. With a strong foundation in front-end development, I enjoy bridging design and code, exploring solutions collaboratively, and creating interfaces that are as practical to build as they are intuitive to use."
 };
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
@@ -66,7 +66,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <div className="relative px-2 sm:px-0">
       {/* Hero Headline & Manifesto */}
-      <div className="w-full -mt-[5px] pb-[5px]">
+      <div className="w-full -mt-[5px] pb-0">
         <h2 className={`text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.18] text-balance ${
           isLightMode ? 'text-stone-900' : 'text-white'
         }`}>
@@ -150,7 +150,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -3 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className={`mt-2.5 text-base sm:text-xl font-normal leading-relaxed max-w-4xl min-h-[4.5rem] sm:min-h-[3.75rem] ${
+            className={`mt-2.5 text-base sm:text-xl font-normal leading-relaxed max-w-[950px] min-h-[4.5rem] sm:min-h-[3.75rem] ${
               isLightMode ? 'text-stone-600' : 'text-white/80'
             }`}
           >
@@ -189,31 +189,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <ArrowUpRight className={`w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform duration-200 ${isLightMode ? 'text-stone-600 group-hover/btn:text-stone-900' : 'text-white'}`} />
           </button>
         </div>
-      </div>
-
-      {/* Quantitative Rigor Bento Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mt-6">
-        {DESIGNER_INFO.stats.map((stat, idx) => (
-          <div
-            key={idx}
-            className={`p-4 sm:p-5 rounded-[22px] border transition-all shadow-none ${
-              isLightMode
-                ? 'bg-black/[0.06] border-black/10'
-                : 'bg-black/30 border-white/10'
-            }`}
-          >
-            <div className={`text-[28px] sm:text-[32px] font-bold not-italic tracking-tight tabular-nums leading-tight ${
-              isLightMode ? 'text-stone-900' : 'text-white'
-            }`}>
-              {stat.value}
-            </div>
-            <div className={`text-sm font-normal mt-1 leading-snug ${
-              isLightMode ? 'text-stone-600' : 'text-white/75'
-            }`}>
-              {stat.label}
-            </div>
-          </div>
-        ))}
       </div>
 
       {/* Tech Stack Showcase */}

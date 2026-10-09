@@ -106,33 +106,6 @@ function hotCompileShader(gl: WebGL2RenderingContext, glslSource: string) {
   }
   return shader;
 }`
-  },
-  {
-    id: "spatial-kinetics",
-    category: "Spatial UI & Physics",
-    title: "SpatialKinetics",
-    subtitle: "Fluid spring-physics engine modeling gaze-anchored glass windows with ambient inertia.",
-    heroImage: "/src/assets/images/experiment_spatial_kinetics_1790967377472.jpg",
-    readTime: "6 min read",
-    summary: "SpatialKinetics explores the ergonomics of 3D spatial glass window anchoring. Modeled around biological micro-saccades and natural head velocity, it prevents visual jitter while maintaining the illusion of true physical weight and air resistance.",
-    technicalArchitecture: [
-      "Non-linear RK4 spring integrator tuned for 90 FPS spatial head-mounted displays",
-      "Adaptive gaze deadband filtering eliminating micro-saccade tremor without introducing input lag",
-      "Specular rim lighting vector dynamically mapped to room lux sensors and sun orientation",
-      "Spatial collision and anti-overlap physics preventing window occlusion in multi-tasking workspaces"
-    ],
-    specs: [
-      { label: "Refresh Rate", value: "90Hz Spatial Display" },
-      { label: "Integrator", value: "Runge-Kutta (RK4)" },
-      { label: "Jitter Reduction", value: "87% vs Linear" },
-      { label: "Latency", value: "Sub-11ms Motion-to-Photon" }
-    ],
-    codeSnippet: `// Runge-Kutta 4th Order Spring Physics Integrator
-function evaluateSpring(current: SpringState, target: number, dt: number, config: SpringConfig) {
-  const dX = current.pos - target;
-  const accel = -config.stiffness * dX - config.damping * current.vel;
-  return { pos: current.pos + current.vel * dt, vel: current.vel + accel * dt };
-}`
   }
 ];
 

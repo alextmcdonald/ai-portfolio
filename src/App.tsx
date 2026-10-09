@@ -27,6 +27,7 @@ export default function App() {
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isExperimentModalOpen, setIsExperimentModalOpen] = useState(false);
+  const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
 
   // Environment and theme state with localStorage persistence
@@ -189,7 +190,7 @@ export default function App() {
 
   // Lock body & document scroll only when a modal is actively open and prevent background shift
   const isAnyModalOpen = Boolean(
-    selectedCaseStudy || isResumeModalOpen || isContactModalOpen || isExperimentModalOpen
+    selectedCaseStudy || isResumeModalOpen || isContactModalOpen || isExperimentModalOpen || isPhotoModalOpen
   );
 
   useEffect(() => {
@@ -352,6 +353,7 @@ export default function App() {
           >
             <ResumeSection
               onOpenResumeModal={() => setIsResumeModalOpen(true)}
+              onPhotoModalChange={setIsPhotoModalOpen}
               isLightMode={isLightMode}
             />
           </section>

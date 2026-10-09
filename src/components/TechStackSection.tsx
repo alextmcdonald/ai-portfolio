@@ -138,7 +138,7 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
 
   return (
     <div className="mt-8 sm:mt-9">
-      <div className="flex flex-wrap items-center gap-y-4 gap-x-4 sm:gap-x-5 mt-4 pt-2">
+      <div className="flex flex-wrap items-center gap-y-4 gap-x-4 sm:gap-x-5 mt-0 pt-[5px]">
         
         {/* Left: Overlapping tech stack icon tiles */}
         <div className="flex items-center -space-x-2 sm:-space-x-2.5 isolate py-0.5">
@@ -175,12 +175,6 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
                           style={{ color: '#ffffff' }}
                         >
                           {item.name}
-                        </div>
-                        <div
-                          className="text-[10px] font-normal leading-tight mt-0.5"
-                          style={{ color: 'rgba(255, 255, 255, 0.75)' }}
-                        >
-                          {item.category}
                         </div>
                       </div>
                       {/* Downward triangle caret */}

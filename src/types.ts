@@ -70,6 +70,7 @@ export interface Recommendation {
   highlight: string;
   verifiedYear: string;
   linkedinUrl?: string;
+  readMoreUrl?: string;
 }
 
 export type ActiveSection = 'overview' | 'work' | 'interactive' | 'resume' | 'contact';
