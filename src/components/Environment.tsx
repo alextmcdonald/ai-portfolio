@@ -56,7 +56,7 @@ export const LIGHT_ENVIRONMENTS: EnvironmentItem[] = [
   },
   {
     id: 'nordic-studio',
-    name: 'Scandinavian studio',
+    name: 'Swedish studio',
     subtitle: 'Clean oak, glass & morning sun',
     url: '/src/assets/images/env_light_scandi_1790741166705.jpg',
     theme: 'light'
