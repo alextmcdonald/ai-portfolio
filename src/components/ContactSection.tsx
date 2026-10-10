@@ -56,9 +56,20 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
             ? 'bg-emerald-500/10 border border-[#009966]/25'
             : 'bg-emerald-500/10 border border-emerald-500/25'
         }`}>
-          <span className={`w-2.5 h-2.5 rounded-full animate-pulse ${
-            isLightMode ? 'bg-[#009966]' : 'bg-emerald-400'
-          }`} />
+          <span className="relative flex h-2.5 w-2.5 shrink-0 items-center justify-center">
+            <span
+              className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                isLightMode ? 'bg-[#009966]' : 'bg-emerald-400'
+              }`}
+              style={{ animationDuration: '2.4s', boxShadow: 'none' }}
+            />
+            <span
+              className={`relative inline-flex rounded-full h-2 w-2 ${
+                isLightMode ? 'bg-[#009966]' : 'bg-emerald-400'
+              }`}
+              style={{ boxShadow: 'none' }}
+            />
+          </span>
           <span className={`text-xs font-mono font-bold ${
             isLightMode ? 'text-[#009966]' : 'text-emerald-400'
           }`}>
@@ -220,13 +231,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               </div>
 
               <p
-                className={`text-[16px] leading-relaxed mt-5 mb-5 font-medium ${
-                  isLightMode ? 'text-stone-600' : 'text-white/70'
+                className={`text-[18px] leading-relaxed mt-5 mb-5 font-normal ${
+                  isLightMode ? 'text-stone-600' : 'text-white/75'
                 }`}
               >
-                Have a 0-to-1 idea, an ambitious project, or just want to talk shop?{' '}
-                <br className="hidden sm:inline" />{' '}
-                Drop a note below and I&apos;ll respond within 24-48 hours.
+                Have a 0-to-1 idea, an ambitious project, or just want to talk shop? Drop a note below and I&apos;ll respond within 24-48 hours.
               </p>
             </div>
 

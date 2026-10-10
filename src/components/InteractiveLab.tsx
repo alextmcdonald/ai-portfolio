@@ -80,7 +80,7 @@ function analyzeSwingFrame(landmarks: PoseLandmarks, timestampMs: number) {
     id: "neural-shader",
     category: "Generative Graphics",
     title: "EverydayUX",
-    subtitle: "Conversational natural language to real-time WebGL fragment shaders with zero-latency compilation.",
+    subtitle: "Natural language to real-time WebGL shaders with zero-latency compilation.",
     heroImage: "/src/assets/images/experiment_neural_shader_1790967365207.jpg",
     readTime: "4 min read",
     summary: "EverydayUX explores real-time generative computer graphics by compiling natural language descriptions into valid, hardware-accelerated GLSL fragment shaders on the fly. Includes an AST sanitizer and hot-reloading WebGL preview pipeline.",
@@ -286,7 +286,7 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
   return (
     <div className="relative">
       {/* Section Header */}
-      <div className="mb-8 px-2 sm:px-0">
+      <div className="mb-8 sm:mb-10 px-2 sm:px-0">
         <h2
           className={`text-3xl sm:text-4xl font-bold tracking-tight ${
             isLightMode ? 'text-stone-900' : 'text-white'
@@ -295,8 +295,8 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
           AI playground
         </h2>
         <p
-          className={`mt-3 text-base sm:text-lg leading-relaxed font-normal max-w-3xl ${
-            isLightMode ? 'text-stone-600' : 'text-white/70'
+          className={`mt-8 text-base sm:text-[20px] leading-relaxed sm:leading-[32.5px] max-w-4xl ${
+            isLightMode ? 'text-stone-700' : 'text-white/85'
           }`}
         >
           These are (a few) of my experiments in code and craft. Even as a design leader, I believe the only way to master the medium is to build. This space is dedicated to hands-on exploration, using AI to translate ideas into reality.
@@ -319,26 +319,17 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
             }`}
           >
             {/* Horizontal Thumbnail Image Frame */}
-            <div className="relative overflow-hidden shrink-0 w-[calc(100%-1.25rem)] sm:w-56 md:w-64 lg:w-44 xl:w-52 h-36 sm:h-auto max-sm:min-h-0 sm:min-h-[180px] mx-2.5 mt-2.5 mb-0 sm:m-3 sm:mr-0 rounded-[20px] sm:rounded-[24px]">
+            <div className="relative overflow-hidden shrink-0 w-[calc(100%-2.5rem)] sm:w-[200px] md:w-[230px] lg:w-[165px] xl:w-[195px] h-32 sm:h-auto max-sm:min-h-0 m-5 mb-0 sm:m-5 sm:mr-0 rounded-2xl">
               <img
                 src={exp.heroImage}
                 alt={exp.title}
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-              />
-
-              {/* Specular Edge Gradient Overlay on Image */}
-              <div
-                className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${
-                  isLightMode
-                    ? 'bg-gradient-to-t from-black/20 via-transparent to-transparent'
-                    : 'bg-gradient-to-t from-black/50 via-transparent to-transparent'
-                }`}
+                className="w-full h-full object-cover rounded-2xl transition-transform duration-700 ease-out group-hover:scale-105"
               />
             </div>
 
             {/* Horizontal Information Body: Title, Description, and CTA */}
-            <div className="flex-1 pt-3.5 px-5 pb-5 sm:p-6 flex flex-col justify-end min-w-0">
+            <div className="flex-1 p-5 sm:p-5 flex flex-col justify-end min-w-0">
               <div className="mt-auto">
                 <h3
                   className={`text-xl sm:text-2xl font-bold tracking-tight transition-colors duration-200 ${

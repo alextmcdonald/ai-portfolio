@@ -42,7 +42,7 @@ const AUDIENCE_DESCRIPTIONS: Record<AudienceId, string> = {
   'product-managers':
     "I thrive in ambiguous environments and enjoy partnering with product teams to turn ambitious ideas into useful, intuitive experiences. By connecting user needs with business objectives and technical realities, I help teams find clarity, align on priorities, and move from problem to solution with purpose.",
   engineers:
-    "I value the partnership between design and engineering and believe the best products come from building together and collaborating early. With a strong foundation in front-end development, I enjoy bridging design and code, exploring solutions collaboratively, and creating interfaces that are as practical to build as they are intuitive to use."
+    "I value the partnership between design and engineering and believe the best products come from collaborating early and building together. With a strong foundation in front-end development, I enjoy bridging design and code, exploring solutions collaboratively, and creating interfaces that are as practical to build as they are intuitive to use."
 };
 
 export const HeroSection: React.FC<HeroSectionProps> = ({

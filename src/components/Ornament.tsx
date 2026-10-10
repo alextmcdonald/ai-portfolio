@@ -77,7 +77,7 @@ export const Ornament: React.FC<OrnamentProps> = ({
             animate={{ opacity: 1, y: -10, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 340, damping: 28 }}
-            className={`pointer-events-auto mb-2 w-[94vw] max-w-md rounded-[28px] p-3.5 shadow-2xl border backdrop-blur-3xl z-40 ${
+            className={`pointer-events-auto mb-2 w-[94vw] max-w-sm rounded-[24px] p-3 shadow-2xl border backdrop-blur-3xl z-40 ${
               isLightMode
                 ? 'bg-white/92 border-black/10 text-stone-900 shadow-[0_24px_50px_-12px_rgba(0,0,0,0.18)]'
                 : 'bg-stone-950/90 border-white/20 text-white shadow-[0_30px_60px_-15px_rgba(0,0,0,0.7)]'
@@ -87,7 +87,7 @@ export const Ornament: React.FC<OrnamentProps> = ({
               WebkitBackdropFilter: 'blur(40px) saturate(180%)'
             }}
           >
-            <div className="flex items-center justify-between px-1 py-1.5 mb-2.5">
+            <div className="flex items-center justify-between px-1 py-1 mb-2">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                 <span className="text-xs font-bold tracking-tight">
@@ -111,7 +111,7 @@ export const Ornament: React.FC<OrnamentProps> = ({
                       onSelectEnvironment(env.id);
                       setIsEnvTrayOpen(false);
                     }}
-                    className={`relative flex items-center gap-2.5 p-2 rounded-2xl transition-all duration-200 text-left border ${
+                    className={`relative flex items-center gap-2 p-1.5 rounded-xl transition-all duration-200 text-left border cursor-pointer active:scale-97 ${
                       isSelected
                         ? isLightMode
                           ? 'bg-black/10 border-black/25 shadow-sm'
@@ -122,7 +122,7 @@ export const Ornament: React.FC<OrnamentProps> = ({
                     }`}
                   >
                     {/* Thumbnail preview */}
-                    <div className="w-10 h-10 rounded-xl overflow-hidden shrink-0 border border-white/20 shadow-xs relative">
+                    <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0 border border-white/20 shadow-xs relative">
                       <img
                         src={env.url}
                         alt={env.name}
@@ -131,17 +131,14 @@ export const Ornament: React.FC<OrnamentProps> = ({
                       />
                       {isSelected && (
                         <div className="absolute inset-0 bg-black/35 flex items-center justify-center">
-                          <Check className="w-4 h-4 text-white stroke-[3]" />
+                          <Check className="w-3.5 h-3.5 text-white stroke-[3]" />
                         </div>
                       )}
                     </div>
 
-                    <div className="overflow-hidden">
-                      <div className="text-xs font-bold truncate">
+                    <div className="overflow-hidden min-w-0 pr-1">
+                      <div className="text-xs font-semibold truncate">
                         {env.name}
-                      </div>
-                      <div className={`text-[10px] truncate ${isLightMode ? 'text-stone-600' : 'text-white/60'}`}>
-                        {env.subtitle}
                       </div>
                     </div>
                   </button>
@@ -260,7 +257,7 @@ export const Ornament: React.FC<OrnamentProps> = ({
             }}
             className={`group flex items-center justify-center w-7 h-7 rounded-full transition-all duration-200 cursor-pointer ${
               isLightMode
-                ? 'bg-[#555555] hover:bg-[#636363] text-white shadow-xs'
+                ? 'bg-[#555555] text-white shadow-xs'
                 : 'text-white/50 hover:text-white/80'
             }`}
             title="Switch to Apple Light Glass Mode"
@@ -269,7 +266,7 @@ export const Ornament: React.FC<OrnamentProps> = ({
             <Sun
               className={`w-3.5 h-3.5 stroke-[2.2] transition-colors duration-200 ${
                 isLightMode
-                  ? 'force-white keep-white text-white group-hover:opacity-85'
+                  ? 'force-white keep-white text-white'
                   : 'text-white/50 group-hover:text-white/80'
               }`}
               style={isLightMode ? { color: '#ffffff' } : undefined}

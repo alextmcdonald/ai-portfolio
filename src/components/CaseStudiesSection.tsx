@@ -94,10 +94,10 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
                 </h3>
 
                 <p
-                  className={`mt-4 text-base sm:text-xl leading-relaxed font-normal max-w-lg ${
+                  className={`mt-4 text-lg sm:text-[24px] leading-relaxed sm:leading-[34px] font-normal w-full max-w-[450px] ${
                     isLightMode ? 'text-stone-700' : 'text-white/90'
                   }`}
-                  style={isLightMode ? { color: '#334155' } : { color: '#ffffff' }}
+                  style={isLightMode ? { color: '#334155', maxWidth: '450px' } : { color: '#ffffff', maxWidth: '450px' }}
                 >
                   {study.subtitle}
                 </p>

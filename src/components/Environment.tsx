@@ -11,7 +11,7 @@ export interface EnvironmentItem {
 export const DARK_ENVIRONMENTS: EnvironmentItem[] = [
   {
     id: 'cupertino-studio',
-    name: 'Cupertino studio',
+    name: 'Design studio',
     subtitle: 'Architectural dusk interior',
     url: '/src/assets/images/env_apple_studio_1790732856805.jpg',
     theme: 'dark'

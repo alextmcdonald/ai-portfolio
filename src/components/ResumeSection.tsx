@@ -135,13 +135,6 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
           >
             About me
           </h2>
-          <p
-            className={`mt-1.5 text-sm sm:text-base font-normal ${
-              isLightMode ? 'text-stone-600' : 'text-white/70'
-            }`}
-          >
-            Design Leader · Creative Technologist · System Architect
-          </p>
         </div>
 
         {/* Primary Action Button */}

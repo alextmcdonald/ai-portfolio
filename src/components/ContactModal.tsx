@@ -119,13 +119,11 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Intro message */}
               <p
-                className={`text-[16px] leading-relaxed -mt-2 mb-2 pb-[10px] font-medium ${
-                  light ? 'text-stone-600' : 'text-white/70'
+                className={`text-[18px] leading-relaxed -mt-2 mb-2 pb-[10px] font-normal ${
+                  light ? 'text-stone-600' : 'text-white/75'
                 }`}
               >
-                Have a 0-to-1 idea, an ambitious project, or just want to talk shop?
-                <br className="hidden sm:inline" />{' '}
-                Drop a note below and I&apos;ll respond within 24-48 hours.
+                Have a 0-to-1 idea, an ambitious project, or just want to talk shop? Drop a note below and I&apos;ll respond within 24-48 hours.
               </p>
 
               {/* Name */}
