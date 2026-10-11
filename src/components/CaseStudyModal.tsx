@@ -164,45 +164,71 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
     };
   }, []);
 
-  // Auto-scroll the active tab into view horizontally so it never stays offscreen
+  // Auto-scroll the active tab into view horizontally inside tab container only
   React.useEffect(() => {
+    const container = tabsContainerRef.current;
     const tabEl = document.getElementById(`cs-tab-${activeTab}`);
-    if (tabEl && tabsContainerRef.current) {
-      tabEl.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center'
+    if (container && tabEl) {
+      const containerRect = container.getBoundingClientRect();
+      const tabRect = tabEl.getBoundingClientRect();
+      const scrollOffset =
+        tabRect.left - containerRect.left + container.scrollLeft - container.clientWidth / 2 + tabRect.width / 2;
+      container.scrollTo({
+        left: Math.max(0, scrollOffset),
+        behavior: 'smooth'
       });
     }
   }, [activeTab]);
 
-  // Handle wheel and swipe gestures on tabs:
-  // 1. Converts vertical wheel movements into horizontal scrolling
-  // 2. Prevents the browser's history back/forward navigation gesture when scrolling left or right
+  // Support horizontal wheel and drag scrolling on tabs
   React.useEffect(() => {
     const el = tabsContainerRef.current;
     if (!el) return;
 
-    const handleWheel = (e: WheelEvent) => {
-      // If predominantly vertical scroll, translate deltaY into horizontal scrolling
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        if (e.deltaY !== 0) {
-          e.preventDefault();
-          el.scrollLeft += e.deltaY;
-        }
-      } else {
-        // Horizontal scroll: intercept and prevent browser back/forward page navigation
-        const atLeft = el.scrollLeft <= 0;
-        const atRight = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
+    let isDown = false;
+    let startX = 0;
+    let scrollStart = 0;
 
-        if ((e.deltaX < 0 && atLeft) || (e.deltaX > 0 && atRight)) {
-          e.preventDefault();
-        }
+    const handleMouseDown = (e: MouseEvent) => {
+      isDown = true;
+      startX = e.pageX - el.offsetLeft;
+      scrollStart = el.scrollLeft;
+    };
+
+    const handleMouseLeave = () => {
+      isDown = false;
+    };
+
+    const handleMouseUp = () => {
+      isDown = false;
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - el.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      el.scrollLeft = scrollStart - walk;
+    };
+
+    const handleWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && e.deltaY !== 0) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY;
       }
     };
 
+    el.addEventListener('mousedown', handleMouseDown);
+    el.addEventListener('mouseleave', handleMouseLeave);
+    el.addEventListener('mouseup', handleMouseUp);
+    el.addEventListener('mousemove', handleMouseMove);
     el.addEventListener('wheel', handleWheel, { passive: false });
+
     return () => {
+      el.removeEventListener('mousedown', handleMouseDown);
+      el.removeEventListener('mouseleave', handleMouseLeave);
+      el.removeEventListener('mouseup', handleMouseUp);
+      el.removeEventListener('mousemove', handleMouseMove);
       el.removeEventListener('wheel', handleWheel);
     };
   }, []);
@@ -377,7 +403,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
           {/* Sticky Modal Navigation Tabs */}
           <div
             ref={tabsContainerRef}
-            className={`sticky top-0 z-20 px-6 sm:px-8 flex items-center gap-6 sm:gap-7 overflow-x-auto no-scrollbar [overscroll-behavior-x:none] overscroll-contain shrink-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden select-none transition-colors duration-200 border-0 ${
+            className={`sticky top-0 z-20 px-5 sm:px-8 flex items-center gap-5 sm:gap-7 overflow-x-auto no-scrollbar touch-pan-x select-none transition-colors duration-200 border-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ${
               light ? 'bg-white' : 'bg-white/[0.03]'
             }`}
           >
@@ -388,11 +414,11 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                   key={tab.id}
                   id={`cs-tab-${tab.id}`}
                   onClick={() => scrollToSection(tab.id)}
-                  className={`relative py-3 px-1 text-xs sm:text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer ${
+                  className={`relative py-3 px-1 text-xs sm:text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer shrink-0 border-0 bg-transparent ${
                     isSelected
                       ? light
-                        ? 'text-stone-900'
-                        : 'text-white'
+                        ? 'text-stone-900 font-semibold'
+                        : 'text-white font-semibold'
                       : light
                         ? 'text-stone-500 hover:text-stone-800'
                         : 'text-white/60 hover:text-white/90'

@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { DESIGNER_INFO } from '../data/portfolioData';
 import { sounds } from '../utils/audio';
+import { SocialIcon } from './SocialIcons';
 
 interface ProfileHeaderProps {
   onOpenContact: () => void;
@@ -589,56 +590,32 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   {
                     name: 'Figma',
                     url: DESIGNER_INFO.socials.figma,
-                    icon: (
-                      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                        <path d="M8 24c2.2 0 4-1.8 4-4v-4H8c-2.2 0-4 1.8-4 4s1.8 4 4 4zM4 12c0-2.2 1.8-4 4-4h4v8H8c-2.2 0-4-1.8-4-4zm0-8c0-2.2 1.8-4 4-4h4v8H8C5.8 8 4 6.2 4 4zm8-4h4c2.2 0 4 1.8 4 4s-1.8 4-4 4h-4V0zm0 8h4c2.2 0 4 1.8 4 4s-1.8 4-4 4h-4V8z" />
-                      </svg>
-                    )
+                    iconUrl: '/assets/icons/figma.svg'
                   },
                   {
                     name: 'Dribbble',
                     url: DESIGNER_INFO.socials.dribbble,
-                    icon: (
-                      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12c6.626 0 12-5.373 12-12C23.996 5.374 18.626 0 12 0zm9.73 10.02c-.37-.04-2.8-.29-5.6.86-.06-.15-.12-.3-.19-.46-.38-.87-.8-1.72-1.25-2.54 3.73-1.52 5.25-3.6 5.35-3.74 1.05 1.58 1.66 3.47 1.69 5.88zm-3.08-6.93c-.15.2-1.63 2.15-5.18 3.59-1.39-2.56-2.92-4.75-3.09-4.99 1.15-.43 2.38-.68 3.67-.68 1.76 0 3.39.46 4.6 1.4zm-10.42.31c.17.24 1.69 2.41 3.09 4.96-2.81 1.02-6.14 1.05-6.49 1.05-.03-.46-.05-.93-.05-1.4 0-2.09.76-4 2.03-5.49-.6.28-1.07.6-1.58.88zm-5.97 7.02c.32 0 3.32-.03 6.06-1 .34.78.65 1.57.94 2.37-4.14 2.32-6.73 5.9-6.86 6.09-.59-1.44-.94-3.03-.94-4.7 0-.96.12-1.89.34-2.76zm2.34 9.1c.17-.23 2.53-3.6 6.46-5.87.97 2.47 1.56 5.14 1.68 5.75-1.4.67-2.97 1.05-4.63 1.05-1.28 0-2.5-.26-3.51-.93zm9.84.18c-.14-.65-.7-3.15-1.63-5.52 2.6-.96 4.79-.37 5.06-.29-.46 2.35-1.74 4.38-3.43 5.81z" />
-                      </svg>
-                    )
+                    iconUrl: '/assets/icons/dribbble.svg'
                   },
                   {
                     name: 'Behance',
                     url: DESIGNER_INFO.socials.behance,
-                    icon: (
-                      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                        <path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-4.976 3-3.413 0-5.882-2.314-5.882-6.027 0-3.69 2.493-6.073 5.767-6.073 3.447 0 5.485 2.428 5.485 5.83 0 .498-.073.984-.135 1.294h-8.083c.112 1.764 1.487 2.766 3.125 2.766 1.341 0 2.296-.583 2.779-1.554l1.919.764zm-5.074-4.524c-.06-1.343-1.026-2.185-2.28-2.185-1.373 0-2.378.966-2.527 2.185h4.807zM7.228 11.082h-3.48v-3.79h3.48c1.378 0 2.217.653 2.217 1.895 0 1.24-.839 1.895-2.217 1.895zm.352 6.096H3.748v-4.07h3.832c1.553 0 2.495.736 2.495 2.035 0 1.3-.942 2.035-2.495 2.035zM7.886 4.292H0V20h8.319c3.151 0 5.441-1.688 5.441-4.708 0-1.854-.997-3.197-2.593-3.868 1.23-.623 2.094-1.802 2.094-3.449 0-2.827-2.146-3.683-5.375-3.683z" />
-                      </svg>
-                    )
+                    iconUrl: '/assets/icons/behance.svg'
                   },
                   {
                     name: 'GitHub',
                     url: DESIGNER_INFO.socials.github,
-                    icon: (
-                      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                        <path fillRule="evenodd" clipRule="evenodd" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                      </svg>
-                    )
+                    iconUrl: '/assets/icons/github.svg'
                   },
                   {
                     name: 'LinkedIn',
                     url: DESIGNER_INFO.socials.linkedin,
-                    icon: (
-                      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                      </svg>
-                    )
+                    iconUrl: '/assets/icons/linkedin.svg'
                   },
                   {
                     name: 'X / Twitter',
                     url: DESIGNER_INFO.socials.twitter,
-                    icon: (
-                      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                      </svg>
-                    )
+                    iconUrl: '/assets/icons/x.svg'
                   }
                 ].map((social) => (
                   <a
@@ -658,7 +635,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       <span className={`${isLightMode ? 'text-stone-600 group-hover:text-stone-900' : 'text-white'} transition-colors shrink-0`}>
-                        {social.icon}
+                        <SocialIcon name={social.name} className="w-3.5 h-3.5 fill-current shrink-0" />
                       </span>
                       <span className="truncate">{social.name}</span>
                     </div>

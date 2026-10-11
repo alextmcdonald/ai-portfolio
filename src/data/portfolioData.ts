@@ -21,7 +21,7 @@ export const DESIGNER_INFO = {
     readcv: "https://read.cv/alexmcdonald"
   },
   stats: [
-    { label: "Years experience", value: "10+", detail: "Apple, Fintech & Spatial Tech" },
+    { label: "Years designing", value: "10+", detail: "Apple, Fintech & Spatial Tech" },
     { label: "Design patents", value: "3", detail: "Spatial UI & Gaze Gesture Anchoring" },
     { label: "Systems scale", value: "140+", detail: "Global Cross-Platform Adoption" },
     { label: "Products shipped", value: "24+", detail: "Spatial & High-Frequency Software" }

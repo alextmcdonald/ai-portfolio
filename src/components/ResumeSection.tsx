@@ -12,7 +12,7 @@ import {
   Music,
   BookOpen
 } from 'lucide-react';
-import { RECOMMENDATIONS, STATUS_CARD_MEDIA } from '../data/portfolioData';
+import { DESIGNER_INFO, RECOMMENDATIONS, STATUS_CARD_MEDIA } from '../data/portfolioData';
 import { sounds } from '../utils/audio';
 
 const LATEST_STRAVA_ACTIVITY = {
@@ -126,7 +126,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
   return (
     <div className="relative">
       {/* Section Header */}
-      <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8 px-2 sm:px-0">
+      <div className="flex flex-row items-center justify-between gap-4 mb-8 px-2 sm:px-0">
         <div>
           <h2
             className={`text-3xl sm:text-4xl font-bold tracking-tight ${
@@ -138,13 +138,13 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
         </div>
 
         {/* Primary Action Button */}
-        <div className="flex items-center gap-3 self-start">
+        <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={() => {
               sounds.playTap();
               onOpenResumeModal();
             }}
-            className={`px-4 py-2.5 rounded-full text-sm font-semibold transition-all active:scale-95 flex items-center gap-2 cursor-pointer border self-start ${
+            className={`px-4 py-2.5 rounded-full text-sm font-semibold transition-all active:scale-95 flex items-center gap-2 cursor-pointer border ${
               isLightMode
                 ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs backdrop-blur-md'
                 : 'bg-white/12 hover:bg-white/20 text-white border-white/15'
@@ -157,7 +157,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
       </div>
 
       {/* Editorial Narrative & Pillars Grid */}
-      <div className="flex flex-col space-y-8 mb-10">
+      <div className="flex flex-col space-y-8 mb-10 px-2 sm:px-0">
         {/* Narrative Biography */}
         <div className="space-y-4 max-w-4xl">
           <p
@@ -176,6 +176,35 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
             Rather than treating design and engineering as separate disciplines, I prototype in production code—authoring responsive React/TypeScript systems, GLSL spatial glass shaders, and physics-based spring curves. When designers write code, products retain their soul from conception to shipment.
           </p>
         </div>
+      </div>
+
+      {/* 4 Core Career Stats Grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-10 px-2 sm:px-0">
+        {DESIGNER_INFO.stats.map((stat, idx) => (
+          <div
+            key={idx}
+            className={`p-4 sm:p-5 rounded-2xl sm:rounded-3xl border transition-all duration-300 ${
+              isLightMode
+                ? 'bg-black/[0.05] hover:bg-black/[0.08] border-black/10'
+                : 'bg-black/50 hover:bg-black/70 border-white/10'
+            }`}
+          >
+            <div
+              className={`text-[36px] leading-[44px] font-bold tracking-tight font-mono ${
+                isLightMode ? 'text-stone-900' : 'text-white'
+              }`}
+            >
+              {stat.value}
+            </div>
+            <div
+              className={`text-[14px] font-semibold tracking-tight mt-1.5 ${
+                isLightMode ? 'text-stone-700' : 'text-white/85'
+              }`}
+            >
+              {stat.label}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Personal Pictures: Infinite Scrolling Ribbon (Strictly zero background, pure images) */}
