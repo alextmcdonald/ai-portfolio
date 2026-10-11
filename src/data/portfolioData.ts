@@ -3,7 +3,7 @@ import { CaseStudy, WorkExperience, EducationItem, PatentItem, Recommendation } 
 export const DESIGNER_INFO = {
   name: "Alex McDonald",
   title: "Senior Product Designer",
-  roleSubtext: "AI Design Engineer",
+  roleSubtext: "Design Engineer",
   location: "Seattle, WA",
   email: "me@alextmcdonald.com",
   status: "Open to new opportunities",

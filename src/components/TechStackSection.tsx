@@ -1,13 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import {
+  siHtml5,
+  siJavascript,
+  siTypescript,
+  siReact,
+  siTailwindcss,
+  siGithub,
+  siStorybook,
+  siClaude,
+  siCursor,
+  siV0
+} from 'simple-icons';
 import { sounds } from '../utils/audio';
+
+// Authentic vector paths for tools not in the current simple-icons release
+const ADOBE_PHOTOSHOP_PATH =
+  'M9.85 8.42c-.37-.15-.77-.21-1.18-.2-.26 0-.49 0-.68.01-.2-.01-.34 0-.41.01v3.36c.14.01.27.02.39.02h.53c.39 0 .78-.06 1.15-.18.32-.09.6-.28.82-.53.21-.25.31-.59.31-1.03.01-.31-.07-.62-.23-.89-.17-.26-.41-.46-.7-.57zM19.75.3H4.25C1.9.3 0 2.2 0 4.55v14.899c0 2.35 1.9 4.25 4.25 4.25h15.5c2.35 0 4.25-1.9 4.25-4.25V4.55C24 2.2 22.1.3 19.75.3zm-7.391 11.65c-.399.56-.959.98-1.609 1.22-.68.25-1.43.34-2.25.34-.24 0-.4 0-.5-.01s-.24-.01-.43-.01v3.209c.01.07-.04.131-.11.141H5.52c-.08 0-.12-.041-.12-.131V6.42c0-.07.03-.11.1-.11.17 0 .33 0 .56-.01.24-.01.49-.01.76-.02s.56-.01.87-.02c.31-.01.61-.01.91-.01.82 0 1.5.1 2.06.31.5.17.96.45 1.34.82.32.32.57.71.73 1.14.149.42.229.85.229 1.3.001.86-.199 1.57-.6 2.13zm7.091 3.89c-.28.4-.671.709-1.12.891-.49.209-1.09.318-1.811.318-.459 0-.91-.039-1.359-.129-.35-.061-.7-.17-1.02-.32-.07-.039-.121-.109-.111-.189v-1.74c0-.029.011-.07.041-.09.029-.02.06-.01.09.01.39.23.8.391 1.24.49.379.1.779.15 1.18.15.38 0 .65-.051.83-.141.16-.07.27-.24.27-.42 0-.141-.08-.27-.24-.4-.16-.129-.489-.279-.979-.471-.51-.18-.979-.42-1.42-.719-.31-.221-.569-.51-.761-.85-.159-.32-.239-.67-.229-1.021 0-.43.12-.84.341-1.21.25-.4.619-.72 1.049-.92.469-.239 1.059-.349 1.769-.349.41 0 .83.03 1.24.09.3.04.59.12.86.23.039.01.08.05.1.09.01.04.02.08.02.12v1.63c0 .04-.02.08-.05.1-.09.02-.14.02-.18 0-.3-.16-.62-.27-.96-.34-.37-.08-.74-.13-1.12-.13-.2-.01-.41.02-.601.07-.129.03-.24.1-.31.2-.05.08-.08.18-.08.27s.04.18.101.26c.09.11.209.2.34.27.229.12.47.23.709.33.541.18 1.061.43 1.541.73.33.209.6.49.789.83.16.318.24.67.23 1.029.011.471-.129.94-.389 1.331z';
+
+const ADOBE_ILLUSTRATOR_PATH =
+  'M10.53 10.73c-.1-.31-.19-.61-.29-.92-.1-.31-.19-.6-.27-.89-.08-.28-.15-.54-.22-.78h-.02c-.09.43-.2.86-.34 1.29-.15.48-.3.98-.46 1.48-.14.51-.29.98-.44 1.4h2.54c-.06-.211-.14-.46-.23-.721-.09-.269-.18-.559-.27-.859zM19.75.3H4.25C1.9.3 0 2.2 0 4.55v14.9c0 2.35 1.9 4.25 4.25 4.25h15.5c2.35 0 4.25-1.9 4.25-4.25V4.55C24 2.2 22.1.3 19.75.3zM14.7 16.83h-2.091c-.069.01-.139-.04-.159-.11l-.82-2.38H7.91l-.76 2.35c-.02.09-.1.15-.19.141H5.08c-.11 0-.14-.061-.11-.18L8.19 7.38c.03-.1.06-.21.1-.33.04-.21.06-.43.06-.65-.01-.05.03-.1.08-.11h2.59c.08 0 .12.03.13.08l3.65 10.3c.03.109 0 .16-.1.16zm3.4-.15c0 .11-.039.16-.129.16H16.01c-.1 0-.15-.061-.15-.16v-7.7c0-.1.041-.14.131-.14h1.98c.09 0 .129.05.129.14v7.7zm-.209-9.03c-.231.24-.571.37-.911.35-.33.01-.65-.12-.891-.35-.23-.25-.35-.58-.34-.92-.01-.34.12-.66.359-.89.242-.23.562-.35.892-.35.391 0 .689.12.91.35.22.24.34.56.33.89.01.34-.11.67-.349.92z';
+
+const OPENAI_PATH =
+  'M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z';
 
 interface TechItem {
   id: string;
   name: string;
   category: string;
-  icon: React.ReactNode;
   brandColor?: string;
+  path?: string;
+  customIcon?: React.ReactNode;
 }
 
 interface TechStackProps {
@@ -17,157 +40,183 @@ interface TechStackProps {
 export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
+  // Allow clicking or tapping outside to dismiss floating tooltip on mobile touch
+  useEffect(() => {
+    if (!hoveredId) return;
+    const handleDismiss = () => {
+      setHoveredId(null);
+    };
+    const timer = setTimeout(() => {
+      window.addEventListener('touchstart', handleDismiss, { once: true });
+      window.addEventListener('click', handleDismiss, { once: true });
+    }, 60);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('touchstart', handleDismiss);
+      window.removeEventListener('click', handleDismiss);
+    };
+  }, [hoveredId]);
+
   const TECH_ITEMS: TechItem[] = [
     {
       id: 'figma',
       name: 'Figma',
       category: 'Design Systems & UI',
       brandColor: '#F24E1E',
-      icon: (
-        <svg viewBox="0 0 38 57" className="w-5 h-5 sm:w-6 sm:h-6" fill="none">
-          <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE" />
-          <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83" />
-          <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262" />
-          <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E" />
-          <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF" />
+      customIcon: (
+        <svg
+          viewBox="0 0 16 16"
+          className="w-4.5 h-4.5 sm:w-5 sm:h-5"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path fill="#1ABCFE" d="M8.55 8c0-1.289 1.019-2.333 2.275-2.333C12.082 5.667 13.1 6.71 13.1 8c0 1.289-1.018 2.333-2.275 2.333C9.57 10.333 8.55 9.29 8.55 8z" />
+          <path fill="#0ACF83" d="M4 12.667c0-1.289 1.019-2.334 2.275-2.334H8.55v2.334C8.55 13.955 7.531 15 6.275 15S4 13.955 4 12.667z" />
+          <path fill="#FF7262" d="M8.55 1v4.667h2.275c1.257 0 2.275-1.045 2.275-2.334C13.1 2.045 12.082 1 10.825 1H8.55z" />
+          <path fill="#F24E1E" d="M4 3.333c0 1.289 1.019 2.334 2.275 2.334H8.55V1H6.275C5.019 1 4 2.045 4 3.333z" />
+          <path fill="#A259FF" d="M4 8c0 1.289 1.019 2.333 2.275 2.333H8.55V5.667H6.275C5.019 5.667 4 6.71 4 8z" />
         </svg>
       )
     },
     {
-      id: 'react',
-      name: 'React',
-      category: 'UI Engineering',
-      brandColor: '#61DAFB',
-      icon: (
-        <svg viewBox="-11.5 -10.23174 23 20.46348" className="w-5 h-5 sm:w-6 sm:h-6" fill="none">
-          <circle cx="0" cy="0" r="2.05" fill="#61DAFB" />
-          <g stroke="#61DAFB" strokeWidth="1" fill="none">
-            <ellipse rx="11" ry="4.2" />
-            <ellipse rx="11" ry="4.2" transform="rotate(60)" />
-            <ellipse rx="11" ry="4.2" transform="rotate(120)" />
-          </g>
+      id: 'photoshop',
+      name: 'Adobe Photoshop',
+      category: 'Visual & Bitmap Craft',
+      brandColor: '#31A8FF',
+      path: ADOBE_PHOTOSHOP_PATH
+    },
+    {
+      id: 'illustrator',
+      name: 'Adobe Illustrator',
+      category: 'Vector & Iconography',
+      brandColor: '#FF9A00',
+      path: ADOBE_ILLUSTRATOR_PATH
+    },
+    {
+      id: 'html5',
+      name: 'HTML5',
+      category: 'Semantic Web Markup',
+      brandColor: `#${siHtml5.hex}`,
+      path: siHtml5.path
+    },
+    {
+      id: 'css3',
+      name: 'CSS3',
+      category: 'Modern Responsive Layout',
+      brandColor: '#1572B6',
+      customIcon: (
+        <svg
+          viewBox="0 0 512 512"
+          className="w-4.5 h-4.5 sm:w-5 sm:h-5"
+          fill="#1572B6"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M483.111,0.501l-42.59,461.314l-184.524,49.684L71.47,461.815L28.889,0.501H483.111z M397.29,94.302 H255.831H111.866l6.885,55.708h137.08h7.7l-7.7,3.205l-132.07,55.006l4.38,54.453l127.69,0.414l68.438,0.217l-4.381,72.606 l-64.058,18.035v-0.057l-0.525,0.146l-61.864-15.617l-3.754-45.07h-0.205H132.1h-0.202l7.511,87.007l116.423,34.429v-0.062 l0.21,0.062l115.799-33.802l15.021-172.761h-131.03h-0.323l0.323-0.14l135.83-58.071L397.29,94.302z" />
         </svg>
       )
+    },
+    {
+      id: 'javascript',
+      name: 'JavaScript',
+      category: 'Dynamic Web Engine',
+      brandColor: `#${siJavascript.hex}`,
+      path: siJavascript.path
     },
     {
       id: 'typescript',
       name: 'TypeScript',
       category: 'Type-Safe Architecture',
-      brandColor: '#3178C6',
-      icon: (
-        <svg viewBox="0 0 128 128" className="w-5 h-5 sm:w-6 sm:h-6">
-          <rect width="128" height="128" rx="20" fill="#3178C6" />
-          <path d="M68.5 83.4c2.5 4.3 6.9 7 12.8 7 5.6 0 9.2-2.7 9.2-6.6 0-4.5-3.8-6.1-10.4-8.8-9.4-3.8-15.6-8.5-15.6-18.7 0-9.8 7.6-17.1 19.3-17.1 8.2 0 14.2 2.8 18.2 8.4l-7.7 5.2c-2.4-3.4-5.6-5-10.3-5-4.8 0-8 2.7-8 6.1 0 3.8 3.3 5.4 9.6 8 10.3 4.2 16.4 8.7 16.4 19.4 0 11.2-8.5 17.7-21.2 17.7-10.4 0-17.6-4.1-21.9-10.9l9.6-4.7zM49.6 50.8v47.6h-11.8v-47.6h-16.1v-9.6h44v9.6h-16.1z" fill="#FFFFFF" />
-        </svg>
-      )
+      brandColor: `#${siTypescript.hex}`,
+      path: siTypescript.path
+    },
+    {
+      id: 'react',
+      name: 'React',
+      category: 'UI Component Engineering',
+      brandColor: `#${siReact.hex}`,
+      path: siReact.path
     },
     {
       id: 'tailwind',
       name: 'Tailwind CSS',
       category: 'Design Token System',
-      brandColor: '#38BDF8',
-      icon: (
-        <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6" fill="none">
-          <path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.335 6.182 14.974 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.335 13.382 8.974 12 6.001 12z" fill="#38BDF8" />
-        </svg>
-      )
+      brandColor: `#${siTailwindcss.hex}`,
+      path: siTailwindcss.path
     },
     {
-      id: 'nextjs',
-      name: 'Next.js',
-      category: 'React Framework',
-      brandColor: '#000000',
-      icon: (
-        <svg viewBox="0 0 180 180" className="w-5 h-5 sm:w-6 sm:h-6" fill="none">
-          <circle cx="90" cy="90" r="90" fill={isLightMode ? '#000000' : '#FFFFFF'} />
-          <path d="M149.508 157.08L69.142 54H54V125.882H66.6667V69.9678L139.999 164.249C143.327 162.083 146.505 159.682 149.508 157.08Z" fill={isLightMode ? '#FFFFFF' : '#000000'} />
-          <path d="M115.5 54H128V103.882H115.5V54Z" fill={isLightMode ? '#FFFFFF' : '#000000'} />
-        </svg>
-      )
+      id: 'github',
+      name: 'GitHub',
+      category: 'Version Control & CI/CD',
+      brandColor: isLightMode ? '#181717' : '#FFFFFF',
+      path: siGithub.path
     },
     {
-      id: 'framer',
-      name: 'Framer',
-      category: 'Interactive Motion',
-      brandColor: '#0055FF',
-      icon: (
-        <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6" fill={isLightMode ? '#0f172a' : '#ffffff'}>
-          <path d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z" />
-        </svg>
-      )
+      id: 'storybook',
+      name: 'Storybook',
+      category: 'Design System Sandbox',
+      brandColor: `#${siStorybook.hex}`,
+      path: siStorybook.path
     },
     {
-      id: 'swift',
-      name: 'SwiftUI',
-      category: 'Spatial & Apple Platforms',
-      brandColor: '#F05138',
-      icon: (
-        <svg viewBox="0 0 128 128" className="w-5 h-5 sm:w-6 sm:h-6" fill="none">
-          <rect width="128" height="128" rx="28" fill="#F05138" />
-          <path d="M96.7 87.2C85.5 99.4 69.4 105.7 54.1 103.4C71.3 93.9 79.5 78.4 81.3 64.9C67.6 75.9 49.3 78.8 33 69.9C45.8 69.5 56.4 62.4 62.6 51.5C53.5 54.4 43.1 50.8 36.6 42.2C48.6 44.4 61.4 39.4 67.2 27C52.1 33.3 35.8 28.5 25 16C36.8 35.5 59.4 46.2 82.3 43.6C80.2 49.8 76.5 55.4 71.6 59.9C83.2 57.7 93.9 50.4 100.8 40.5C104.9 57.8 98.7 74.2 96.7 87.2Z" fill="#FFFFFF" />
-        </svg>
-      )
+      id: 'openai',
+      name: 'OpenAI',
+      category: 'Foundational AI Models',
+      brandColor: isLightMode ? '#000000' : '#FFFFFF',
+      path: OPENAI_PATH
+    },
+    {
+      id: 'claude',
+      name: 'Claude',
+      category: 'Anthropic AI Intelligence',
+      brandColor: `#${siClaude.hex}`,
+      path: siClaude.path
     },
     {
       id: 'cursor',
       name: 'Cursor',
       category: 'AI-First Code Editor',
-      brandColor: '#8B5CF6',
-      icon: (
-        <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6" fill="none">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#A78BFA" />
-          <path d="M2 17L12 22L22 17V11L12 16L2 11V17Z" fill="#7C3AED" />
-          <path d="M2 7V17L12 22V12L2 7Z" fill="#8B5CF6" opacity="0.6" />
-        </svg>
-      )
+      brandColor: isLightMode ? '#000000' : '#FFFFFF',
+      path: siCursor.path
     },
     {
-      id: 'claude',
-      name: 'Claude & Gemini',
-      category: 'Generative AI & LLMs',
-      brandColor: '#D97706',
-      icon: (
-        <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6" fill="none">
-          <path d="M12 2L14.2 8.3L20.5 10.5L14.2 12.7L12 19L9.8 12.7L3.5 10.5L9.8 8.3L12 2Z" fill="#D97706" />
-          <circle cx="18" cy="18" r="2.5" fill="#F59E0B" />
-          <circle cx="6" cy="18" r="1.5" fill="#F59E0B" />
-        </svg>
-      )
+      id: 'v0',
+      name: 'v0',
+      category: 'Generative UI Prototyping',
+      brandColor: isLightMode ? '#000000' : '#FFFFFF',
+      path: siV0.path
     }
   ];
 
   return (
-    <div className="mt-8 sm:mt-9">
-      <div className="flex flex-wrap items-center gap-y-4 gap-x-4 sm:gap-x-5 mt-0 pt-[5px]">
-        
+    <div className="mt-2.5 sm:mt-3.5 relative">
+      <div className="flex flex-wrap items-center gap-y-4 gap-x-4 sm:gap-x-5 mt-0 pt-0">
         {/* Left: Overlapping tech stack icon tiles */}
-        <div className="flex items-center -space-x-2 sm:-space-x-2.5 isolate py-0.5">
+        <div
+          className="flex items-center -space-x-2 sm:-space-x-2.5 isolate pt-8 sm:pt-8.5 pb-3.5 pl-[2px] pr-4 sm:pr-6 max-w-full overflow-x-auto md:overflow-visible no-scrollbar touch-pan-x select-none mobile-landscape-overflow-visible"
+        >
           {TECH_ITEMS.map((item, idx) => {
             const isHovered = hoveredId === item.id;
 
             return (
               <div
                 key={item.id}
-                className="relative group transition-all duration-200"
+                className="relative group transition-all duration-200 shrink-0"
                 style={{
-                  zIndex: isHovered ? 40 : idx + 1
+                  zIndex: isHovered ? 50 : idx + 1
                 }}
-                onMouseEnter={() => setHoveredId(item.id)}
-                onMouseLeave={() => setHoveredId(null)}
-                onTouchStart={() => setHoveredId(item.id)}
               >
-                {/* Tooltip floating above icon */}
+                {/* Floating Tooltip directly above icon */}
                 <AnimatePresence>
                   {isHovered && (
                     <motion.div
-                      initial={{ opacity: 0, y: 6, scale: 0.92 }}
+                      initial={{ opacity: 0, y: 4, scale: 0.94 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 4, scale: 0.94 }}
-                      transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
-                      className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 z-50 pointer-events-none flex flex-col items-center"
+                      exit={{ opacity: 0, y: 2, scale: 0.96 }}
+                      transition={{ duration: 0.14, ease: [0.16, 1, 0.3, 1] }}
+                      className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 z-50 pointer-events-none flex flex-col items-center mobile-portrait-hidden"
                     >
                       <div
-                        className="px-2.5 py-1.5 rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.45)] border border-white/20 bg-stone-900/95 backdrop-blur-xl whitespace-nowrap text-center force-white keep-white"
+                        className="px-2 py-1 rounded-lg shadow-[0_4px_16px_rgba(0,0,0,0.45)] border border-white/20 bg-stone-900/95 backdrop-blur-xl whitespace-nowrap text-center force-white keep-white"
                         style={{ color: '#ffffff' }}
                       >
                         <div
@@ -178,24 +227,39 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
                         </div>
                       </div>
                       {/* Downward triangle caret */}
-                      <div className="w-2 h-2 rotate-45 -mt-1 border-r border-b bg-stone-900/95 border-white/20" />
+                      <div className="w-1.5 h-1.5 rotate-45 -mt-0.5 border-r border-b bg-stone-900/95 border-white/20" />
                     </motion.div>
                   )}
                 </AnimatePresence>
 
-                {/* Icon Tile */}
+                {/* Icon Tile Button */}
                 <button
                   type="button"
                   onClick={() => sounds.playTap()}
+                  onMouseEnter={() => setHoveredId(item.id)}
+                  onMouseLeave={() => setHoveredId(null)}
+                  onTouchStart={() => setHoveredId(item.id)}
                   aria-label={item.name}
-                  className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer ${
+                  className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer mobile-portrait-no-shadow ${
                     isLightMode
                       ? 'bg-[#DFE0E4] text-stone-800 border border-[#D3D5D9] ring-2 ring-[#F7F8FB] shadow-[0_2px_8px_rgba(0,0,0,0.06)]'
                       : 'bg-[#111111] text-white border border-white/15 ring-2 ring-[#0c0d12]/90 shadow-[0_4px_14px_rgba(0,0,0,0.45)]'
                   } ${isHovered ? '-translate-y-1.5 scale-110 shadow-xl' : 'hover:-translate-y-0.5'}`}
                 >
-                  <div className="transition-transform duration-200 group-hover:scale-110">
-                    {item.icon}
+                  <div className="transition-transform duration-200 group-hover:scale-110 flex items-center justify-center">
+                    {item.customIcon ? (
+                      item.customIcon
+                    ) : (
+                      <svg
+                        role="img"
+                        viewBox="0 0 24 24"
+                        className="w-4.5 h-4.5 sm:w-5 sm:h-5"
+                        fill={item.brandColor}
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d={item.path} />
+                      </svg>
+                    )}
                   </div>
                 </button>
               </div>
@@ -204,16 +268,19 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
         </div>
 
         {/* Right: Handwritten Script "Current tech stack" with arrow pointing to it */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 select-none py-1 ml-3.5 sm:ml-0">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 select-none py-1 ml-3.5 lg:ml-0 [@media(orientation:landscape)_and_(max-height:600px)]:ml-3.5">
           {/* Hand-drawn curved arrow pointing toward the tech stack icons */}
-          <div className="relative text-[#e17100] transition-colors duration-200 -translate-y-1.5 sm:translate-y-0" style={{ color: '#e17100' }}>
+          <div
+            className="relative text-[#e17100] transition-colors duration-200 -translate-y-1.5 lg:translate-y-0 [@media(orientation:landscape)_and_(max-height:600px)]:-translate-y-1.5"
+            style={{ color: '#e17100' }}
+          >
             <svg
               width="44"
               height="28"
               viewBox="0 0 52 34"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="w-8 h-5 sm:w-10 sm:h-6 -scale-y-100 rotate-[24deg] sm:scale-y-100 sm:rotate-[10deg] text-[#e17100] transition-transform duration-200"
+              className="w-8 h-5 sm:w-9 sm:h-5.5 lg:w-10 lg:h-6 -scale-y-100 rotate-[24deg] lg:scale-y-100 lg:rotate-[10deg] [@media(orientation:landscape)_and_(max-height:600px)]:-scale-y-100 [@media(orientation:landscape)_and_(max-height:600px)]:rotate-[24deg] text-[#e17100] transition-transform duration-200"
               style={{ color: '#e17100' }}
             >
               {/* Curved sketch stroke */}
@@ -224,7 +291,7 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-              {/* Arrow head pointing left toward the icons */}
+              {/* Arrow head pointing toward the icons */}
               <path
                 d="M17 21L6 25L9 14"
                 stroke="currentColor"
@@ -236,7 +303,7 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
           </div>
 
           {/* Script words */}
-          <div className="flex flex-col translate-y-1 sm:translate-y-0">
+          <div className="flex flex-col translate-y-1 lg:translate-y-0 [@media(orientation:landscape)_and_(max-height:600px)]:translate-y-1">
             <span
               className="font-handwriting text-[20px] font-bold tracking-wide -rotate-2 text-[#e17100]"
               style={{
@@ -249,12 +316,11 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
             </span>
           </div>
         </div>
-
       </div>
 
       {/* Small text disclaimer */}
       <p
-        className={`mt-3.5 text-sm font-normal tracking-tight ${
+        className={`mt-2 sm:mt-2.5 text-sm font-normal tracking-tight ${
           isLightMode ? 'text-stone-500' : 'text-white/45'
         }`}
         style={{ fontSize: '14px' }}

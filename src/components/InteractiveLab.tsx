@@ -410,7 +410,7 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
                 >
                   {/* Top Bar with Title and Close Button (No horizontal divider line) */}
                   <div
-                    className={`flex items-center justify-between px-6 sm:px-8 py-5 sm:py-6 shrink-0 border-0 ${
+                    className={`flex items-center justify-between px-6 sm:px-8 pt-5 sm:pt-6 pb-2.5 sm:pb-3 shrink-0 border-0 ${
                       light ? 'bg-white' : 'bg-white/[0.03]'
                     }`}
                   >
@@ -441,7 +441,8 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
                   {/* Sticky Modal Navigation Tabs */}
                   <div
                     ref={tabsContainerRef}
-                    className={`sticky top-0 z-20 px-6 sm:px-8 flex items-center gap-6 sm:gap-7 overflow-x-auto no-scrollbar [overscroll-behavior-x:none] overscroll-contain shrink-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden select-none transition-colors duration-200 border-0 ${
+                    data-modal-scrollable="true"
+                    className={`sticky top-0 z-20 px-6 sm:px-8 pt-0 pb-0 flex items-center gap-6 sm:gap-7 overflow-x-auto no-scrollbar shrink-0 min-h-[40px] sm:min-h-[44px] h-[42px] sm:h-[46px] select-none transition-colors duration-200 border-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden touch-pan-x [overscroll-behavior-x:none] ${
                       light ? 'bg-white' : 'bg-white/[0.03]'
                     }`}
                   >
@@ -452,7 +453,7 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
                           key={tab.id}
                           id={`exp-tab-${tab.id}`}
                           onClick={() => scrollToSection(tab.id)}
-                          className={`relative py-3 px-1 text-xs sm:text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer ${
+                          className={`relative h-full flex items-center py-1.5 px-1 text-xs sm:text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer shrink-0 border-0 bg-transparent ${
                             isSelected
                               ? light
                                 ? 'text-stone-900'
