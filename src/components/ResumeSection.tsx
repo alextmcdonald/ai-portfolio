@@ -209,7 +209,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
 
       {/* Personal Pictures: Infinite Scrolling Ribbon (Strictly zero background, pure images) */}
       <div
-        className="mb-12 overflow-hidden -mx-2 sm:mx-0 relative select-none"
+        className="mb-[35px] landscape:mb-[43px] sm:mb-12 sm:landscape:mb-12 overflow-hidden -mx-2 sm:mx-0 relative select-none"
         style={{ background: 'transparent' }}
       >
         <style>{`
