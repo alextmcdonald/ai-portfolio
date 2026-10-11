@@ -6,6 +6,7 @@ export interface CaseStudy {
   timeline: string;
   category: string;
   cardTags?: string[];
+  isNDA?: boolean;
   heroImage: string;
   videoUrl?: string;
   statsSummary?: string;

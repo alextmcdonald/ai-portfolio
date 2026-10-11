@@ -43,6 +43,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: "2024 — 2025",
     category: "B2B Enterprise",
     cardTags: ["B2B Enterprise", "SaaS", "Automotive", "Marketing"],
+    isNDA: true,
     heroImage: "/src/assets/images/casestudy_spatial_device_1790887169601.jpg",
     videoUrl: "/assets/videos/driveauto.mp4",
     statsSummary: "Task switching 42% faster, 38% gaze fatigue reduction. Adopted across 140+ engineers.",

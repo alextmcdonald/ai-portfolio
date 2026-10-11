@@ -180,58 +180,31 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
     }
   }, [activeTab]);
 
-  // Support horizontal wheel and drag scrolling on tabs
+  // Handle wheel on tabs (translates vertical wheel to horizontal scroll)
   React.useEffect(() => {
     const el = tabsContainerRef.current;
     if (!el) return;
 
-    let isDown = false;
-    let startX = 0;
-    let scrollStart = 0;
-
-    const handleMouseDown = (e: MouseEvent) => {
-      isDown = true;
-      startX = e.pageX - el.offsetLeft;
-      scrollStart = el.scrollLeft;
-    };
-
-    const handleMouseLeave = () => {
-      isDown = false;
-    };
-
-    const handleMouseUp = () => {
-      isDown = false;
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - el.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      el.scrollLeft = scrollStart - walk;
-    };
-
     const handleWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && e.deltaY !== 0) {
-        e.preventDefault();
-        el.scrollLeft += e.deltaY;
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        if (e.deltaY !== 0) {
+          e.preventDefault();
+          el.scrollLeft += e.deltaY;
+        }
+      } else {
+        const atLeft = el.scrollLeft <= 0;
+        const atRight = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
+        if ((e.deltaX < 0 && atLeft) || (e.deltaX > 0 && atRight)) {
+          e.preventDefault();
+        }
       }
     };
 
-    el.addEventListener('mousedown', handleMouseDown);
-    el.addEventListener('mouseleave', handleMouseLeave);
-    el.addEventListener('mouseup', handleMouseUp);
-    el.addEventListener('mousemove', handleMouseMove);
     el.addEventListener('wheel', handleWheel, { passive: false });
-
     return () => {
-      el.removeEventListener('mousedown', handleMouseDown);
-      el.removeEventListener('mouseleave', handleMouseLeave);
-      el.removeEventListener('mouseup', handleMouseUp);
-      el.removeEventListener('mousemove', handleMouseMove);
       el.removeEventListener('wheel', handleWheel);
     };
-  }, []);
+  }, [caseStudy]);
 
   // Prevent background and page scroll bleed-through while modal is open
   React.useEffect(() => {
@@ -246,6 +219,10 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
       if (!scrollable) {
         // Scrolled outside the modal content (scrim, padding, modal header)
         e.preventDefault();
+        return;
+      }
+
+      if (scrollable === tabsContainerRef.current) {
         return;
       }
 
@@ -372,7 +349,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
         >
           {/* Top Bar with Title and Close Button (No horizontal divider line) */}
           <div
-            className={`flex items-center justify-between px-6 sm:px-8 py-5 sm:py-6 shrink-0 border-0 ${
+            className={`flex items-center justify-between px-6 sm:px-8 pt-5 sm:pt-6 pb-2.5 sm:pb-3 shrink-0 border-0 ${
               light ? 'bg-white' : 'bg-white/[0.03]'
             }`}
           >
@@ -403,7 +380,8 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
           {/* Sticky Modal Navigation Tabs */}
           <div
             ref={tabsContainerRef}
-            className={`sticky top-0 z-20 px-5 sm:px-8 flex items-center gap-5 sm:gap-7 overflow-x-auto no-scrollbar touch-pan-x select-none transition-colors duration-200 border-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden ${
+            data-modal-scrollable="true"
+            className={`sticky top-0 z-20 px-5 sm:px-8 pt-0 pb-0 flex items-center gap-5 sm:gap-7 overflow-x-auto no-scrollbar shrink-0 min-h-[40px] sm:min-h-[44px] h-[42px] sm:h-[46px] select-none transition-colors duration-200 border-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden touch-pan-x [overscroll-behavior-x:none] ${
               light ? 'bg-white' : 'bg-white/[0.03]'
             }`}
           >
@@ -414,7 +392,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                   key={tab.id}
                   id={`cs-tab-${tab.id}`}
                   onClick={() => scrollToSection(tab.id)}
-                  className={`relative py-3 px-1 text-xs sm:text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer shrink-0 border-0 bg-transparent ${
+                  className={`relative h-full flex items-center py-1.5 px-1 text-xs sm:text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer shrink-0 border-0 bg-transparent ${
                     isSelected
                       ? light
                         ? 'text-stone-900 font-semibold'
