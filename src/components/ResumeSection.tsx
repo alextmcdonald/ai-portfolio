@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   FileText,
@@ -288,7 +289,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
         <div
           className="flex items-center w-max py-3 px-1 hover:[animation-play-state:paused]"
           style={{
-            animation: 'infiniteScrollLeft 120s linear infinite',
+            animation: 'infiniteScrollLeft 150s linear infinite',
             willChange: 'transform',
             background: 'transparent'
           }}
@@ -363,56 +364,62 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
         </div>
       </div>
 
-      {/* Lightbox Modal (Strictly no text, just the picture) */}
-      <AnimatePresence>
-        {selectedPhoto && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8"
-            onClick={() => setSelectedPhoto(null)}
-          >
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className={`fixed inset-0 backdrop-blur-xl ${
-                isLightMode ? 'bg-black/50' : 'bg-black/80'
-              }`}
-            />
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.92, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.94, y: 15 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-              className="relative z-10 max-w-4xl max-h-[85vh] rounded-[28px] sm:rounded-[36px] overflow-hidden border border-white/20 shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <img
-                src={selectedPhoto}
-                alt=""
-                aria-hidden="true"
-                className="w-auto h-auto max-h-[82vh] max-w-[90vw] object-contain select-none"
-              />
-
-              <button
-                onClick={() => {
-                  sounds.playTap();
-                  setSelectedPhoto(null);
-                }}
-                aria-label="Close"
-                className={`absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-md cursor-pointer active:scale-90 border ${
-                  isLightMode
-                    ? 'bg-white/45 hover:bg-white/65 text-stone-900 border-white/50 shadow-xs'
-                    : 'bg-black/60 hover:bg-black/80 text-white/90 hover:text-white border-white/20'
-                }`}
+      {/* Lightbox Modal (Rendered via React Portal directly onto document.body to prevent parent container clipping/offset) */}
+      {typeof document !== 'undefined' &&
+        createPortal(
+          <AnimatePresence>
+            {selectedPhoto && (
+              <div
+                className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-8"
+                onClick={() => setSelectedPhoto(null)}
               >
-                <X className="w-4 h-4 stroke-[2]" />
-              </button>
-            </motion.div>
-          </div>
+                {/* Dark blurred backdrop */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className={`fixed inset-0 backdrop-blur-2xl ${
+                    isLightMode ? 'bg-black/75' : 'bg-black/85'
+                  }`}
+                />
+
+                {/* Centered Image Card */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.92, y: 15 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.94, y: 10 }}
+                  transition={{ type: 'spring', stiffness: 320, damping: 28 }}
+                  className="relative z-10 max-w-5xl max-h-[88vh] rounded-[28px] sm:rounded-[36px] overflow-hidden border border-white/20 shadow-2xl flex items-center justify-center bg-black/60"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <img
+                    src={selectedPhoto}
+                    alt=""
+                    aria-hidden="true"
+                    className="w-auto h-auto max-h-[82vh] max-w-[90vw] object-contain select-none"
+                  />
+
+                  <button
+                    onClick={() => {
+                      sounds.playTap();
+                      setSelectedPhoto(null);
+                    }}
+                    aria-label="Close"
+                    className={`absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-md cursor-pointer active:scale-90 border ${
+                      isLightMode
+                        ? 'bg-white/80 hover:bg-white text-stone-900 border-black/15 shadow-sm'
+                        : 'bg-black/60 hover:bg-black/80 text-white/90 hover:text-white border-white/20'
+                    }`}
+                  >
+                    <X className="w-5 h-5 stroke-[2]" />
+                  </button>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
 
       {/* Bottom Area: Recommendations + Custom Strava Integration */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">

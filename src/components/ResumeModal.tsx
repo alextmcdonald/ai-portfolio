@@ -44,8 +44,8 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
             sounds.playTap();
             onClose();
           }}
-          className={`fixed inset-0 backdrop-blur-xl ${
-            light ? 'bg-black/50' : 'bg-black/80'
+          className={`fixed inset-0 backdrop-blur-2xl ${
+            light ? 'bg-black/75' : 'bg-black/85'
           }`}
         />
 
