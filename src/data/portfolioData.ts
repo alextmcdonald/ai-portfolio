@@ -14,11 +14,11 @@ export const DESIGNER_INFO = {
     linkedin: "https://linkedin.com/in/alextmcdonald",
     dribbble: "https://dribbble.com/alexmcdonald",
     behance: "https://behance.net/alextmcdonald",
-    twitter: "https://x.com/alexmcdesign",
+    twitter: "https://x.com/alextmcdonald",
     github: "https://github.com/alextmcdonald",
     strava: "https://strava.com/athletes/almcd",
-    figma: "https://figma.com/@alextmcdonald",
-    readcv: "https://read.cv/alexmcdonald"
+    readcv: "https://read.cv/alexmcdonald",
+    ondesign: "https://on.design/atm"
   },
   stats: [
     { label: "Years designing", value: "10+", detail: "Apple, Fintech & Spatial Tech" },

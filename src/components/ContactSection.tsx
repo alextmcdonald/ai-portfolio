@@ -133,9 +133,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
             <div className="flex flex-col gap-2">
               {[
                 {
-                  name: 'Figma',
-                  url: DESIGNER_INFO.socials.figma,
-                  iconUrl: '/assets/icons/figma.svg'
+                  name: 'LinkedIn',
+                  url: DESIGNER_INFO.socials.linkedin,
+                  iconUrl: '/assets/icons/linkedin.svg'
                 },
                 {
                   name: 'Dribbble',
@@ -153,14 +153,14 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   iconUrl: '/assets/icons/github.svg'
                 },
                 {
-                  name: 'LinkedIn',
-                  url: DESIGNER_INFO.socials.linkedin,
-                  iconUrl: '/assets/icons/linkedin.svg'
-                },
-                {
                   name: 'X / Twitter',
                   url: DESIGNER_INFO.socials.twitter,
                   iconUrl: '/assets/icons/x.svg'
+                },
+                {
+                  name: 'On Design',
+                  url: DESIGNER_INFO.socials.ondesign,
+                  iconUrl: '/assets/icons/on-design.svg'
                 }
               ].map((item, idx) => (
                 <a
