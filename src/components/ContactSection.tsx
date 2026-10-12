@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, CheckCircle2, Copy, ArrowUpRight, MessageSquare, Mail, Sparkles } from 'lucide-react';
+import { Send, CheckCircle2, Copy, ArrowUpRight, MessageSquare, Mail, Sparkles, X } from 'lucide-react';
 import { DESIGNER_INFO } from '../data/portfolioData';
 import { sounds } from '../utils/audio';
 import { SocialIcon } from './SocialIcons';
@@ -22,21 +22,46 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !email.trim() || !message.trim()) return;
 
     sounds.playTap();
     setIsSubmitting(true);
+    setSubmitError(null);
 
-    setTimeout(() => {
+    try {
+      const response = await fetch('https://formspree.io/f/mbgdawzg', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          message: message.trim()
+        })
+      });
+
+      if (response.ok) {
+        setIsSubmitting(false);
+        setIsSubmitted(true);
+        sounds.playSuccess();
+        setName('');
+        setEmail('');
+        setMessage('');
+      } else {
+        const data = await response.json().catch(() => null);
+        throw new Error(data?.error || 'Failed to dispatch message');
+      }
+    } catch {
+      // In case of network errors or adblocker restrictions, show error
       setIsSubmitting(false);
-      setIsSubmitted(true);
-      sounds.playSuccess();
-      setName('');
-      setEmail('');
-      setMessage('');
-    }, 1000);
+      setSubmitError('Unable to send at this moment. Please email me@alextmcdonald.com directly.');
+    }
   };
 
   return (
@@ -217,25 +242,55 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
             </div>
 
             {isSubmitted ? (
-              <div className="p-8 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-3 my-auto">
-                <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-400/40">
-                  <CheckCircle2 className="w-6 h-6" />
-                </div>
-                <h4 className="text-base font-bold text-white">
-                  Message Dispatched
-                </h4>
-                <p className="text-xs sm:text-sm text-white/80 max-w-md mx-auto leading-relaxed">
-                  Thank you for reaching out. Your note has been securely delivered to Alex. Expect a response shortly.
-                </p>
+              <div className="relative p-8 sm:p-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-3.5 my-auto">
+                {/* Pure X icon without border or background in top right */}
                 <button
+                  type="button"
                   onClick={() => {
                     sounds.playTap();
                     setIsSubmitted(false);
                   }}
-                  className="mt-3 px-4 py-2 rounded-full bg-white/15 hover:bg-white/25 text-white text-xs font-semibold border border-white/15 transition-all"
+                  aria-label="Close success message"
+                  className={`absolute top-4 right-4 p-1.5 flex items-center justify-center transition-all duration-200 active:scale-90 cursor-pointer bg-transparent border-0 ${
+                    isLightMode
+                      ? 'text-stone-400 hover:text-stone-800'
+                      : 'text-white/45 hover:text-white'
+                  }`}
                 >
-                  Send Another Message
+                  <X className="w-5 h-5 stroke-[1.75]" />
                 </button>
+
+                {/* Check icon: slightly tighter circle with prominent check mark inside */}
+                <div className="flex items-center justify-center mx-auto text-emerald-500">
+                  <svg
+                    className="w-14 h-14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="8.75" />
+                    <polyline points="8.5 12 11 14.5 15.5 9.5" />
+                  </svg>
+                </div>
+
+                <h4
+                  className={`text-xl sm:text-2xl font-bold tracking-tight ${
+                    isLightMode ? 'text-stone-900' : 'text-white'
+                  }`}
+                >
+                  Message sent!
+                </h4>
+
+                <p
+                  className={`text-base sm:text-[18px] leading-relaxed max-w-lg mx-auto font-normal ${
+                    isLightMode ? 'text-stone-700' : 'text-white/85'
+                  }`}
+                >
+                  Thanks for reaching out. Your message has been successfully delivered. Talk soon! ✌️
+                </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-3.5 flex-1 flex flex-col justify-between">
@@ -383,6 +438,12 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                     />
                   </div>
                 </div>
+
+                {submitError && (
+                  <p className="text-xs text-red-400 text-center font-medium px-2">
+                    {submitError}
+                  </p>
+                )}
 
                 <button
                   type="submit"

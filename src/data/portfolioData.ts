@@ -21,10 +21,10 @@ export const DESIGNER_INFO = {
     ondesign: "https://on.design/atm"
   },
   stats: [
-    { label: "Years designing", value: "10+", detail: "Apple, Fintech & Spatial Tech" },
-    { label: "Design patents", value: "3", detail: "Spatial UI & Gaze Gesture Anchoring" },
-    { label: "Systems scale", value: "140+", detail: "Global Cross-Platform Adoption" },
-    { label: "Products shipped", value: "24+", detail: "Spatial & High-Frequency Software" }
+    { label: "Years designing", value: "15+", detail: "Design systems, consumer & enterprise" },
+    { label: "Completed projects", value: "100+", detail: "0-to-1 startups and enterprise products" },
+    { label: "Satisfied clients", value: "50+", detail: "Startups, brands, and enterprise teams" },
+    { label: "Startups scaled", value: "5", detail: "Early-stage growth and venture milestones" }
   ]
 };
 
@@ -43,7 +43,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: "2023 — 2024",
     category: "Consumer app",
     cardTags: ["Consumer app", "Social media", "Sports"],
-    heroImage: "/src/assets/images/casestudy_fintech_mobile_1790732888826.jpg",
+    figmaUrl: "https://www.figma.com/proto/7qcpNGMqv1GSP5IdDYKsvp/Alex-McDonald-%7C-Product-Designer-%7C-Seattle--WA?node-id=313-4826&viewport=684%2C153%2C0.14&t=cpR3wvw81c0ZOWzQ-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=313%3A4826&page-id=313%3A4732&hide-ui=1",
+    heroImage: "/assets/images/tennispal-thumb.jpg",
     statsSummary: "Tracked $4.2B+ in private wealth, 4.9 App Store rating, and +68% daily active engagement.",
     summary: "Created the mobile and desktop flagship experience for ultra-high-net-worth family offices managing complex asset allocations, venture capital tranches, and cross-currency liquidity.",
     problem: "Traditional wealth management portals were cluttered with table-heavy, unresponsive layouts and delayed transaction data that forced principals to rely on static PDF quarterly reports.",
@@ -93,7 +94,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: "2022 — 2023",
     category: "Consumer app",
     cardTags: ["Consumer app", "Marketplace", "Food"],
-    heroImage: "/src/assets/images/casestudy_canvas_device_1790887188018.jpg",
+    figmaUrl: "https://www.figma.com/proto/7qcpNGMqv1GSP5IdDYKsvp/Alex-McDonald-%7C-Product-Designer-%7C-Seattle--WA?node-id=374-7188&viewport=684%2C153%2C0.14&t=cpR3wvw81c0ZOWzQ-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=374%3A7188&page-id=313%3A4732&hide-ui=1",
+    heroImage: "/assets/images/saveplates-thumb.jpg",
     statsSummary: "3.4x faster concept iteration, 92% power-user retention in 48 hours.",
     summary: "Led the 0-to-1 product design of an infinite visual workspace for multi-modal AI generation. Designed spatial node connections, progressive parameter disclosure, and non-blocking background task orchestration.",
     problem: "Most AI interfaces trapped creators in conversational chat threads or overwhelming parameter grids with 40+ unlabelled knobs, leading to prompt paralysis and brittle iteration loops.",
@@ -143,7 +145,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: "2021 — 2022",
     category: "Consumer app",
     cardTags: ["Consumer app", "Marketplace", "Sports"],
-    heroImage: "/src/assets/images/golfscanner_preview_1790968360808.jpg",
+    figmaUrl: "https://www.figma.com/proto/7qcpNGMqv1GSP5IdDYKsvp/Alex-McDonald-%7C-Product-Designer-%7C-Seattle--WA?node-id=375-7314&viewport=684%2C153%2C0.14&t=cpR3wvw81c0ZOWzQ-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=375%3A7314&page-id=313%3A4732&show-proto-sidebar=1&hide-ui=1",
+    heroImage: "/assets/images/pogoseat-thumb.jpg",
     statsSummary: "52% upgrade conversion rate, adopted by 30+ NBA/MLB stadiums, +$3.8M incremental ticketing GMV.",
     summary: "Designed the end-to-end mobile fan experience and live venue marketplace allowing sports fans to purchase instant in-game seat upgrades and VIP access pass upgrades directly from their smartphone in seconds.",
     problem: "Stadiums were filled with vacant lower-bowl seats during live games while fans in upper tiers lacked a seamless, friction-free way to upgrade mid-game without navigating clunky ticketing websites or missing game action.",
@@ -193,7 +196,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: "2019 — 2021",
     category: "E-commerce",
     cardTags: ["E-commerce", "Marketplace", "Software", "Tech"],
-    heroImage: "/src/assets/images/casestudy_ai_workspace_1790732898643.jpg",
+    figmaUrl: "https://www.figma.com/proto/7qcpNGMqv1GSP5IdDYKsvp/Alex-McDonald-%7C-Product-Designer-%7C-Seattle--WA?node-id=378-7464&viewport=684%2C153%2C0.14&t=cpR3wvw81c0ZOWzQ-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=378%3A7464&page-id=313%3A4732&hide-ui=1",
+    heroImage: "/assets/images/stacksocial-thumb.jpg",
     statsSummary: "+41% cart conversion rate, $28M+ annual marketplace GMV, 4.2M active digital subscribers.",
     summary: "Reimagined the flagship digital marketplace discovery architecture, bundle builder experience, and checkout funnel for one of the web's largest technology discovery platforms.",
     problem: "Legacy software commerce platforms presented overwhelming category trees, dense text lists, and high cart abandonment caused by friction-filled multi-step redemption flows.",

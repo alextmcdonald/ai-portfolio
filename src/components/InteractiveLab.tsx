@@ -22,8 +22,8 @@ const EXPERIMENTS: Experiment[] = [
     id: "couples-chat",
     category: "AI Communication",
     title: "CouplesChat",
-    subtitle: "Empathetic relationship AI with real-time tone reflection and shared memories.",
-    heroImage: "/src/assets/images/coupleschat_preview_1790968348941.jpg",
+    subtitle: "An AI-powered relationship coach for couples with a private and group chat feature.",
+    heroImage: "/assets/images/coupleschat.jpg",
     readTime: "4 min read",
     summary: "CouplesChat explores empathetic conversational AI designed to nurture healthy relationship habits. It pairs real-time tone reflection with shared memory indexing, helping partners communicate with deeper understanding and vulnerability.",
     technicalArchitecture: [
@@ -52,8 +52,8 @@ async function analyzeMessageTone(content: string, coupleContext: CoupleProfile)
     id: "golf-scanner",
     category: "Computer Vision & AI",
     title: "Golfscanner",
-    subtitle: "Computer vision swing analyzer delivering real-time kinematics and shot telemetry.",
-    heroImage: "/src/assets/images/golfscanner_preview_1790968360808.jpg",
+    subtitle: "A better way to find golf courses and tee times using AI. Think Google flights for golf.",
+    heroImage: "/assets/images/golfscanner.jpg",
     readTime: "5 min read",
     summary: "Golfscanner leverages real-time mobile computer vision and neural pose estimation to decompose a golfer's swing kinematics in sub-second latency. Instantly tracks clubface angle, tempo ratio, hip rotation, and projected ball flight without external hardware.",
     technicalArchitecture: [
@@ -78,10 +78,10 @@ function analyzeSwingFrame(landmarks: PoseLandmarks, timestampMs: number) {
   },
   {
     id: "neural-shader",
-    category: "Generative Graphics",
+    category: "UX Education & Tools",
     title: "EverydayUX",
-    subtitle: "Natural language to real-time WebGL shaders with zero-latency compilation.",
-    heroImage: "/src/assets/images/experiment_neural_shader_1790967365207.jpg",
+    subtitle: "Helping UX designers sharpen their skills through bite-sized daily challenges.",
+    heroImage: "/assets/images/everydayux.jpg",
     readTime: "4 min read",
     summary: "EverydayUX explores real-time generative computer graphics by compiling natural language descriptions into valid, hardware-accelerated GLSL fragment shaders on the fly. Includes an AST sanitizer and hot-reloading WebGL preview pipeline.",
     technicalArchitecture: [
@@ -299,7 +299,7 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
             isLightMode ? 'text-stone-700' : 'text-white/85'
           }`}
         >
-          These are (a few) of my experiments in code and craft. Even as a design leader, I believe the only way to master the medium is to build. This space is dedicated to hands-on exploration, using AI to translate ideas into reality.
+          These are a few of my experiments in design, code, and AI. I believe the best way to understand new tools and technologies is to get hands-on, explore possibilities, and build things. This space is where I turn curiosity into working prototypes and bring ideas to life.
         </p>
       </div>
 
@@ -383,11 +383,12 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
                   onClick={() => {
                     sounds.playTap();
                     setSelectedExperiment(null);
                   }}
-                  className={`fixed inset-0 backdrop-blur-xl transition-all ${
+                  className={`fixed inset-0 backdrop-blur-xl ${
                     light ? 'bg-black/60' : 'bg-black/75'
                   }`}
                 />
@@ -408,9 +409,9 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
                     WebkitBackdropFilter: 'blur(48px) saturate(180%)'
                   }}
                 >
-                  {/* Top Bar with Title and Close Button (No horizontal divider line) */}
+                  {/* Top Bar with Title and Close Button (Even vertical padding) */}
                   <div
-                    className={`flex items-center justify-between px-6 sm:px-8 pt-5 sm:pt-6 pb-2.5 sm:pb-3 shrink-0 border-0 ${
+                    className={`flex items-center justify-between px-6 sm:px-8 py-5 sm:py-6 shrink-0 border-0 ${
                       light ? 'bg-white' : 'bg-white/[0.03]'
                     }`}
                   >
@@ -438,219 +439,32 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
                     </button>
                   </div>
 
-                  {/* Sticky Modal Navigation Tabs */}
-                  <div
-                    ref={tabsContainerRef}
-                    data-modal-scrollable="true"
-                    className={`sticky top-0 z-20 px-6 sm:px-8 pt-0 pb-0 flex items-center gap-6 sm:gap-7 overflow-x-auto no-scrollbar shrink-0 min-h-[40px] sm:min-h-[44px] h-[42px] sm:h-[46px] select-none transition-colors duration-200 border-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden touch-pan-x [overscroll-behavior-x:none] ${
-                      light ? 'bg-white' : 'bg-white/[0.03]'
-                    }`}
-                  >
-                    {navTabs.map((tab) => {
-                      const isSelected = activeTab === tab.id;
-                      return (
-                        <button
-                          key={tab.id}
-                          id={`exp-tab-${tab.id}`}
-                          onClick={() => scrollToSection(tab.id)}
-                          className={`relative h-full flex items-center py-1.5 px-1 text-xs sm:text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer shrink-0 border-0 bg-transparent ${
-                            isSelected
-                              ? light
-                                ? 'text-stone-900'
-                                : 'text-white'
-                              : light
-                                ? 'text-stone-500 hover:text-stone-800'
-                                : 'text-white/60 hover:text-white/90'
-                          }`}
-                        >
-                          <span>{tab.label}</span>
-                          {isSelected && (
-                            <motion.div
-                              layoutId="experimentActiveTabUnderline"
-                              className={`absolute bottom-0 left-0 right-0 h-[2px] rounded-full ${
-                                light
-                                  ? 'bg-stone-900 shadow-[0_0_8px_rgba(0,0,0,0.25)]'
-                                  : 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.4)]'
-                              }`}
-                              style={{
-                                backgroundColor: light ? '#0f172a' : '#ffffff'
-                              }}
-                              transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                            />
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Unified Single-Page Scrollable Content Body */}
+                  {/* Single-Page Scrollable Content Body with Only Main Image and Lorem Ipsum */}
                   <div
                     ref={scrollContainerRef}
-                    onScroll={handleScroll}
                     data-modal-scrollable="true"
-                    className="flex-1 overflow-y-auto overscroll-contain px-6 sm:px-8 py-6 space-y-12 scroll-smooth"
+                    className="flex-1 overflow-y-auto overscroll-contain px-6 sm:px-8 py-6 space-y-6"
                   >
-                    {/* SECTION 1: OVERVIEW & EXECUTIVE SUMMARY */}
-                    <section id="exp-section-overview" className="space-y-6 pt-2">
-                      <div
-                        className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wider ${
-                          light ? 'text-[#0071e3]' : 'text-sky-400'
+                    {/* Main Hero Showcase Image */}
+                    <div className="relative rounded-2xl overflow-hidden aspect-video max-h-96 w-full border border-white/15">
+                      <img
+                        src={selectedExperiment.heroImage}
+                        alt={selectedExperiment.title}
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+
+                    {/* Coming Soon Notice */}
+                    <div className="max-w-3xl pt-2 pb-6">
+                      <p
+                        className={`text-base sm:text-[20px] leading-relaxed sm:leading-[32.5px] font-normal ${
+                          light ? 'text-stone-700' : 'text-white/85'
                         }`}
                       >
-                        <Sparkles className="w-4 h-4" />
-                        <span>Executive summary</span>
-                      </div>
-
-                      {/* Hero Showcase Image */}
-                      <div className="relative rounded-2xl overflow-hidden aspect-video max-h-84 w-full group border border-white/15">
-                        <img
-                          src={selectedExperiment.heroImage}
-                          alt={selectedExperiment.title}
-                          referrerPolicy="no-referrer"
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent flex items-end p-6">
-                          <p className="text-sm sm:text-base font-medium text-white/95 max-w-2xl text-balance">
-                            {selectedExperiment.subtitle}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Overview & Motivation */}
-                      <div
-                        className={`p-5 rounded-2xl border ${
-                          light
-                            ? 'bg-stone-50 border-stone-200'
-                            : 'glass-thin bg-white/[0.04] border-white/10'
-                        }`}
-                      >
-                        <div
-                          className={`text-xs font-bold uppercase tracking-wider ${
-                            light ? 'text-[#0071e3]' : 'text-sky-400'
-                          }`}
-                        >
-                          Overview & motivation
-                        </div>
-                        <p
-                          className={`mt-2 text-sm sm:text-base leading-relaxed font-normal ${
-                            light ? 'text-stone-700' : 'text-white/80'
-                          }`}
-                        >
-                          {selectedExperiment.summary}
-                        </p>
-                      </div>
-                    </section>
-
-                    {/* SECTION 2: TECHNICAL INNOVATIONS */}
-                    <section id="exp-section-innovations" className="space-y-6">
-                      <div
-                        className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wider ${
-                          light ? 'text-emerald-600' : 'text-emerald-400'
-                        }`}
-                      >
-                        <Layers className="w-4 h-4" />
-                        <span>Technical innovations</span>
-                      </div>
-
-                      <div className="space-y-3">
-                        {selectedExperiment.technicalArchitecture.map((tech, i) => (
-                          <div
-                            key={i}
-                            className={`flex items-start gap-3 p-4 rounded-xl border ${
-                              light
-                                ? 'bg-stone-50 border-stone-200'
-                                : 'bg-white/[0.04] border-white/10'
-                            }`}
-                          >
-                            <CheckCircle2
-                              className={`w-4 h-4 shrink-0 mt-0.5 ${
-                                light ? 'text-emerald-600' : 'text-emerald-400'
-                              }`}
-                            />
-                            <span
-                              className={`text-sm leading-relaxed ${
-                                light ? 'text-stone-700' : 'text-white/85'
-                              }`}
-                            >
-                              {tech}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </section>
-
-                    {/* SECTION 3: SYSTEM SPECIFICATIONS */}
-                    <section id="exp-section-specs" className="space-y-6">
-                      <div
-                        className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wider ${
-                          light ? 'text-[#0071e3]' : 'text-sky-400'
-                        }`}
-                      >
-                        <SlidersHorizontal className="w-4 h-4" />
-                        <span>System specifications</span>
-                      </div>
-
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-                        {selectedExperiment.specs.map((spec, i) => (
-                          <div
-                            key={i}
-                            className={`p-4 rounded-2xl border ${
-                              light
-                                ? 'bg-stone-50 border-stone-200'
-                                : 'bg-white/[0.04] border-white/10'
-                            }`}
-                          >
-                            <div
-                              className={`text-[11px] font-mono ${
-                                light ? 'text-stone-500' : 'text-white/50'
-                              }`}
-                            >
-                              {spec.label}
-                            </div>
-                            <div
-                              className={`text-sm sm:text-base font-bold mt-1 ${
-                                light ? 'text-stone-900' : 'text-white'
-                              }`}
-                            >
-                              {spec.value}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </section>
-
-                    {/* SECTION 4: PRODUCTION IMPLEMENTATION */}
-                    <section id="exp-section-code" className="space-y-6 pb-6">
-                      <div
-                        className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wider ${
-                          light ? 'text-amber-600' : 'text-amber-300'
-                        }`}
-                      >
-                        <Code2 className="w-4 h-4" />
-                        <span>Production implementation</span>
-                      </div>
-
-                      <div
-                        className={`rounded-2xl overflow-hidden border ${
-                          light
-                            ? 'border-stone-200 bg-stone-900 text-stone-100'
-                            : 'border-white/15 bg-black/70 text-white/90'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between px-4 py-2.5 bg-white/[0.06] border-b border-white/10 text-xs font-mono text-white/60">
-                          <span className="flex items-center gap-1.5">
-                            <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block" />
-                            <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block" />
-                            <span className="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block" />
-                            <span className="ml-2">{selectedExperiment.id}.ts</span>
-                          </span>
-                          <span>TypeScript · Zero-Latency Pipeline</span>
-                        </div>
-                        <pre className="p-5 text-xs sm:text-sm font-mono overflow-x-auto leading-relaxed">
-                          {selectedExperiment.codeSnippet}
-                        </pre>
-                      </div>
-                    </section>
+                        More information coming soon...
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
               </div>

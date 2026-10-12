@@ -324,11 +324,12 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
           onClick={() => {
             sounds.playTap();
             onClose();
           }}
-          className="fixed inset-0 bg-black/75 backdrop-blur-xl transition-all"
+          className="fixed inset-0 bg-black/75 backdrop-blur-xl"
         />
 
         {/* Modal Window Container with outer border */}

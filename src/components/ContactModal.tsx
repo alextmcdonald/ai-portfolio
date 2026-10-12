@@ -25,17 +25,48 @@ export const ContactModal: React.FC<ContactModalProps> = ({
   const [note, setNote] = useState('');
   const [focusedField, setFocusedField] = useState<'name' | 'email' | 'note' | null>(null);
   const [sent, setSent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !note) return;
+    if (!name.trim() || !email.trim() || !note.trim()) return;
+
     sounds.playTap();
-    setTimeout(() => {
-      setSent(true);
-      sounds.playSuccess();
-    }, 700);
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const response = await fetch('https://formspree.io/f/mbgdawzg', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          message: note.trim()
+        })
+      });
+
+      if (response.ok) {
+        setIsSubmitting(false);
+        setSent(true);
+        sounds.playSuccess();
+        setName('');
+        setEmail('');
+        setNote('');
+      } else {
+        const data = await response.json().catch(() => null);
+        throw new Error(data?.error || 'Failed to send message');
+      }
+    } catch {
+      setIsSubmitting(false);
+      setSubmitError('Unable to send right now. Please email me@alextmcdonald.com directly.');
+    }
   };
 
   return (
@@ -46,11 +77,12 @@ export const ContactModal: React.FC<ContactModalProps> = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
           onClick={() => {
             sounds.playTap();
             onClose();
           }}
-          className={`fixed inset-0 backdrop-blur-xl transition-all ${
+          className={`fixed inset-0 backdrop-blur-xl ${
             light ? 'bg-black/50' : 'bg-black/80'
           }`}
         />
@@ -94,26 +126,27 @@ export const ContactModal: React.FC<ContactModalProps> = ({
           </div>
 
           {sent ? (
-            <div className="py-8 text-center space-y-3">
-              <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center mx-auto border border-emerald-500/40">
-                <CheckCircle2 className="w-6 h-6" />
+            <div className="py-8 text-center space-y-3.5">
+              <div className="flex items-center justify-center mx-auto text-emerald-500">
+                <svg
+                  className="w-14 h-14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="8.75" />
+                  <polyline points="8.5 12 11 14.5 15.5 9.5" />
+                </svg>
               </div>
-              <h3 className={`text-base font-bold ${light ? 'text-stone-900' : 'text-white'}`}>
-                Transmitted
+              <h3 className={`text-xl sm:text-2xl font-bold tracking-tight ${light ? 'text-stone-900' : 'text-white'}`}>
+                Message sent!
               </h3>
-              <p className={`text-xs ${light ? 'text-stone-600' : 'text-white/70'}`}>
-                Alex will be in touch with you shortly.
+              <p className={`text-base sm:text-[18px] leading-relaxed max-w-md mx-auto font-normal ${light ? 'text-stone-700' : 'text-white/85'}`}>
+                Thanks for reaching out. Your message has been successfully delivered. Talk soon! ✌️
               </p>
-              <button
-                onClick={() => {
-                  sounds.playTap();
-                  onClose();
-                }}
-                className="mt-2 px-5 py-2 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white force-white text-xs font-semibold shadow-[0_4px_16px_rgba(0,113,227,0.25)] cursor-pointer"
-                style={{ color: '#ffffff' }}
-              >
-                Close
-              </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -249,13 +282,26 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                 />
               </div>
 
+              {submitError && (
+                <p className="text-xs text-red-400 text-center font-medium px-2">
+                  {submitError}
+                </p>
+              )}
+
               <button
                 type="submit"
-                className="w-full py-3.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white force-white text-sm font-semibold active:scale-98 transition-all flex items-center justify-center gap-2 mt-2 shadow-[0_4px_20px_rgba(0,113,227,0.3)] cursor-pointer"
+                disabled={isSubmitting}
+                className="w-full py-3.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white force-white text-sm font-semibold active:scale-98 transition-all flex items-center justify-center gap-2 mt-2 shadow-[0_4px_20px_rgba(0,113,227,0.3)] cursor-pointer disabled:opacity-50"
                 style={{ color: '#ffffff' }}
               >
-                <Send className="w-4 h-4" style={{ color: '#ffffff' }} />
-                <span style={{ color: '#ffffff' }}>Send message</span>
+                {isSubmitting ? (
+                  <span style={{ color: '#ffffff' }}>Sending message...</span>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" style={{ color: '#ffffff' }} />
+                    <span style={{ color: '#ffffff' }}>Send message</span>
+                  </>
+                )}
               </button>
             </form>
           )}

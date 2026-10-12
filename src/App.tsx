@@ -195,26 +195,12 @@ export default function App() {
 
   useEffect(() => {
     if (isAnyModalOpen) {
-      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-      if (scrollBarWidth > 0) {
-        document.body.style.paddingRight = `${scrollBarWidth}px`;
-        document.documentElement.style.setProperty('--scrollbar-width', `${scrollBarWidth}px`);
-      } else {
-        document.documentElement.style.setProperty('--scrollbar-width', '0px');
-      }
     } else {
       document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-      document.body.style.paddingRight = '';
-      document.documentElement.style.setProperty('--scrollbar-width', '0px');
     }
     return () => {
       document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-      document.body.style.paddingRight = '';
-      document.documentElement.style.setProperty('--scrollbar-width', '0px');
     };
   }, [isAnyModalOpen]);
 

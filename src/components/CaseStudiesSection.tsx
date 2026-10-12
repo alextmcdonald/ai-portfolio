@@ -24,7 +24,11 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
               onClick={() => {
                 if (study.isNDA) return;
                 sounds.playGlassChime();
-                onSelectCaseStudy(study);
+                if (study.figmaUrl) {
+                  window.open(study.figmaUrl, '_blank', 'noopener,noreferrer');
+                } else {
+                  onSelectCaseStudy(study);
+                }
               }}
               className={`group relative rounded-[28px] sm:rounded-[36px] overflow-hidden transition-all duration-500 min-h-[440px] sm:min-h-[500px] flex flex-col justify-between px-4 sm:px-8 lg:px-10 py-8 sm:py-12 ${
                 study.isNDA ? 'cursor-default' : 'cursor-pointer'
@@ -135,6 +139,21 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
                       <span className="text-[14px] leading-[20px]">Under NDA</span>
                       <Lock className="w-3.5 h-3.5 shrink-0" />
                     </button>
+                  ) : study.figmaUrl ? (
+                    <a
+                      href={study.figmaUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        sounds.playGlassChime();
+                      }}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white force-white text-sm font-semibold transition-all duration-200 shadow-[0_4px_16px_rgba(0,113,227,0.35)] active:scale-95 group/btn cursor-pointer no-underline"
+                      style={{ color: '#ffffff' }}
+                    >
+                      <span className="text-[14px] leading-[20px]" style={{ color: '#ffffff' }}>View case study</span>
+                      <ArrowUpRight className="w-4 h-4 text-white group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" style={{ color: '#ffffff' }} />
+                    </a>
                   ) : (
                     <button
                       type="button"

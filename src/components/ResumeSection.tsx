@@ -32,29 +32,80 @@ const LATEST_STRAVA_ACTIVITY = {
 
 const PERSONAL_PHOTOS = [
   {
-    id: 'studio-desk',
-    url: '/src/assets/images/alex_workspace_design_1790966330105.jpg',
-    tilt: '-rotate-2'
+    id: 'img-7012',
+    url: '/assets/images/about/IMG_7012.jpeg',
+    tilt: '-rotate-2',
+    width: '185px' // Tall portrait (9:16)
   },
   {
-    id: 'creative-craft',
-    url: '/src/assets/images/alex_creative_craft_1790966354531.jpg',
-    tilt: 'rotate-2'
+    id: 'rnd-1',
+    url: '/assets/images/about/RND-1.jpg',
+    tilt: 'rotate-2',
+    width: '410px' // Landscape (3:2)
   },
   {
-    id: 'design-workshop',
-    url: '/src/assets/images/alex_design_workshop_1790966343011.jpg',
-    tilt: '-rotate-1'
+    id: 'img-8568',
+    url: '/assets/images/about/IMG_8568.jpeg',
+    tilt: '-rotate-1',
+    width: '218px' // Portrait (3:4)
   },
   {
-    id: 'coastal-mist',
-    url: '/src/assets/images/env_light_coast_1790741180007.jpg',
-    tilt: 'rotate-2'
+    id: 'img-4126',
+    url: '/assets/images/about/IMG_4126.JPG',
+    tilt: 'rotate-2',
+    width: '385px' // Landscape (4:3)
+  },
+  {
+    id: 'dsc00309',
+    url: '/assets/images/about/DSC00309-1.jpg',
+    tilt: '-rotate-2',
+    width: '200px' // Portrait (2:3)
+  },
+  {
+    id: 'img-6915',
+    url: '/assets/images/about/IMG_6915.JPG',
+    tilt: 'rotate-1',
+    width: '290px' // Square (1:1)
+  },
+  {
+    id: 'rnd-4',
+    url: '/assets/images/about/RND-4.jpg',
+    tilt: '-rotate-2',
+    width: '410px' // Landscape (3:2)
+  },
+  {
+    id: 'img-3292',
+    url: '/assets/images/about/IMG_3292.jpeg',
+    tilt: 'rotate-2',
+    width: '218px' // Portrait (3:4)
+  },
+  {
+    id: 'about-3594',
+    url: '/assets/images/about/3594173892521836429.jpg',
+    tilt: '-rotate-1',
+    width: '385px' // Landscape (4:3)
+  },
+  {
+    id: 'img-7074',
+    url: '/assets/images/about/IMG_7074.jpeg',
+    tilt: 'rotate-2',
+    width: '185px' // Tall portrait (9:16)
+  },
+  {
+    id: 'img-9850',
+    url: '/assets/images/about/IMG_9850.JPG',
+    tilt: '-rotate-2',
+    width: '320px' // Slight landscape
+  },
+  {
+    id: 'img-5111',
+    url: '/assets/images/about/IMG_5111.jpeg',
+    tilt: 'rotate-1',
+    width: '205px' // Portrait
   }
 ];
 
 const TRACK_PHOTOS = [
-  ...PERSONAL_PHOTOS,
   ...PERSONAL_PHOTOS,
   ...PERSONAL_PHOTOS
 ];
@@ -87,6 +138,14 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedPhoto]);
+
+  // Preload carousel photos in background immediately on mount so they are cached before scrolling down
+  useEffect(() => {
+    PERSONAL_PHOTOS.forEach((photo) => {
+      const img = new Image();
+      img.src = photo.url;
+    });
+  }, []);
 
   // Recommendations Slideshow State
   const [recIndex, setRecIndex] = useState(0);
@@ -165,15 +224,23 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
               isLightMode ? 'text-stone-700' : 'text-white/85'
             }`}
           >
-            I believe great design lives at the precise convergence of <strong>rigorous visual craft</strong>, <strong>spatial ergonomics</strong>, and <strong>deep technical execution</strong>. Over the past decade, I have guided 0-to-1 product definitions and scaled design systems used by millions of daily users across spatial hardware, fintech, and creative operating systems.
+            I&apos;m a firm believer that well-designed digital products can not only enhance the overall experience of users but also help address real-world issues and make a tangible positive impact in people’s lives. My approach is driven by a passion for simplifying complexity, exploring new possibilities, and turning ambitious ideas into meaningful experiences for all users.
           </p>
 
           <p
             className={`text-base sm:text-[20px] leading-relaxed sm:leading-[32.5px] ${
-              isLightMode ? 'text-stone-600' : 'text-white/75'
+              isLightMode ? 'text-stone-700' : 'text-white/85'
             }`}
           >
-            Rather than treating design and engineering as separate disciplines, I prototype in production code—authoring responsive React/TypeScript systems, GLSL spatial glass shaders, and physics-based spring curves. When designers write code, products retain their soul from conception to shipment.
+            Throughout my career, I&apos;ve worked with some incredible people on amazing teams across startups and enterprise companies. My focus has been on marketplace consumer apps and complex B2B software, where I thrive on enhancing products with superior visual and UX design that balances organizational goals with user needs.
+          </p>
+
+          <p
+            className={`text-base sm:text-[20px] leading-relaxed sm:leading-[32.5px] ${
+              isLightMode ? 'text-stone-700' : 'text-white/85'
+            }`}
+          >
+            Away from the screen, you&apos;ll likely find me outdoors exploring the Pacific Northwest, playing tennis or golf, cycling, running, or spending time with the people who matter most: family.
           </p>
         </div>
       </div>
@@ -221,7 +288,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
         <div
           className="flex items-center w-max py-3 px-1 hover:[animation-play-state:paused]"
           style={{
-            animation: 'infiniteScrollLeft 60s linear infinite',
+            animation: 'infiniteScrollLeft 120s linear infinite',
             willChange: 'transform',
             background: 'transparent'
           }}
@@ -240,11 +307,12 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                 }}
                 className={`shrink-0 cursor-pointer relative rounded-[22px] sm:rounded-[26px] overflow-hidden transition-transform duration-300 ${
                   photo.tilt
-                } hover:rotate-0`}
+                } hover:rotate-0 ${
+                  isLightMode ? 'bg-stone-200/60' : 'bg-stone-800/60'
+                }`}
                 style={{
-                  width: idx % 2 === 0 ? '240px' : '205px',
-                  height: '290px',
-                  background: 'transparent'
+                  width: photo.width || (idx % 2 === 0 ? '240px' : '205px'),
+                  height: '290px'
                 }}
               >
                 <img
@@ -252,7 +320,8 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                   alt=""
                   aria-hidden="true"
                   className="w-full h-full object-cover select-none pointer-events-none rounded-[22px] sm:rounded-[26px]"
-                  loading="lazy"
+                  loading="eager"
+                  decoding="async"
                 />
               </motion.div>
             ))}
@@ -272,11 +341,12 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                 }}
                 className={`shrink-0 cursor-pointer relative rounded-[22px] sm:rounded-[26px] overflow-hidden transition-transform duration-300 ${
                   photo.tilt
-                } hover:rotate-0`}
+                } hover:rotate-0 ${
+                  isLightMode ? 'bg-stone-200/60' : 'bg-stone-800/60'
+                }`}
                 style={{
-                  width: idx % 2 === 0 ? '240px' : '205px',
-                  height: '290px',
-                  background: 'transparent'
+                  width: photo.width || (idx % 2 === 0 ? '240px' : '205px'),
+                  height: '290px'
                 }}
               >
                 <img
@@ -284,7 +354,8 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                   alt=""
                   aria-hidden="true"
                   className="w-full h-full object-cover select-none pointer-events-none rounded-[22px] sm:rounded-[26px]"
-                  loading="lazy"
+                  loading="eager"
+                  decoding="async"
                 />
               </motion.div>
             ))}
@@ -303,7 +374,8 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className={`fixed inset-0 backdrop-blur-xl transition-all ${
+              transition={{ duration: 0.2 }}
+              className={`fixed inset-0 backdrop-blur-xl ${
                 isLightMode ? 'bg-black/50' : 'bg-black/80'
               }`}
             />
