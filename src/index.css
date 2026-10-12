@@ -510,4 +510,16 @@ p[class*="text-[10px]"],
   }
 }
 
+/* Tablet portrait, mobile portrait, and mobile landscape: move up ~10px, add 10px spacing below, and move ~5px to the right */
+@media (max-width: 1023px) and (orientation: portrait),
+       (orientation: landscape) and (max-height: 600px),
+       (orientation: landscape) and (max-width: 932px) and (max-height: 600px),
+       (orientation: landscape) and (max-width: 896px) {
+  .tech-stack-callout-adjust {
+    margin-top: -10px !important;
+    margin-bottom: 10px !important;
+    transform: translateX(5px) !important;
+  }
+}
+
 

@@ -119,8 +119,17 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
       id: 'javascript',
       name: 'JavaScript',
       category: 'Dynamic Web Engine',
-      brandColor: `#${siJavascript.hex}`,
-      path: siJavascript.path
+      brandColor: '#F7DF1E',
+      customIcon: (
+        <svg
+          viewBox="0 0 630 630"
+          className="w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-xs"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect width="630" height="630" fill="#f7df1e" />
+          <path d="m423.2 492.19c12.69 20.72 29.2 35.95 58.4 35.95 24.53 0 40.2-12.26 40.2-29.2 0-20.3-16.1-27.49-43.1-39.3l-14.8-6.35c-42.72-18.2-71.1-41-71.1-89.2 0-44.4 33.83-78.2 86.7-78.2 37.64 0 64.7 13.1 84.2 47.4l-46.1 29.6c-10.15-18.2-21.1-25.37-38.1-25.37-17.34 0-28.33 11-28.33 25.37 0 17.76 11 24.95 36.4 35.95l14.8 6.34c50.3 21.57 78.7 43.56 78.7 93 0 53.3-41.87 82.5-98.1 82.5-54.98 0-90.5-26.2-107.88-60.54zm-209.13 5.13c9.3 16.5 17.76 30.45 38.1 30.45 19.45 0 31.72-7.61 31.72-37.2v-201.3h59.2v202.1c0 61.3-35.94 89.2-88.4 89.2-47.4 0-74.85-24.53-88.81-54.075z" fill="#000000" />
+        </svg>
+      )
     },
     {
       id: 'typescript',
@@ -192,7 +201,7 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
       <div className="flex flex-wrap items-center gap-y-4 gap-x-4 sm:gap-x-5 mt-0 pt-0">
         {/* Left: Overlapping tech stack icon tiles */}
         <div
-          className="flex items-center -space-x-2 sm:-space-x-2.5 isolate pt-8 sm:pt-8.5 pb-3.5 pl-[4px] pr-4 sm:pr-6 max-w-full overflow-x-auto md:overflow-visible no-scrollbar touch-pan-x select-none mobile-landscape-overflow-visible"
+          className="flex items-center -space-x-2 sm:-space-x-2.5 isolate pt-3.5 [@media(orientation:landscape)]:pt-8 sm:pt-8.5 pb-3.5 pl-[4px] pr-4 sm:pr-6 max-w-full overflow-x-auto md:overflow-visible no-scrollbar touch-pan-x select-none mobile-landscape-overflow-visible"
         >
           {TECH_ITEMS.map((item, idx) => {
             const isHovered = hoveredId === item.id;
@@ -209,14 +218,14 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
                 <AnimatePresence>
                   {isHovered && (
                     <motion.div
-                      initial={{ opacity: 0, y: 4, scale: 0.94 }}
+                      initial={{ opacity: 0, y: 6, scale: 0.92 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 2, scale: 0.96 }}
-                      transition={{ duration: 0.14, ease: [0.16, 1, 0.3, 1] }}
-                      className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 z-50 pointer-events-none flex flex-col items-center mobile-portrait-hidden"
+                      exit={{ opacity: 0, y: 4, scale: 0.94 }}
+                      transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+                      className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 z-50 pointer-events-none flex flex-col items-center mobile-portrait-hidden"
                     >
                       <div
-                        className="px-2 py-1 rounded-lg shadow-[0_4px_16px_rgba(0,0,0,0.45)] border border-white/20 bg-stone-900/95 backdrop-blur-xl whitespace-nowrap text-center force-white keep-white"
+                        className="px-2.5 py-1.5 rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.45)] border border-white/20 bg-stone-900/95 backdrop-blur-xl whitespace-nowrap text-center force-white keep-white"
                         style={{ color: '#ffffff' }}
                       >
                         <div
@@ -227,7 +236,7 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
                         </div>
                       </div>
                       {/* Downward triangle caret */}
-                      <div className="w-1.5 h-1.5 rotate-45 -mt-0.5 border-r border-b bg-stone-900/95 border-white/20" />
+                      <div className="w-2 h-2 rotate-45 -mt-1 border-r border-b bg-stone-900/95 border-white/20" />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -240,7 +249,7 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
                   onMouseLeave={() => setHoveredId(null)}
                   onTouchStart={() => setHoveredId(item.id)}
                   aria-label={item.name}
-                  className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer mobile-portrait-no-shadow ${
+                  className={`w-11 h-11 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer mobile-portrait-no-shadow ${
                     isLightMode
                       ? 'bg-[#DFE0E4] text-stone-800 border border-[#D3D5D9] ring-2 ring-[#F7F8FB] shadow-[0_2px_8px_rgba(0,0,0,0.06)]'
                       : 'bg-[#111111] text-white border border-white/15 ring-2 ring-[#0c0d12]/90 shadow-[0_4px_14px_rgba(0,0,0,0.45)]'
@@ -253,7 +262,7 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
                       <svg
                         role="img"
                         viewBox="0 0 24 24"
-                        className="w-4.5 h-4.5 sm:w-5 sm:h-5"
+                        className="w-5 h-5"
                         fill={item.brandColor}
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -268,7 +277,7 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
         </div>
 
         {/* Right: Handwritten Script "Current tech stack" with arrow pointing to it */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 select-none py-1 ml-3.5 lg:ml-0 [@media(orientation:landscape)_and_(max-height:600px)]:ml-3.5">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 select-none py-1 ml-3.5 lg:ml-0 xl:-ml-3 [@media(orientation:landscape)_and_(min-width:1024px)]:-translate-x-3 [@media(orientation:landscape)_and_(min-width:768px)_and_(max-width:1366px)]:-translate-x-3 [@media(orientation:landscape)_and_(max-height:600px)]:ml-3.5 [@media(orientation:landscape)_and_(max-height:600px)]:translate-x-0 tech-stack-callout-adjust">
           {/* Hand-drawn curved arrow pointing toward the tech stack icons */}
           <div
             className="relative text-[#e17100] transition-colors duration-200 -translate-y-1.5 lg:translate-y-0 [@media(orientation:landscape)_and_(max-height:600px)]:-translate-y-1.5"

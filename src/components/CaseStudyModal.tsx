@@ -392,14 +392,14 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                   key={tab.id}
                   id={`cs-tab-${tab.id}`}
                   onClick={() => scrollToSection(tab.id)}
-                  className={`relative h-full flex items-center py-1.5 px-1 text-xs sm:text-sm font-semibold transition-colors duration-200 whitespace-nowrap cursor-pointer shrink-0 border-0 bg-transparent ${
+                  className={`relative h-full flex items-center py-1.5 px-1 text-xs sm:text-sm transition-colors duration-200 whitespace-nowrap cursor-pointer shrink-0 border-0 bg-transparent ${
                     isSelected
                       ? light
                         ? 'text-stone-900 font-semibold'
                         : 'text-white font-semibold'
                       : light
-                        ? 'text-stone-500 hover:text-stone-800'
-                        : 'text-white/60 hover:text-white/90'
+                        ? 'text-stone-500 font-normal hover:text-stone-800'
+                        : 'text-white/60 font-normal hover:text-white/90'
                   }`}
                 >
                   <span>{tab.label}</span>
