@@ -192,7 +192,7 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
       <div className="flex flex-wrap items-center gap-y-4 gap-x-4 sm:gap-x-5 mt-0 pt-0">
         {/* Left: Overlapping tech stack icon tiles */}
         <div
-          className="flex items-center -space-x-2 sm:-space-x-2.5 isolate pt-8 sm:pt-8.5 pb-3.5 pl-[2px] pr-4 sm:pr-6 max-w-full overflow-x-auto md:overflow-visible no-scrollbar touch-pan-x select-none mobile-landscape-overflow-visible"
+          className="flex items-center -space-x-2 sm:-space-x-2.5 isolate pt-8 sm:pt-8.5 pb-3.5 pl-[4px] pr-4 sm:pr-6 max-w-full overflow-x-auto md:overflow-visible no-scrollbar touch-pan-x select-none mobile-landscape-overflow-visible"
         >
           {TECH_ITEMS.map((item, idx) => {
             const isHovered = hoveredId === item.id;

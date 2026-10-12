@@ -36,58 +36,6 @@ export const STATUS_CARD_MEDIA = {
 
 export const CASE_STUDIES: CaseStudy[] = [
   {
-    id: "aura-spatial-os",
-    title: "DriveAuto",
-    subtitle: "Reimagining a $50M automotive marketing platform for the AI era",
-    role: "Lead Spatial Designer & Systems Architect",
-    timeline: "2024 — 2025",
-    category: "B2B Enterprise",
-    cardTags: ["B2B Enterprise", "SaaS", "Automotive", "Marketing"],
-    isNDA: true,
-    heroImage: "/src/assets/images/casestudy_spatial_device_1790887169601.jpg",
-    videoUrl: "/assets/videos/driveauto.mp4",
-    statsSummary: "Task switching 42% faster, 38% gaze fatigue reduction. Adopted across 140+ engineers.",
-    summary: "Designed and engineered an end-to-end spatial computing interface system built from the ground up for floating glass environments. Solved ergonomic fatigue from extended gaze selection, dynamic ambient lighting occlusion, and multi-window depth collisions.",
-    problem: "Early spatial apps suffered from eye fatigue due to high-contrast white frost cards, disorienting 3D floating z-depth layers, and clunky touch metaphors ported carelessly from 2D tablet operating systems.",
-    solution: "Developed tinted neutral grey glass shaders with directional rim specular highlights, concentric corner radii math (r_inner = r_outer - padding), and an adaptive gaze-focus physics curve that gently magnifies targets before pinch confirmation.",
-    researchInsights: [
-      "Eye saccades are ~30% less accurate than finger taps; target bounding boxes required a minimum 56pt gaze-hit radius with comfortable 12pt safety gutters.",
-      "Pure white frosted glass caused severe eye fatigue in dark environments; adopting neutral warm-grey tinted glass reduced luminance spikes by 48%.",
-      "Sound feedback synchronized at the exact moment of finger contact reduces perceived input latency by over 80ms."
-    ],
-    designDecisions: [
-      {
-        title: "Adaptive Depth Anchoring",
-        description: "Windows intelligently adjust their z-distance based on window content density, maintaining constant angular resolution in the user's field of view."
-      },
-      {
-        title: "Dynamic Specular Horizon",
-        description: "A calculated rim highlight that tracks virtual room light sources, making glass windows feel physically present rather than flat SVG overlays."
-      },
-      {
-        title: "Gaze-Spring Magnetism",
-        description: "Subtle 2px spring lift towards the optical center on gaze hover with compositor-only transforms, providing reassuring tactile confirmation."
-      }
-    ],
-    metrics: [
-      { label: "Task Switching", value: "42% Faster", subtext: "In continuous multi-window spatial benchmarking" },
-      { label: "Gaze Fatigue", value: "38% Reduction", subtext: "Measured across 3-hour continuous workflow tests" },
-      { label: "System Adoption", value: "99.4%", subtext: "Adopted across 140+ engineers and 6 product squads" }
-    ],
-    systemSpecs: [
-      { key: "Target Field of View", value: "64° horizontal comfortable viewing arc" },
-      { key: "Window Corner Radius", value: "40px outer / 26px card / 18px nested" },
-      { key: "Gaze Hit Radius", value: "56pt minimum interactive bounding area" },
-      { key: "Backdrop Filter Blur", value: "32px Gaussian with 180% color saturation" }
-    ],
-    prototypeScreens: [
-      { name: "Window Management", caption: "Multi-depth spatial arrangement with magnetic snapping", tag: "Spatial 3D" },
-      { name: "Ornaments & Controls", caption: "Floating bottom capsule with physics-driven state transitions", tag: "Controls" },
-      { name: "Dynamic Glass Shader", caption: "Real-time room illumination reflection and specular rim highlight", tag: "Shader" }
-    ],
-    tags: ["B2B Enterprise", "SaaS", "Automotive", "Spatial UI", "Design Systems", "Ergonomics"]
-  },
-  {
     id: "strata-wealth",
     title: "TennisPal",
     subtitle: "Driving user growth with better onboarding and match scheduling",
