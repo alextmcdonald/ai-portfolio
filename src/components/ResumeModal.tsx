@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Download, GraduationCap, Briefcase, Layers } from 'lucide-react';
-import { DESIGNER_INFO, WORK_EXPERIENCE, EDUCATION_LIST } from '../data/portfolioData';
+import { X, Download, Loader2 } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
 interface ResumeModalProps {
@@ -16,6 +15,13 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
   isLightMode = false
 }) => {
   const light = isLightMode || (typeof document !== 'undefined' && document.documentElement.classList.contains('light-mode'));
+  const [isIframeLoading, setIsIframeLoading] = useState(true);
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setIsIframeLoading(true);
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -103,11 +109,30 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
           </div>
 
           {/* PDF Viewer Body (No border, no shadow) */}
-          <div className="flex-1 w-full h-full overflow-hidden p-0 m-0 border-0 shadow-none bg-stone-100 dark:bg-stone-900">
+          <div className={`relative flex-1 w-full h-full overflow-hidden p-0 m-0 border-0 shadow-none ${
+            light ? 'bg-stone-100' : 'bg-stone-900'
+          }`}>
+            {/* Loading Spinner Indicator */}
+            {isIframeLoading && (
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
+                <Loader2 className={`w-7 h-7 animate-spin ${
+                  light ? 'text-stone-400' : 'text-stone-500'
+                }`} />
+                <span className={`text-xs font-mono tracking-wider uppercase ${
+                  light ? 'text-stone-400' : 'text-stone-500'
+                }`}>
+                  Loading resume...
+                </span>
+              </div>
+            )}
+
             <iframe
               src={`${resumePdfPath}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`}
               title="Alex McDonald Product Designer Resume"
-              className="w-full h-full border-0 outline-none shadow-none"
+              onLoad={() => setIsIframeLoading(false)}
+              className={`w-full h-full border-0 outline-none shadow-none transition-opacity duration-300 ${
+                isIframeLoading ? 'opacity-0 pointer-events-none' : 'opacity-100'
+              }`}
               style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
             />
           </div>

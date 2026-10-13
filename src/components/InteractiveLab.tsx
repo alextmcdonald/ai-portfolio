@@ -12,6 +12,7 @@ interface Experiment {
   heroImage: string;
   readTime: string;
   summary: string;
+  descriptionParagraphs: string[];
   technicalArchitecture: string[];
   specs: { label: string; value: string }[];
   codeSnippet: string;
@@ -19,13 +20,49 @@ interface Experiment {
 
 const EXPERIMENTS: Experiment[] = [
   {
+    id: "everyday-ux",
+    category: "UX Education & Tools",
+    title: "EverydayUX",
+    subtitle: "Helping UX designers sharpen their skills through bite-sized daily challenges.",
+    heroImage: "/assets/images/everydayux.jpg",
+    readTime: "4 min read",
+    summary: "EverydayUX is a place where designers can spend just a few minutes each day solving real product design challenges to build stronger product instincts.",
+    descriptionParagraphs: [
+      "EverydayUX started from a simple observation. Most designers want to keep improving, but finding time to study every day is hard. There are plenty of courses and books, but very few experiences that make learning feel like a habit instead of another task.",
+      "I'm building EverydayUX as a place where designers can spend just a few minutes each day solving real product design challenges. The goal is to make learning interactive, practical, and fun. Instead of watching long videos or reading endless articles, users can work through bite sized scenarios, compare their thinking with guided solutions, and gradually build stronger product instincts.",
+      "This project is important to me because I believe great designers are made through consistent practice. I want to create something that I would personally look forward to opening every morning and that helps designers at every stage of their career become a little better every day."
+    ],
+    technicalArchitecture: [
+      "Micro-learning scenario engine delivering real-world product dilemmas in under 5 minutes",
+      "Interactive guided solution walk-throughs with rationale comparison",
+      "Streak tracking and habit formation mechanics designed for sustainable daily practice",
+      "Progressive scenario difficulty adapting to junior, mid-level, and senior design patterns"
+    ],
+    specs: [
+      { label: "Format", value: "Daily Bite-Sized" },
+      { label: "Cadence", value: "3-5 Mins / Day" },
+      { label: "Focus", value: "Real UX Challenges" },
+      { label: "Community", value: "Peer Discussion" }
+    ],
+    codeSnippet: `// Scenario evaluation and decision tree solver
+function evaluateScenarioChoice(userDecision: DecisionId, expertPath: ExpertGuidance) {
+  const alignmentScore = calculateRationaleDelta(userDecision.tradeoffs, expertPath.considerations);
+  return { score: alignmentScore, takeaways: expertPath.critiqueNotes };
+}`
+  },
+  {
     id: "couples-chat",
     category: "AI Communication",
     title: "CouplesChat",
     subtitle: "An AI-powered relationship coach for couples with a private and group chat feature.",
     heroImage: "/assets/images/coupleschat.jpg",
     readTime: "4 min read",
-    summary: "CouplesChat explores empathetic conversational AI designed to nurture healthy relationship habits. It pairs real-time tone reflection with shared memory indexing, helping partners communicate with deeper understanding and vulnerability.",
+    summary: "CouplesChat is an AI relationship coach designed to help couples communicate better, navigate conflict, and build stronger relationships over time.",
+    descriptionParagraphs: [
+      "CouplesChat is an AI relationship coach designed to help couples communicate better, navigate conflict, and build stronger relationships over time. Rather than replacing real conversations, the app helps people prepare for them, reflect on them, and better understand both themselves and their partner.",
+      "I've been designing the product from the ground up, from user flows and onboarding to the AI conversation experience itself. The focus has been creating an experience that feels supportive, personal, and easy to use while keeping each partner's privacy and shared relationship history in mind.",
+      "This project is especially meaningful because healthy relationships are one of the biggest predictors of happiness, yet most people have very few tools to help them communicate well. I'm excited by the idea that AI can provide thoughtful guidance in moments when people need it most and help couples build healthier habits over time."
+    ],
     technicalArchitecture: [
       "Real-time sentiment and tone reflection using low-latency streaming LLMs",
       "End-to-end encrypted shared relationship vault and shared memory indexing",
@@ -50,61 +87,37 @@ async function analyzeMessageTone(content: string, coupleContext: CoupleProfile)
   },
   {
     id: "golf-scanner",
-    category: "Computer Vision & AI",
-    title: "Golfscanner",
+    category: "Search & Discovery",
+    title: "GolfScanner",
     subtitle: "A better way to find golf courses and tee times using AI. Think Google flights for golf.",
     heroImage: "/assets/images/golfscanner.jpg",
     readTime: "5 min read",
-    summary: "Golfscanner leverages real-time mobile computer vision and neural pose estimation to decompose a golfer's swing kinematics in sub-second latency. Instantly tracks clubface angle, tempo ratio, hip rotation, and projected ball flight without external hardware.",
+    summary: "GolfScanner is my vision for making it easier to find available tee times across multiple golf courses from one place.",
+    descriptionParagraphs: [
+      "GolfScanner is my vision for making it easier to find available tee times across multiple golf courses from one place. Booking golf can still feel surprisingly fragmented, with players jumping between different websites and reservation systems just to find an opening that fits their schedule.",
+      "The idea is to create a simple search experience where golfers can quickly discover available tee times, compare options, and spend less time searching and more time playing. Long term, I see opportunities to help courses fill unused inventory while giving players a much better booking experience.",
+      "As someone who loves golf, this is a product I would use myself every week. It's the kind of everyday problem that seems small but affects millions of golfers, and I enjoy exploring how thoughtful product design and AI can simplify experiences that have been unnecessarily complicated for years."
+    ],
     technicalArchitecture: [
-      "Edge-computed 33-point skeletal landmark tracking running at 60 FPS on mobile",
-      "Sub-millimeter clubhead path detection and impact angle reconstruction",
-      "Dynamic tempo analysis comparing backswing-to-downswing cadence against tour averages",
-      "Augmented reality spatial ball flight trajectory rendering in ambient 3D space"
+      "Unified multi-course inventory aggregator querying municipal and public club APIs",
+      "Smart preference filters matching price thresholds, time-of-day, and weather windows",
+      "Sub-second tee-time availability scanner with dynamic price comparison matrix",
+      "Automated reservation route synchronization with personal calendars"
     ],
     specs: [
-      { label: "Frame Rate", value: "60 FPS on Device" },
-      { label: "Kinematics", value: "33 Skeletal Landmarks" },
-      { label: "Model", value: "CoreML / ONNX Vision" },
-      { label: "Detection", value: "Acoustic Impact Trigger" }
+      { label: "Search Engine", value: "Multi-Course Aggregate" },
+      { label: "Refresh Rate", value: "Real-Time Telemetry" },
+      { label: "Platform", value: "Mobile-First Web & iOS" },
+      { label: "Model", value: "Schedule Intelligence" }
     ],
-    codeSnippet: `// Sub-second kinematic pose & clubhead trajectory solver
-function analyzeSwingFrame(landmarks: PoseLandmarks, timestampMs: number) {
-  const hipRotationAngle = calculateHipAngle(landmarks.leftHip, landmarks.rightHip);
-  const shoulderTilt = calculateShoulderTilt(landmarks.leftShoulder, landmarks.rightShoulder);
-  const tempoRatio = (timestampMs - swingStartMs) / downswingDurationMs;
-  return { hipRotationAngle, shoulderTilt, tempoRatio };
-}`
-  },
-  {
-    id: "neural-shader",
-    category: "UX Education & Tools",
-    title: "EverydayUX",
-    subtitle: "Helping UX designers sharpen their skills through bite-sized daily challenges.",
-    heroImage: "/assets/images/everydayux.jpg",
-    readTime: "4 min read",
-    summary: "EverydayUX explores real-time generative computer graphics by compiling natural language descriptions into valid, hardware-accelerated GLSL fragment shaders on the fly. Includes an AST sanitizer and hot-reloading WebGL preview pipeline.",
-    technicalArchitecture: [
-      "Hot-reloading WebGL fragment shader compiler with real-time GLSL syntax sanitization",
-      "Zero-allocation GPU uniform bridging for mouse, audio spectrum, and temporal delta variables",
-      "Token-streaming shader generator delivering instant visual synthesis as code streams",
-      "Adaptive fallbacks preventing GPU thread locking on complex raymarching shaders"
-    ],
-    specs: [
-      { label: "Renderer", value: "WebGL 2.0" },
-      { label: "Compilation", value: "<12ms Hot Swap" },
-      { label: "Generation", value: "AST-Guarded GLSL" },
-      { label: "Framerate", value: "120 FPS VSync" }
-    ],
-    codeSnippet: `// Dynamic fragment shader injection & compile loop
-function hotCompileShader(gl: WebGL2RenderingContext, glslSource: string) {
-  const shader = gl.createShader(gl.FRAGMENT_SHADER)!;
-  gl.shaderSource(shader, sanitizeGLSL(glslSource));
-  gl.compileShader(shader);
-  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    throw new Error(gl.getShaderInfoLog(shader) || 'Shader compile error');
-  }
-  return shader;
+    codeSnippet: `// Aggregated tee time discovery and slot matcher
+function queryAvailableTeeTimes(location: GeoCoords, date: Date, preferredWindow: TimeRange) {
+  return courseAggregator.findSlots({
+    coords: location,
+    radiusMiles: 25,
+    dateRange: [date],
+    window: preferredWindow
+  });
 }`
   }
 ];
@@ -292,7 +305,7 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
             isLightMode ? 'text-stone-900' : 'text-white'
           }`}
         >
-          AI playground
+          AI experiments
         </h2>
         <p
           className={`mt-8 text-base sm:text-[20px] leading-relaxed sm:leading-[32.5px] max-w-4xl ${
@@ -455,15 +468,18 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
                       />
                     </div>
 
-                    {/* Coming Soon Notice */}
-                    <div className="max-w-3xl pt-2 pb-6">
-                      <p
-                        className={`text-base sm:text-[20px] leading-relaxed sm:leading-[32.5px] font-normal ${
-                          light ? 'text-stone-700' : 'text-white/85'
-                        }`}
-                      >
-                        More information coming soon...
-                      </p>
+                    {/* Experiment Description Paragraphs */}
+                    <div className="max-w-3xl pt-2 pb-6 space-y-6">
+                      {(selectedExperiment.descriptionParagraphs || [selectedExperiment.summary]).map((p, idx) => (
+                        <p
+                          key={idx}
+                          className={`text-base sm:text-[20px] leading-relaxed sm:leading-[32.5px] font-normal ${
+                            light ? 'text-stone-700' : 'text-white/85'
+                          }`}
+                        >
+                          {p}
+                        </p>
+                      ))}
                     </div>
                   </div>
                 </motion.div>

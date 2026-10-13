@@ -244,7 +244,13 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
                 {/* Icon Tile Button */}
                 <button
                   type="button"
-                  onClick={() => sounds.playTap()}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setHoveredId(item.id);
+                  }}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                  }}
                   onMouseEnter={() => setHoveredId(item.id)}
                   onMouseLeave={() => setHoveredId(null)}
                   onTouchStart={() => setHoveredId(item.id)}
