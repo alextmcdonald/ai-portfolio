@@ -26,13 +26,13 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
 
   if (!isOpen) return null;
 
-  const resumePdfPath = '/assets/icons/Alex%20McDonald%20Product%20Designer%20Resume.pdf';
+  const resumePdfPath = '/assets/Alex%20McDonald%20Product%20Design%20Engineer%20Resume.pdf';
 
   const handleDownloadResume = () => {
     sounds.playSuccess();
     const link = document.createElement('a');
     link.href = resumePdfPath;
-    link.download = 'Alex McDonald Product Designer Resume.pdf';
+    link.download = 'Alex McDonald Product Design Engineer Resume.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -130,7 +130,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
 
                 <iframe
                   src={`${resumePdfPath}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`}
-                  title="Alex McDonald Product Designer Resume"
+                  title="Alex McDonald Product Design Engineer Resume"
                   onLoad={() => setIsIframeLoading(false)}
                   className={`w-full h-full border-0 outline-none shadow-none transition-opacity duration-300 ${
                     isIframeLoading ? 'opacity-0 pointer-events-none' : 'opacity-100'

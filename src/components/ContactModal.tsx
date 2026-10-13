@@ -66,7 +66,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
       }
     } catch {
       setIsSubmitting(false);
-      setSubmitError('Unable to send right now. Please email me@alextmcdonald.com directly.');
+      setSubmitError('Unable to send right now. Please email hi@alexmcdonald.site directly.');
     }
   };
 
@@ -158,7 +158,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                   light ? 'text-stone-600' : 'text-white/75'
                 }`}
               >
-                Have a 0-to-1 idea, an ambitious project, or just want to talk shop? Drop a note below and I&apos;ll respond within 24-48 hours.
+                Have a 0-to-1 idea, ambitious project in mind, or just want to talk shop? Drop a note below and I&apos;ll respond ASAP.
               </p>
 
               {/* Name */}

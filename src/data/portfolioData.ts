@@ -5,7 +5,7 @@ export const DESIGNER_INFO = {
   title: "Senior Product Designer",
   roleSubtext: "Design Engineer",
   location: "Seattle, WA",
-  email: "me@alextmcdonald.com",
+  email: "hi@alexmcdonald.site",
   status: "Open to new opportunities",
   avatarUrl: "/assets/images/alex_portrait_regular_1790739680820.jpg",
   avatarLightUrl: "/assets/images/alex_portrait_blue_1790739680820.jpg",

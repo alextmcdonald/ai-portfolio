@@ -60,7 +60,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     } catch {
       // In case of network errors or adblocker restrictions, show error
       setIsSubmitting(false);
-      setSubmitError('Unable to send at this moment. Please email me@alextmcdonald.com directly.');
+      setSubmitError('Unable to send at this moment. Please email hi@alexmcdonald.site directly.');
     }
   };
 
@@ -237,7 +237,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   isLightMode ? 'text-stone-600' : 'text-white/75'
                 }`}
               >
-                Have a 0-to-1 idea, an ambitious project, or just want to talk shop? Drop a note below and I&apos;ll respond within 24-48 hours.
+                Have a 0-to-1 idea, ambitious project in mind, or just want to talk shop? Drop a note below and I&apos;ll respond ASAP.
               </p>
             </div>
 
