@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Send, CheckCircle2, Copy, MessageSquare } from 'lucide-react';
 import { DESIGNER_INFO } from '../data/portfolioData';
@@ -69,23 +70,24 @@ export const ContactModal: React.FC<ContactModalProps> = ({
     }
   };
 
-  return (
-    <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain">
-        {/* Scrim */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          onClick={() => {
-            sounds.playTap();
-            onClose();
-          }}
-          className={`fixed inset-0 backdrop-blur-2xl ${
-            light ? 'bg-black/75' : 'bg-black/85'
-          }`}
-        />
+  return typeof document !== 'undefined'
+    ? createPortal(
+        <AnimatePresence>
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain">
+            {/* Scrim */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => {
+                sounds.playTap();
+                onClose();
+              }}
+              className={`fixed inset-0 backdrop-blur-2xl overscroll-none touch-none ${
+                light ? 'bg-black/75' : 'bg-black/85'
+              }`}
+            />
 
         {/* Modal Window Container */}
         <motion.div
@@ -307,6 +309,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({
           )}
         </motion.div>
       </div>
-    </AnimatePresence>
-  );
+    </AnimatePresence>,
+    document.body
+  )
+: null;
 };
