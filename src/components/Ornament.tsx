@@ -67,8 +67,8 @@ export const Ornament: React.FC<OrnamentProps> = ({
 
   return (
     <div
-      className={`fixed bottom-6 inset-x-0 z-40 flex flex-col items-center select-none px-3 pointer-events-none transition-all duration-300 ${
-        isHidden ? 'opacity-0 pointer-events-none translate-y-12' : 'opacity-100'
+      className={`fixed bottom-6 inset-x-0 z-40 flex flex-col items-center select-none px-3 pointer-events-none transition-all duration-500 ease-out ${
+        isHidden ? 'opacity-0 pointer-events-none translate-y-12' : 'opacity-100 translate-y-0'
       }`}
       ref={trayRef}
     >
@@ -171,7 +171,7 @@ export const Ornament: React.FC<OrnamentProps> = ({
             triggerSoundFeedback();
             onOpenResumeModal();
           }}
-          className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95 border ${
+          className={`h-9 flex items-center gap-1.5 px-3 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95 border cursor-pointer ${
             isLightMode
               ? 'bg-black/[0.06] hover:bg-black/[0.12] text-stone-800 hover:text-black border-black/10'
               : 'bg-white/12 hover:bg-white/24 text-white/90 hover:text-white border-white/15'
@@ -189,7 +189,7 @@ export const Ornament: React.FC<OrnamentProps> = ({
             triggerSoundFeedback();
             onOpenContactModal();
           }}
-          className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95 border ${
+          className={`h-9 flex items-center gap-1.5 px-3 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95 border cursor-pointer ${
             isLightMode
               ? 'bg-black/[0.06] hover:bg-black/[0.12] text-stone-800 hover:text-black border-black/10'
               : 'bg-white/12 hover:bg-white/24 text-white/90 hover:text-white border-white/15'
@@ -200,9 +200,6 @@ export const Ornament: React.FC<OrnamentProps> = ({
           <span className="hidden sm:inline">Contact</span>
         </button>
 
-        {/* VERTICAL DIVIDER */}
-        <div className={`w-[1px] h-6 mx-0.5 ${isLightMode ? 'bg-black/10' : 'bg-white/15'}`} />
-
         {/* ENVIRONMENT SELECTOR CAPSULE */}
         <button
           onClick={() => {
@@ -210,7 +207,7 @@ export const Ornament: React.FC<OrnamentProps> = ({
             triggerSoundFeedback();
             setIsEnvTrayOpen(!isEnvTrayOpen);
           }}
-          className={`flex items-center gap-2 px-3 py-2 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95 border ${
+          className={`h-9 flex items-center gap-2 px-3 rounded-full text-xs font-semibold transition-all duration-200 active:scale-95 border cursor-pointer ${
             isEnvTrayOpen
               ? isLightMode
                 ? 'bg-black/15 text-black border-black/15'
@@ -239,12 +236,9 @@ export const Ornament: React.FC<OrnamentProps> = ({
           />
         </button>
 
-        {/* VERTICAL DIVIDER */}
-        <div className={`w-[1px] h-6 mx-0.5 ${isLightMode ? 'bg-black/10' : 'bg-white/15'}`} />
-
         {/* DARK MODE / LIGHT MODE SEGMENTED TOGGLE */}
         <div
-          className={`flex items-center p-0.5 rounded-full border ${
+          className={`h-9 flex items-center p-0.5 rounded-full border ${
             isLightMode
               ? 'bg-black/[0.05] border-black/10'
               : 'bg-black/30 border-white/15'
@@ -258,7 +252,7 @@ export const Ornament: React.FC<OrnamentProps> = ({
                 triggerSoundFeedback();
               }
             }}
-            className={`group flex items-center justify-center w-7 h-7 rounded-full transition-all duration-200 cursor-pointer ${
+            className={`group flex items-center justify-center w-8 h-8 rounded-full transition-all duration-200 cursor-pointer ${
               isLightMode
                 ? 'bg-[#555555] text-white shadow-xs'
                 : 'text-white/50 hover:text-white/80'
@@ -284,7 +278,7 @@ export const Ornament: React.FC<OrnamentProps> = ({
                 triggerSoundFeedback();
               }
             }}
-            className={`flex items-center justify-center w-7 h-7 rounded-full transition-all duration-200 cursor-pointer ${
+            className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-200 cursor-pointer ${
               !isLightMode
                 ? 'bg-white/25 text-white shadow-sm'
                 : 'text-stone-500 hover:text-stone-800'
@@ -302,7 +296,7 @@ export const Ornament: React.FC<OrnamentProps> = ({
             onToggleSound();
             triggerSoundFeedback();
           }}
-          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full transition-all duration-200 border ${
+          className={`h-9 flex items-center gap-1.5 px-3 rounded-full transition-all duration-200 border cursor-pointer ${
             soundEnabled
               ? isLightMode
                 ? 'text-stone-800 hover:bg-black/10 border-black/10'
@@ -348,15 +342,15 @@ export const Ornament: React.FC<OrnamentProps> = ({
               triggerSoundFeedback();
               onReplayIntro();
             }}
-            className={`flex items-center justify-center w-7 h-7 rounded-full transition-all duration-200 cursor-pointer ${
+            className={`h-9 w-9 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer border shrink-0 ${
               isLightMode
-                ? 'text-stone-500 hover:text-stone-900 hover:bg-black/5'
-                : 'text-white/45 hover:text-white hover:bg-white/10'
+                ? 'text-stone-600 hover:text-stone-900 hover:bg-black/5 border-black/10'
+                : 'text-white/60 hover:text-white hover:bg-white/10 border-white/15'
             }`}
-            title="Replay Spatial Intro"
+            title="Replay intro"
             aria-label="Replay intro animation"
           >
-            <RotateCcw className="w-3.5 h-3.5 stroke-[2] transition-transform duration-300 hover:-rotate-45" />
+            <RotateCcw className="w-4 h-4 stroke-[2] transition-transform duration-300 hover:-rotate-45" />
           </button>
         )}
       </div>

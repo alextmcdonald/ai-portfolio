@@ -31,19 +31,8 @@ export default function App() {
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
 
-  // Intro animation sequence state: only play once per browser session
-  const [showIntro, setShowIntro] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const seen = sessionStorage.getItem('portfolio_intro_seen');
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        return !seen && !prefersReducedMotion;
-      } catch {
-        return false;
-      }
-    }
-    return false;
-  });
+  // Intro animation sequence state: always active on load / refresh per user request
+  const [showIntro, setShowIntro] = useState<boolean>(true);
 
   // Environment and theme state with localStorage persistence
   const [currentDarkEnvId, setCurrentDarkEnvId] = useState<string>('cupertino-studio');
@@ -203,30 +192,47 @@ export default function App() {
     };
   }, []);
 
-  // Lock body & document scroll only when a modal is actively open and prevent background shift
+  // Check if any case study, resume, or contact modal sheet is open
   const isAnyModalOpen = Boolean(
-    selectedCaseStudy || isResumeModalOpen || isContactModalOpen || isExperimentModalOpen || isPhotoModalOpen
+    selectedCaseStudy ||
+      isResumeModalOpen ||
+      isContactModalOpen ||
+      isExperimentModalOpen ||
+      isPhotoModalOpen
   );
 
+  // Lock body & document scroll when a modal or the opening intro is active
+  const isScrollLocked = Boolean(isAnyModalOpen || showIntro);
+
+  // When intro starts, ensure page starts at the very top
   useEffect(() => {
-    if (isAnyModalOpen) {
+    if (showIntro && typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
+    }
+  }, [showIntro]);
+
+  useEffect(() => {
+    if (isScrollLocked) {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
       document.body.style.overscrollBehavior = 'none';
       document.documentElement.style.overscrollBehavior = 'none';
+      document.body.style.touchAction = 'none';
     } else {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
       document.body.style.overscrollBehavior = '';
       document.documentElement.style.overscrollBehavior = '';
+      document.body.style.touchAction = '';
     }
     return () => {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
       document.body.style.overscrollBehavior = '';
       document.documentElement.style.overscrollBehavior = '';
+      document.body.style.touchAction = '';
     };
-  }, [isAnyModalOpen]);
+  }, [isScrollLocked]);
 
   // Modular visionOS Glass Card styles for separated sections
   const headerGlassClasses = `glass w-full rounded-[36px] px-4 sm:px-8 lg:px-10 py-5 sm:py-6 transition-all duration-300 border scroll-mt-14 ${
@@ -301,7 +307,7 @@ export default function App() {
         activeSection={activeSection}
         onSelectSection={(sec) => handleScrollToSection(sec)}
         isLightMode={isLightMode}
-        isHidden={isAnyModalOpen}
+        isHidden={isAnyModalOpen || showIntro}
       />
 
       {/* Main Spatial Stage */}
@@ -452,6 +458,7 @@ export default function App() {
         <IntroExperience
           onComplete={() => setShowIntro(false)}
           isLightMode={isLightMode}
+          currentEnvId={activeEnvId}
         />
       )}
     </div>

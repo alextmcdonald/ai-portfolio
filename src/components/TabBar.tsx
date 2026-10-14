@@ -43,8 +43,8 @@ export const TabBar: React.FC<TabBarProps> = ({
       {/* Desktop Vertical Tab Bar (Left floating pill) */}
       <nav
         aria-label="Spatial navigation"
-        className={`hidden lg:block fixed left-6 top-1/2 -translate-y-1/2 z-40 select-none transition-all duration-300 ${
-          isHidden ? 'opacity-0 pointer-events-none -translate-x-12' : 'opacity-100'
+        className={`hidden lg:block fixed left-6 top-1/2 -translate-y-1/2 z-40 select-none transition-all duration-500 ease-out ${
+          isHidden ? 'opacity-0 pointer-events-none -translate-x-12' : 'opacity-100 translate-x-0'
         }`}
         onMouseEnter={() => {
           sounds.playToggle();

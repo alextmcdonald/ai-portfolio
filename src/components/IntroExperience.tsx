@@ -1,49 +1,65 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as THREE from 'three';
 import { sounds } from '../utils/audio';
+import { ALL_ENVIRONMENTS } from './Environment';
 
 interface IntroExperienceProps {
   onComplete: () => void;
   isLightMode?: boolean;
+  currentEnvId?: string;
 }
 
-export const IntroExperience: React.FC<IntroExperienceProps> = ({ onComplete }) => {
+export const IntroExperience: React.FC<IntroExperienceProps> = ({
+  onComplete,
+  isLightMode = false,
+  currentEnvId = 'cupertino-studio'
+}) => {
   const mountRef = useRef<HTMLDivElement>(null);
-  const [isSkipped, setIsSkipped] = useState(false);
-  const [phase, setPhase] = useState<'reveal' | 'rotate' | 'zoom' | 'portal' | 'done'>('reveal');
   const [portalOpacity, setPortalOpacity] = useState(0);
   const [containerOpacity, setContainerOpacity] = useState(1);
   const hasFinishedRef = useRef(false);
 
+  // Find active background: defaults to 'cupertino-studio' ("Design studio")
+  const activeBg =
+    ALL_ENVIRONMENTS.find((e) => e.id === currentEnvId) ||
+    ALL_ENVIRONMENTS.find((e) => e.id === 'cupertino-studio') ||
+    ALL_ENVIRONMENTS[0];
+
   const finish = useCallback(() => {
     if (hasFinishedRef.current) return;
     hasFinishedRef.current = true;
-    try {
-      sessionStorage.setItem('portfolio_intro_seen', 'true');
-    } catch {
-      // ignore storage errors
-    }
     setContainerOpacity(0);
     setTimeout(() => {
       onComplete();
     }, 600);
   }, [onComplete]);
 
-  const handleSkip = useCallback(() => {
-    setIsSkipped(true);
-    sounds.playTap();
-    finish();
-  }, [finish]);
-
   useEffect(() => {
-    // Respect prefers-reduced-motion
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      finish();
-      return;
-    }
+    // Intercept and prevent wheel, touchmove, and scroll keys (Space, PageUp/Down, Arrows)
+    const preventScroll = (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    const preventScrollKeys = (e: KeyboardEvent) => {
+      const keys = ['Space', 'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'];
+      if (keys.includes(e.code) || keys.includes(e.key)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    window.addEventListener('wheel', preventScroll, { passive: false });
+    window.addEventListener('touchmove', preventScroll, { passive: false });
+    window.addEventListener('keydown', preventScrollKeys, { passive: false });
 
     const container = mountRef.current;
-    if (!container) return;
+    if (!container) {
+      window.removeEventListener('wheel', preventScroll);
+      window.removeEventListener('touchmove', preventScroll);
+      window.removeEventListener('keydown', preventScrollKeys);
+      return;
+    }
 
     let animationFrameId: number;
     let renderer: THREE.WebGLRenderer | null = null;
@@ -263,8 +279,8 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({ onComplete }) 
 
       // Initial Headset Pose
       headsetGroup.position.set(0, 0, 0);
-      headsetGroup.rotation.set(-0.12, -0.55, 0.08); // Floating angle showing profile and curvature
-      headsetGroup.scale.set(0.95, 0.95, 0.95);
+      headsetGroup.rotation.set(-0.1, -0.65, 0.08);
+      headsetGroup.scale.set(0.92, 0.92, 0.92);
 
       // Play soft ambient initiation sound if sound is on
       try {
@@ -273,97 +289,68 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({ onComplete }) 
         // ignore audio errors
       }
 
-      // Timing and Animation Loop (Total Duration ~2.8s)
+      // Timing and Animation Loop (Total Duration ~2.5s continuous fluid motion)
       const startTime = performance.now();
-      const TOTAL_DURATION = 2800; // ms
+      const TOTAL_DURATION = 2500; // ms
+
+      // Easing helper functions
+      const smoothStep = (t: number) => t * t * (3 - 2 * t);
+      const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
       const animate = (currentTime: number) => {
         if (hasFinishedRef.current) return;
 
         const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / TOTAL_DURATION, 1);
+        const rawProgress = Math.min(elapsed / TOTAL_DURATION, 1);
 
-        // Smooth cubic-bezier-like easing functions
-        const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
-        const easeInOutQuart = (t: number) =>
-          t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
-        const easeInExpo = (t: number) => (t === 0 ? 0 : Math.pow(2, 10 * t - 10));
+        // One continuous master curve for orientation settling and camera approach
+        // 0.0 -> 0.55: floating settle and smooth rotation to front
+        // 0.45 -> 1.0: acceleration straight through lenses into portfolio
+        const rotT = Math.min(rawProgress / 0.65, 1);
+        const smoothRot = smoothStep(rotT);
 
-        // Floating hover sine wave
-        const floatY = Math.sin(elapsed * 0.003) * 0.06;
+        // Camera zoom: begins gently and smoothly curves into dynamic forward acceleration
+        const zoomT = Math.max(0, (rawProgress - 0.25) / 0.75);
+        const smoothZoom = Math.pow(zoomT, 2.8);
 
-        if (progress < 0.32) {
-          // PHASE 1: The Reveal (0.0s - 0.9s)
-          // Suspended floating reveal with subtle highlight shifts
-          setPhase('reveal');
-          const p1 = progress / 0.32;
-          const eased = easeOutCubic(p1);
+        // Continuous floating micro-drift
+        const floatY = Math.sin(elapsed * 0.0028) * (1 - rawProgress) * 0.05;
 
-          if (headsetGroup) {
-            headsetGroup.position.y = -0.15 + eased * 0.15 + floatY;
-            headsetGroup.rotation.y = -0.55 + eased * 0.2;
-            headsetGroup.rotation.x = -0.12 + Math.sin(elapsed * 0.002) * 0.02;
-          }
-          if (camera) {
-            camera.position.z = 7.5 - eased * 0.5;
-          }
-          keyLight.intensity = 1.2 + eased * 1.6;
-          visorPointLight.intensity = 0.6 + eased * 1.2;
-        } else if (progress < 0.65) {
-          // PHASE 2: The Rotation (0.9s - 1.8s)
-          // Deliberate rotation facing viewer, highlighting optical lenses and visor specular
-          setPhase('rotate');
-          const p2 = (progress - 0.32) / 0.33;
-          const eased = easeInOutQuart(p2);
+        if (headsetGroup) {
+          // Continuous rotation without stopping: starts at angle -0.65 and flows directly to 0
+          headsetGroup.rotation.y = lerp(-0.65, 0.0, smoothRot);
+          headsetGroup.rotation.x = lerp(-0.1, 0.0, smoothRot);
+          headsetGroup.rotation.z = lerp(0.08, 0.0, smoothRot);
 
-          if (headsetGroup) {
-            headsetGroup.position.y = floatY;
-            headsetGroup.rotation.y = -0.35 + eased * 0.35; // Settles to 0 (head-on facing viewer)
-            headsetGroup.rotation.x = -0.1 + eased * 0.1;
-            headsetGroup.rotation.z = 0.06 * (1 - eased);
-          }
-          if (camera) {
-            camera.position.z = 7.0 - eased * 1.4; // 7.0 -> 5.6
-          }
+          headsetGroup.position.y = floatY + smoothZoom * 0.04;
 
-          // Shimmering visor light glint sweep
-          visorPointLight.position.x = -2.5 + eased * 5.0;
-        } else if (progress < 0.92) {
-          // PHASE 3: The Transition & Glass Zoom (1.8s - 2.55s)
-          // Accelerates through the glass lenses, expanding to fill viewport
-          setPhase('zoom');
-          const p3 = (progress - 0.65) / 0.27;
-          const easedZoom = easeInExpo(p3);
+          // Headset gracefully expands as the lenses approach near plane
+          const s = lerp(0.92, 2.8, smoothZoom);
+          headsetGroup.scale.set(s, s, s);
+        }
 
-          if (camera && headsetGroup) {
-            // Camera dives directly into the lenses
-            camera.position.z = 5.6 - easedZoom * 5.2; // 5.6 -> 0.4
-            camera.position.y = 0.05 * easedZoom;
+        if (camera) {
+          // Camera glides continuously from 7.5 to passing through the lenses at 0.3
+          camera.position.z = lerp(7.5, 0.3, smoothZoom);
+        }
 
-            // Headset expands outward as lenses fill the screen
-            const s = 1.0 + easedZoom * 1.8;
-            headsetGroup.scale.set(s, s, s);
-          }
+        // Continuous light glint sweeping across visor and lenses
+        visorPointLight.position.x = lerp(-3.0, 3.5, smoothStep(rawProgress));
+        keyLight.intensity = lerp(1.6, 3.2, smoothStep(rawProgress));
 
-          // Visor lens optical dispersion glow
-          interiorLensesMaterial.emissiveIntensity = 0.25 + easedZoom * 2.5;
+        // Lens bloom and refractive flare continuously increases as camera gets closer
+        const lensProximity = Math.max(0, (rawProgress - 0.55) / 0.45);
+        interiorLensesMaterial.emissiveIntensity = lerp(0.2, 2.8, Math.pow(lensProximity, 2));
 
-          // Transition to portal overlay as lenses meet camera near plane
-          if (p3 > 0.4) {
-            const portalP = (p3 - 0.4) / 0.6;
-            setPortalOpacity(Math.min(portalP * 1.2, 1));
-          }
-        } else {
-          // PHASE 4 & 5: Entering the Portfolio (2.55s - 2.8s)
-          // Full luminous glass expansion seamlessly blending into visionOS panels
-          setPhase('portal');
-          setPortalOpacity(1);
+        // Seamless transition into the glass surfaces of the website
+        if (rawProgress > 0.68) {
+          const fadeP = (rawProgress - 0.68) / 0.32;
+          setPortalOpacity(Math.min(fadeP * 1.3, 1));
+        }
 
-          if (progress >= 1.0) {
-            setPhase('done');
-            finish();
-            return;
-          }
+        if (rawProgress >= 1.0) {
+          finish();
+          return;
         }
 
         if (renderer && scene && camera) {
@@ -387,6 +374,9 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({ onComplete }) 
       window.addEventListener('resize', handleResize);
 
       return () => {
+        window.removeEventListener('wheel', preventScroll);
+        window.removeEventListener('touchmove', preventScroll);
+        window.removeEventListener('keydown', preventScrollKeys);
         window.removeEventListener('resize', handleResize);
         cancelAnimationFrame(animationFrameId);
 
@@ -401,16 +391,14 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({ onComplete }) 
         }
       };
     } catch {
-      // Graceful fallback: If WebGL context is unavailable or errors occur, exit immediately
+      // Graceful fallback
       finish();
     }
   }, [finish]);
 
-  if (isSkipped) return null;
-
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-auto select-none transition-opacity duration-700 ease-out"
+      className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-auto select-none transition-opacity duration-600 ease-out overflow-hidden touch-none overscroll-none"
       style={{
         opacity: containerOpacity,
         backgroundColor: '#050608',
@@ -419,6 +407,27 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({ onComplete }) 
       role="dialog"
       aria-modal="true"
     >
+      {/* Dynamic Background (Design Studio default or user selected room) */}
+      {activeBg && (
+        <div className="absolute inset-0 pointer-events-none overflow-hidden scale-105">
+          <img
+            src={activeBg.url}
+            alt=""
+            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover object-center filter blur-[6px] brightness-[0.55] saturate-[1.2] transition-transform duration-1000 ease-out"
+          />
+          {/* Ambient Lighting & Darkness Overlay for realistic floating contrast */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: isLightMode
+                ? 'radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.65) 100%)'
+                : 'radial-gradient(circle at 50% 50%, rgba(5, 8, 16, 0.35) 0%, rgba(5, 6, 8, 0.75) 100%)',
+            }}
+          />
+        </div>
+      )}
+
       {/* 3D WebGL Canvas Mount Container */}
       <div ref={mountRef} className="absolute inset-0 w-full h-full" />
 
@@ -426,7 +435,7 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({ onComplete }) 
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(circle at 50% 50%, rgba(30, 58, 138, 0.12) 0%, rgba(5, 6, 8, 0.4) 45%, rgba(3, 4, 6, 0.95) 100%)',
+          background: 'radial-gradient(circle at 50% 50%, rgba(30, 58, 138, 0.08) 0%, rgba(5, 6, 8, 0.35) 50%, rgba(3, 4, 6, 0.85) 100%)',
         }}
       />
 
@@ -442,20 +451,10 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({ onComplete }) 
         }}
       />
 
-      {/* Discreet visionOS Style Skip Button */}
-      <button
-        type="button"
-        onClick={handleSkip}
-        className="absolute bottom-8 right-8 z-20 px-4 py-2 rounded-full border border-white/15 bg-white/10 hover:bg-white/20 active:bg-white/25 text-white/70 hover:text-white text-xs font-mono tracking-wider uppercase transition-all duration-200 backdrop-blur-xl shadow-lg cursor-pointer flex items-center gap-2 group"
-      >
-        <span>Skip intro</span>
-        <span className="w-1.5 h-1.5 rounded-full bg-white/40 group-hover:bg-white transition-colors" />
-      </button>
-
-      {/* Subtle Spatial Status Indicator */}
-      <div className="absolute bottom-8 left-8 z-20 text-[11px] font-mono tracking-widest uppercase text-white/35 flex items-center gap-2">
+      {/* Subtle Entering Portfolio Status Indicator */}
+      <div className="absolute bottom-8 left-8 z-20 text-[11px] font-mono tracking-widest uppercase text-white/40 flex items-center gap-2">
         <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
-        <span>Spatial Gateway</span>
+        <span>Entering Portfolio</span>
       </div>
     </div>
   );
