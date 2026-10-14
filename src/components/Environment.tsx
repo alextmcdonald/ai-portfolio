@@ -48,7 +48,7 @@ export const LIGHT_ENVIRONMENTS: EnvironmentItem[] = [
     theme: 'light'
   },
   {
-    id: 'apple-park-daylight',
+    id: 'sunlit-park-studio',
     name: 'Park daylight',
     subtitle: 'Sun-drenched minimalist studio',
     url: '/src/assets/images/env_apple_daylight_1790734169052.jpg',

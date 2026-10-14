@@ -260,7 +260,7 @@ export const Ornament: React.FC<OrnamentProps> = ({
                 ? 'bg-[#555555] text-white shadow-xs'
                 : 'text-white/50 hover:text-white/80'
             }`}
-            title="Switch to Apple Light Glass Mode"
+            title="Switch to Light Mode"
             aria-label="Light mode"
           >
             <Sun
@@ -286,7 +286,7 @@ export const Ornament: React.FC<OrnamentProps> = ({
                 ? 'bg-white/25 text-white shadow-sm'
                 : 'text-stone-500 hover:text-stone-800'
             }`}
-            title="Switch to Apple Dark Glass Mode"
+            title="Switch to Dark Mode"
             aria-label="Dark mode"
           >
             <Moon className="w-3.5 h-3.5 stroke-[2.2]" />

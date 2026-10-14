@@ -1,5 +1,5 @@
 /**
- * Web Audio API synthesizer for tactile Apple-grade micro-interactions
+ * Web Audio API synthesizer for tactile micro-interactions
  * Generates pure harmonic sine/bell tones without external audio assets
  */
 

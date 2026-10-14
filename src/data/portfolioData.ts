@@ -76,7 +76,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     systemSpecs: [
       { key: "Rendering Target", value: "120Hz ProMotion with sub-16ms frame budgeting" },
       { key: "Typography", value: "SF Pro Text + JetBrains Mono tabular figures" },
-      { key: "Color Palette", value: "60% Obsidian / 30% Slate / 10% Apple Blue" },
+      { key: "Color Palette", value: "60% Obsidian / 30% Slate / 10% Vibrant Blue" },
       { key: "Security Standard", value: "Hardware Secure Enclave biometric validation" }
     ],
     prototypeScreens: [
@@ -150,11 +150,11 @@ export const CASE_STUDIES: CaseStudy[] = [
     statsSummary: "52% upgrade conversion rate, adopted by 30+ NBA/MLB stadiums, +$3.8M incremental ticketing GMV.",
     summary: "Designed the end-to-end mobile fan experience and live venue marketplace allowing sports fans to purchase instant in-game seat upgrades and VIP access pass upgrades directly from their smartphone in seconds.",
     problem: "Stadiums were filled with vacant lower-bowl seats during live games while fans in upper tiers lacked a seamless, friction-free way to upgrade mid-game without navigating clunky ticketing websites or missing game action.",
-    solution: "Crafted a frictionless 2-tap seat discovery and instant Apple Pay checkout experience with interactive 3D stadium section maps, real-time inventory telemetry, and dynamic pricing curves.",
+    solution: "Crafted a frictionless 2-tap seat discovery and instant mobile checkout experience with interactive 3D stadium section maps, real-time inventory telemetry, and dynamic pricing curves.",
     researchInsights: [
       "Fans only check for upgrades during commercial breaks and game pauses; the upgrade flow had to complete in under 8 seconds.",
       "Dynamic seat previews showing the exact view from the upgraded seat increased checkout completion by 44%.",
-      "Integrating Apple Wallet passes with haptic entry gates reduced venue usher validation time to sub-2 seconds."
+      "Integrating digital mobile wallet passes with haptic entry gates reduced venue usher validation time to sub-2 seconds."
     ],
     designDecisions: [
       {
@@ -162,7 +162,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         description: "Pinch-to-zoom SVG stadium bowl with live color-coded availability heatmaps and tier pricing."
       },
       {
-        title: "2-Tap Apple Pay Checkout",
+        title: "2-Tap Express Checkout",
         description: "Zero-form checkout flow optimizing seat claim speed during fast-paced live sporting events."
       },
       {
@@ -186,7 +186,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       { name: "Seat View Preview", caption: "Photorealistic field-of-view perspective simulator", tag: "Viewpoint" },
       { name: "Express Upgrade Sheet", caption: "One-thumb seat selection and instant biometric checkout", tag: "Checkout" }
     ],
-    tags: ["Consumer app", "Marketplace", "Sports", "Mobile Ticketing", "Apple Pay", "Live Events"]
+    tags: ["Consumer app", "Marketplace", "Sports", "Mobile Ticketing", "Mobile Pay", "Live Events"]
   },
   {
     id: "stacksocial",
@@ -229,7 +229,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     systemSpecs: [
       { key: "Catalog Scale", value: "Over 12,000 active digital software SKUs" },
       { key: "Design System", value: "Cross-platform tokenized design system in React & Tailwind" },
-      { key: "Payment Architecture", value: "Stripe, Apple Pay, PayPal, and crypto checkout" },
+      { key: "Payment Architecture", value: "Stripe, Digital Wallets, PayPal, and crypto checkout" },
       { key: "Page Performance", value: "98/100 Google Lighthouse Core Web Vitals score" }
     ],
     prototypeScreens: [
