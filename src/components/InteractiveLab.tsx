@@ -20,37 +20,6 @@ interface Experiment {
 
 const EXPERIMENTS: Experiment[] = [
   {
-    id: "everyday-ux",
-    category: "UX Education & Tools",
-    title: "EverydayUX",
-    subtitle: "Helping UX designers sharpen their skills through bite-sized daily challenges.",
-    heroImage: "/assets/images/everydayux.jpg",
-    readTime: "4 min read",
-    summary: "EverydayUX is a place where designers can spend just a few minutes each day solving real product design challenges to build stronger product instincts.",
-    descriptionParagraphs: [
-      "EverydayUX started from a simple observation. Most designers want to keep improving, but finding time to study every day is hard. There are plenty of courses and books, but very few experiences that make learning feel like a habit instead of another task.",
-      "I'm building EverydayUX as a place where designers can spend just a few minutes each day solving real product design challenges. The goal is to make learning interactive, practical, and fun. Instead of watching long videos or reading endless articles, users can work through bite sized scenarios, compare their thinking with guided solutions, and gradually build stronger product instincts.",
-      "This project is important to me because I believe great designers are made through consistent practice. I want to create something that I would personally look forward to opening every morning and that helps designers at every stage of their career become a little better every day."
-    ],
-    technicalArchitecture: [
-      "Micro-learning scenario engine delivering real-world product dilemmas in under 5 minutes",
-      "Interactive guided solution walk-throughs with rationale comparison",
-      "Streak tracking and habit formation mechanics designed for sustainable daily practice",
-      "Progressive scenario difficulty adapting to junior, mid-level, and senior design patterns"
-    ],
-    specs: [
-      { label: "Format", value: "Daily Bite-Sized" },
-      { label: "Cadence", value: "3-5 Mins / Day" },
-      { label: "Focus", value: "Real UX Challenges" },
-      { label: "Community", value: "Peer Discussion" }
-    ],
-    codeSnippet: `// Scenario evaluation and decision tree solver
-function evaluateScenarioChoice(userDecision: DecisionId, expertPath: ExpertGuidance) {
-  const alignmentScore = calculateRationaleDelta(userDecision.tradeoffs, expertPath.considerations);
-  return { score: alignmentScore, takeaways: expertPath.critiqueNotes };
-}`
-  },
-  {
     id: "couples-chat",
     category: "AI Communication",
     title: "CouplesChat",
@@ -118,6 +87,37 @@ function queryAvailableTeeTimes(location: GeoCoords, date: Date, preferredWindow
     dateRange: [date],
     window: preferredWindow
   });
+}`
+  },
+  {
+    id: "everyday-ux",
+    category: "UX Education & Tools",
+    title: "EverydayUX",
+    subtitle: "Helping UX designers sharpen their skills through bite-sized daily challenges.",
+    heroImage: "/assets/images/everydayux.jpg",
+    readTime: "4 min read",
+    summary: "EverydayUX is a place where designers can spend just a few minutes each day solving real product design challenges to build stronger product instincts.",
+    descriptionParagraphs: [
+      "EverydayUX started from a simple observation. Most designers want to keep improving, but finding time to study every day is hard. There are plenty of courses and books, but very few experiences that make learning feel like a habit instead of another task.",
+      "I'm building EverydayUX as a place where designers can spend just a few minutes each day solving real product design challenges. The goal is to make learning interactive, practical, and fun. Instead of watching long videos or reading endless articles, users can work through bite sized scenarios, compare their thinking with guided solutions, and gradually build stronger product instincts.",
+      "This project is important to me because I believe great designers are made through consistent practice. I want to create something that I would personally look forward to opening every morning and that helps designers at every stage of their career become a little better every day."
+    ],
+    technicalArchitecture: [
+      "Micro-learning scenario engine delivering real-world product dilemmas in under 5 minutes",
+      "Interactive guided solution walk-throughs with rationale comparison",
+      "Streak tracking and habit formation mechanics designed for sustainable daily practice",
+      "Progressive scenario difficulty adapting to junior, mid-level, and senior design patterns"
+    ],
+    specs: [
+      { label: "Format", value: "Daily Bite-Sized" },
+      { label: "Cadence", value: "3-5 Mins / Day" },
+      { label: "Focus", value: "Real UX Challenges" },
+      { label: "Community", value: "Peer Discussion" }
+    ],
+    codeSnippet: `// Scenario evaluation and decision tree solver
+function evaluateScenarioChoice(userDecision: DecisionId, expertPath: ExpertGuidance) {
+  const alignmentScore = calculateRationaleDelta(userDecision.tradeoffs, expertPath.considerations);
+  return { score: alignmentScore, takeaways: expertPath.critiqueNotes };
 }`
   }
 ];
