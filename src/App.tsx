@@ -16,6 +16,7 @@ import { ContactSection } from './components/ContactSection';
 import { CaseStudyModal } from './components/CaseStudyModal';
 import { ResumeModal } from './components/ResumeModal';
 import { ContactModal } from './components/ContactModal';
+import { IntroExperience } from './components/IntroExperience';
 import { CaseStudy, ActiveSection } from './types';
 import { DESIGNER_INFO } from './data/portfolioData';
 import { sounds } from './utils/audio';
@@ -29,6 +30,20 @@ export default function App() {
   const [isExperimentModalOpen, setIsExperimentModalOpen] = useState(false);
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
+
+  // Intro animation sequence state: only play once per browser session
+  const [showIntro, setShowIntro] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const seen = sessionStorage.getItem('portfolio_intro_seen');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        return !seen && !prefersReducedMotion;
+      } catch {
+        return false;
+      }
+    }
+    return false;
+  });
 
   // Environment and theme state with localStorage persistence
   const [currentDarkEnvId, setCurrentDarkEnvId] = useState<string>('cupertino-studio');
@@ -405,7 +420,8 @@ export default function App() {
         onOpenContactModal={() => setIsContactModalOpen(true)}
         onSelectEnvironment={handleSelectEnvironment}
         currentEnvId={activeEnvId}
-        isHidden={isAnyModalOpen}
+        isHidden={isAnyModalOpen || showIntro}
+        onReplayIntro={() => setShowIntro(true)}
       />
 
       {/* LAYER 40: Case Study Deep Dive Modal Sheet */}
@@ -430,6 +446,14 @@ export default function App() {
         emailCopied={emailCopied}
         isLightMode={isLightMode}
       />
+
+      {/* LAYER 100: Spatial Gateway VR Headset Opening Experience */}
+      {showIntro && (
+        <IntroExperience
+          onComplete={() => setShowIntro(false)}
+          isLightMode={isLightMode}
+        />
+      )}
     </div>
   );
 }
