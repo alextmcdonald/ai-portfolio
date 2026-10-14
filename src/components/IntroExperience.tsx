@@ -17,6 +17,7 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
   const mountRef = useRef<HTMLDivElement>(null);
   const [portalOpacity, setPortalOpacity] = useState(0);
   const [containerOpacity, setContainerOpacity] = useState(1);
+  const [isReady, setIsReady] = useState(false);
   const hasFinishedRef = useRef(false);
 
   // Find active background: defaults to 'cupertino-studio' ("Design studio")
@@ -282,16 +283,46 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
       headsetGroup.rotation.set(-0.1, -0.65, 0.08);
       headsetGroup.scale.set(0.92, 0.92, 0.92);
 
-      // Play soft ambient initiation sound if sound is on
-      try {
-        sounds.playGlassChime();
-      } catch {
-        // ignore audio errors
-      }
+      // Warm up renderer pipeline and compile shader programs
+      renderer.compile(scene, camera);
+      renderer.render(scene, camera);
 
-      // Timing and Animation Loop (Total Duration ~2.5s continuous fluid motion)
-      const startTime = performance.now();
+      // Preload background image before triggering animation start
+      let startTime = 0;
+      let hasStarted = false;
       const TOTAL_DURATION = 2500; // ms
+
+      const startAnimation = () => {
+        if (hasStarted || hasFinishedRef.current) return;
+        hasStarted = true;
+        startTime = performance.now();
+        setIsReady(true);
+
+        // Play soft ambient initiation chime when animation actually starts
+        try {
+          sounds.playGlassChime();
+        } catch {
+          // ignore audio errors
+        }
+
+        animationFrameId = requestAnimationFrame(animate);
+      };
+
+      if (activeBg?.url) {
+        const bgImg = new Image();
+        bgImg.src = activeBg.url;
+        if (bgImg.complete) {
+          // Already cached / loaded
+          requestAnimationFrame(() => startAnimation());
+        } else {
+          bgImg.onload = () => startAnimation();
+          bgImg.onerror = () => startAnimation();
+          // Fallback timeout in case of slow network
+          setTimeout(startAnimation, 600);
+        }
+      } else {
+        requestAnimationFrame(() => startAnimation());
+      }
 
       // Easing helper functions
       const smoothStep = (t: number) => t * t * (3 - 2 * t);
@@ -429,7 +460,12 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
       )}
 
       {/* 3D WebGL Canvas Mount Container */}
-      <div ref={mountRef} className="absolute inset-0 w-full h-full" />
+      <div
+        ref={mountRef}
+        className={`absolute inset-0 w-full h-full transition-opacity duration-500 ease-out ${
+          isReady ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
 
       {/* Atmospheric Radial Studio Vignette */}
       <div
@@ -438,6 +474,21 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
           background: 'radial-gradient(circle at 50% 50%, rgba(30, 58, 138, 0.08) 0%, rgba(5, 6, 8, 0.35) 50%, rgba(3, 4, 6, 0.85) 100%)',
         }}
       />
+
+      {/* Subtle Loading Circle in the center while assets and shaders prepare */}
+      {!isReady && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 pointer-events-none transition-opacity duration-300">
+          <div className="relative w-10 h-10 flex items-center justify-center">
+            {/* Soft glowing outer track */}
+            <div className="absolute inset-0 rounded-full border-[2px] border-white/10" />
+            {/* Spinning visionOS gradient arc */}
+            <div className="w-10 h-10 rounded-full border-[2px] border-transparent border-t-sky-400 border-r-sky-300 animate-spin" />
+          </div>
+          <span className="text-[10px] font-mono tracking-widest uppercase text-white/45">
+            Loading...
+          </span>
+        </div>
+      )}
 
       {/* Optical Lens Refraction Flare that aligns with passing through the lenses */}
       <div
@@ -454,7 +505,7 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
       {/* Subtle Entering Portfolio Status Indicator */}
       <div className="absolute bottom-8 left-8 z-20 text-[11px] font-mono tracking-widest uppercase text-white/40 flex items-center gap-2">
         <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
-        <span>Entering Portfolio</span>
+        <span>{isReady ? 'Entering Portfolio' : 'Preparing Gateway'}</span>
       </div>
     </div>
   );
