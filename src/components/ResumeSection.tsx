@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -31,7 +31,14 @@ const LATEST_STRAVA_ACTIVITY = {
   path: 'M 30 75 Q 65 15, 125 30 T 215 25 T 275 70 T 230 125 T 125 115 T 50 95 Z'
 };
 
-const PERSONAL_PHOTOS = [
+interface PersonalPhoto {
+  id: string;
+  url: string;
+  tilt: string;
+  width?: string;
+}
+
+const PERSONAL_PHOTOS: PersonalPhoto[] = [
   {
     id: 'img-7012',
     url: '/assets/images/about/IMG_7012.jpeg',
@@ -106,10 +113,15 @@ const PERSONAL_PHOTOS = [
   }
 ];
 
-const TRACK_PHOTOS = [
-  ...PERSONAL_PHOTOS,
-  ...PERSONAL_PHOTOS
-];
+// Helper function to shuffle an array (Fisher-Yates)
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
 
 interface ResumeSectionProps {
   onOpenResumeModal: () => void;
@@ -124,6 +136,10 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
 }) => {
   // Lightbox State for Personal Photos
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+
+  // Randomize the order of pictures every time the page loads
+  const [shuffledPhotos] = useState<PersonalPhoto[]>(() => shuffleArray(PERSONAL_PHOTOS));
+  const trackPhotos = useMemo(() => [...shuffledPhotos, ...shuffledPhotos], [shuffledPhotos]);
 
   useEffect(() => {
     onPhotoModalChange?.(Boolean(selectedPhoto));
@@ -287,16 +303,17 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
           }
         `}</style>
         <div
-          className="flex items-center w-max py-3 px-1 hover:[animation-play-state:paused]"
+          className="flex items-center w-max py-3 px-1"
           style={{
             animation: 'infiniteScrollLeft 150s linear infinite',
+            animationPlayState: selectedPhoto ? 'paused' : 'running',
             willChange: 'transform',
             background: 'transparent'
           }}
         >
           {/* Primary Track */}
           <div className="flex shrink-0 items-center gap-4 sm:gap-6 pr-4 sm:pr-6">
-            {TRACK_PHOTOS.map((photo, idx) => (
+            {trackPhotos.map((photo, idx) => (
               <motion.div
                 key={`track1-${photo.id}-${idx}`}
                 whileHover={{ scale: 1.05, y: -6, zIndex: 30 }}
@@ -330,7 +347,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
 
           {/* Secondary Track (Identical clone for seamless continuous looping) */}
           <div className="flex shrink-0 items-center gap-4 sm:gap-6 pr-4 sm:pr-6" aria-hidden="true">
-            {TRACK_PHOTOS.map((photo, idx) => (
+            {trackPhotos.map((photo, idx) => (
               <motion.div
                 key={`track2-${photo.id}-${idx}`}
                 whileHover={{ scale: 1.05, y: -6, zIndex: 30 }}

@@ -217,7 +217,9 @@ export default function App() {
       document.documentElement.style.overflow = 'hidden';
       document.body.style.overscrollBehavior = 'none';
       document.documentElement.style.overscrollBehavior = 'none';
-      document.body.style.touchAction = 'none';
+      if (showIntro) {
+        document.body.style.touchAction = 'none';
+      }
     } else {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
@@ -232,7 +234,7 @@ export default function App() {
       document.documentElement.style.overscrollBehavior = '';
       document.body.style.touchAction = '';
     };
-  }, [isScrollLocked]);
+  }, [isScrollLocked, showIntro]);
 
   // Modular visionOS Glass Card styles for separated sections
   const headerGlassClasses = `glass w-full rounded-[36px] px-4 sm:px-8 lg:px-10 py-5 sm:py-6 transition-all duration-300 border scroll-mt-14 ${

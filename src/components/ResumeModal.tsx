@@ -41,7 +41,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
   return typeof document !== 'undefined'
     ? createPortal(
         <AnimatePresence>
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-6 overflow-hidden overscroll-none touch-none">
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-6 overflow-hidden overscroll-none">
             {/* Scrim */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -63,12 +63,16 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: 'spring', stiffness: 280, damping: 28 }}
-              className={`relative w-full max-w-5xl h-[92vh] sm:h-[90vh] rounded-[24px] sm:rounded-[32px] flex flex-col overflow-hidden z-10 my-auto backdrop-blur-2xl transition-colors duration-200 border-0 shadow-none overscroll-contain ${
+              className={`relative w-full max-w-5xl h-[92vh] sm:h-[90vh] rounded-[24px] sm:rounded-[32px] flex flex-col overflow-hidden z-10 my-auto backdrop-blur-2xl transition-colors duration-200 border-0 shadow-none ${
                 light
                   ? 'bg-white text-stone-900'
                   : 'bg-stone-950 text-white'
               }`}
-              style={{ border: 'none', boxShadow: 'none' }}
+              style={{
+                border: 'none',
+                boxShadow: 'none',
+                touchAction: 'auto',
+              }}
             >
               {/* Header */}
               <div className={`flex items-center justify-between px-5 sm:px-8 py-4 sm:py-5 border-b border-0 border-b-transparent shrink-0 select-none ${
@@ -111,9 +115,15 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
               </div>
 
               {/* PDF Viewer Body (No border, no shadow) */}
-              <div className={`relative flex-1 w-full h-full overflow-hidden p-0 m-0 border-0 shadow-none overscroll-contain ${
-                light ? 'bg-stone-100' : 'bg-stone-900'
-              }`}>
+              <div
+                className={`relative flex-1 w-full h-full overflow-auto p-0 m-0 border-0 shadow-none ${
+                  light ? 'bg-stone-100' : 'bg-stone-900'
+                }`}
+                style={{
+                  WebkitOverflowScrolling: 'touch',
+                  touchAction: 'auto',
+                }}
+              >
                 {/* Loading Spinner Indicator */}
                 {isIframeLoading && (
                   <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 transition-opacity duration-300">
@@ -132,10 +142,15 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
                   src={`${resumePdfPath}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`}
                   title="Alex McDonald Product Design Engineer Resume"
                   onLoad={() => setIsIframeLoading(false)}
-                  className={`w-full h-full border-0 outline-none shadow-none transition-opacity duration-300 ${
+                  className={`w-full h-full min-h-full border-0 outline-none shadow-none transition-opacity duration-300 ${
                     isIframeLoading ? 'opacity-0 pointer-events-none' : 'opacity-100'
                   }`}
-                  style={{ border: 'none', outline: 'none', boxShadow: 'none' }}
+                  style={{
+                    border: 'none',
+                    outline: 'none',
+                    boxShadow: 'none',
+                    touchAction: 'auto',
+                  }}
                 />
               </div>
             </motion.div>
