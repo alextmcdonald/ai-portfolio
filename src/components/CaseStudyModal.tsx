@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, CheckCircle, ShieldCheck, Sparkles, SlidersHorizontal, BarChart3, Layers } from 'lucide-react';
 import { CaseStudy } from '../types';
@@ -16,6 +17,27 @@ const CASE_STUDY_GALLERY: Record<string, {
   systemSpecImage: string;
   impactImage: string;
 }> = {
+  'customerpath': {
+    explorations: [
+      {
+        title: 'Multi-Branch Journey Nodes',
+        caption: 'Visual flow graph orchestrating complex omnichannel customer touchpoints',
+        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'
+      },
+      {
+        title: 'Predictive Audience Clustering',
+        caption: 'Machine learning powered customer cohort segmentation with live retention models',
+        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80'
+      }
+    ],
+    screenImages: [
+      '/assets/images/customerpath-thumb.jpg',
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80'
+    ],
+    systemSpecImage: 'https://images.unsplash.com/photo-1581291518655-9523c932edcf?auto=format&fit=crop&w=1200&q=80',
+    impactImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80'
+  },
   'aura-spatial-os': {
     explorations: [
       {
@@ -254,9 +276,13 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
     };
   }, [caseStudy]);
 
-  if (!caseStudy) return null;
+  const lastStudyRef = useRef<CaseStudy | null>(caseStudy);
+  if (caseStudy) {
+    lastStudyRef.current = caseStudy;
+  }
+  const currentStudy = caseStudy || lastStudyRef.current;
 
-  const gallery = CASE_STUDY_GALLERY[caseStudy.id] || DEFAULT_GALLERY;
+  const gallery = (currentStudy && CASE_STUDY_GALLERY[currentStudy.id]) || DEFAULT_GALLERY;
 
   const scrollToSection = (sectionId: 'overview' | 'process' | 'tokens' | 'metrics') => {
     sounds.playTap();
@@ -316,122 +342,168 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
 
   const currentScreenImage = gallery.screenImages[activeScreenIndex % gallery.screenImages.length];
 
-  return (
-    <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-hidden">
-        {/* Dim backdrop scrim */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          onClick={() => {
-            sounds.playTap();
-            onClose();
-          }}
-          className="fixed inset-0 bg-black/75 backdrop-blur-xl"
-        />
+  return typeof document !== 'undefined'
+    ? createPortal(
+        <AnimatePresence>
+          {caseStudy && currentStudy && (
+            <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-6 md:p-8 overflow-hidden overscroll-none">
+              {/* Dim backdrop scrim */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                onClick={() => {
+                  sounds.playTap();
+                  onClose();
+                }}
+                className={`fixed inset-0 backdrop-blur-2xl overscroll-none touch-none ${
+                  light ? 'bg-black/92' : 'bg-black/85'
+                }`}
+              />
 
-        {/* Modal Window Container with outer border */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.94, y: 30 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ type: 'spring', stiffness: 280, damping: 28 }}
-          className={`relative w-full max-w-4xl max-h-[90vh] rounded-[32px] sm:rounded-[40px] border shadow-2xl flex flex-col overflow-hidden z-10 my-auto ${
-            light
-              ? 'bg-white/95 text-stone-900 border-black/10 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.18)]'
-              : 'glass-thick bg-stone-950/90 text-white border-white/20'
-          }`}
-          style={{
-            backdropFilter: 'blur(48px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(48px) saturate(180%)'
-          }}
-        >
-          {/* Top Bar with Title and Close Button (No horizontal divider line) */}
-          <div
-            className={`flex items-center justify-between px-6 sm:px-8 pt-5 sm:pt-6 pb-2.5 sm:pb-3 shrink-0 border-0 ${
-              light ? 'bg-white' : 'bg-white/[0.03]'
-            }`}
-          >
-            <h2
-              className={`text-[32px] font-bold tracking-tight leading-tight ${
-                light ? 'text-stone-950' : 'text-white'
-              }`}
-            >
-              {caseStudy.title}
-            </h2>
-
-            <button
-              onClick={() => {
-                sounds.playTap();
-                onClose();
-              }}
-              aria-label="Close case study details"
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90 border shrink-0 ml-4 cursor-pointer ${
-                light
-                  ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
-                  : 'bg-white/12 hover:bg-white/20 text-white border-white/15'
-              }`}
-            >
-              <X className="w-5 h-5 stroke-[2]" />
-            </button>
-          </div>
-
-          {/* Sticky Modal Navigation Tabs */}
-          <div
-            ref={tabsContainerRef}
-            data-modal-scrollable="true"
-            className={`sticky top-0 z-20 px-5 sm:px-8 pt-0 pb-0 flex items-center gap-5 sm:gap-7 overflow-x-auto no-scrollbar shrink-0 min-h-[40px] sm:min-h-[44px] h-[42px] sm:h-[46px] select-none transition-colors duration-200 border-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden touch-pan-x [overscroll-behavior-x:none] ${
-              light ? 'bg-white' : 'bg-white/[0.03]'
-            }`}
-          >
-            {navTabs.map((tab) => {
-              const isSelected = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  id={`cs-tab-${tab.id}`}
-                  onClick={() => scrollToSection(tab.id)}
-                  className={`relative h-full flex items-center py-1.5 px-1 text-xs sm:text-sm transition-colors duration-200 whitespace-nowrap cursor-pointer shrink-0 border-0 bg-transparent ${
-                    isSelected
-                      ? light
-                        ? 'text-stone-900 font-semibold'
-                        : 'text-white font-semibold'
-                      : light
-                        ? 'text-stone-500 font-normal hover:text-stone-800'
-                        : 'text-white/60 font-normal hover:text-white/90'
+              {/* Modal Window Container (Clean borderless full-screen sheet matching ResumeModal) */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.94, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ type: 'spring', stiffness: 280, damping: 28 }}
+                className={`relative w-full h-full max-h-full case-study-modal-window rounded-[24px] sm:rounded-[32px] flex flex-col overflow-hidden z-10 my-auto transition-colors duration-200 border-0 shadow-none ${
+                  light
+                    ? 'bg-white text-stone-900'
+                    : 'bg-stone-950 text-white'
+                }`}
+                style={{
+                  border: 'none',
+                  boxShadow: 'none',
+                  touchAction: 'auto',
+                  contain: 'paint',
+                  isolation: 'isolate',
+                }}
+              >
+                {/* Header matching ResumeModal */}
+                <div
+                  className={`flex items-center justify-between px-5 sm:px-8 py-4 sm:py-5 border-b border-0 border-b-transparent shrink-0 select-none ${
+                    light ? 'bg-stone-50 text-stone-950' : 'bg-stone-900 text-white'
                   }`}
                 >
-                  <span>{tab.label}</span>
-                  {isSelected && (
-                    <motion.div
-                      layoutId="caseStudyActiveTabUnderline"
-                      className={`absolute bottom-0 left-0 right-0 h-[2px] rounded-full ${
-                        light
-                          ? 'bg-stone-900 shadow-[0_0_8px_rgba(0,0,0,0.25)]'
-                          : 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.4)]'
+                  <div>
+                    <h2
+                      className={`text-xl sm:text-2xl font-bold tracking-tight ${
+                        light ? 'text-stone-950' : 'text-white'
                       }`}
-                      style={{
-                        backgroundColor: light ? '#0f172a' : '#ffffff'
-                      }}
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                </button>
-              );
-            })}
-          </div>
+                    >
+                      {currentStudy.title}
+                    </h2>
+                  </div>
 
-          {/* Unified Single-Page Scrollable Content Body (With container borders, NO horizontal lines) */}
-          <div
-            ref={scrollContainerRef}
-            onScroll={handleScroll}
-            data-modal-scrollable="true"
-            className="flex-1 overflow-y-auto overscroll-contain px-6 sm:px-8 py-6 space-y-12 scroll-smooth"
-          >
-            {/* SECTION 1: OVERVIEW & EXECUTIVE SUMMARY */}
-            <section id="cs-section-overview" className="space-y-6 pt-2">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => {
+                        sounds.playTap();
+                        onClose();
+                      }}
+                      aria-label="Close case study"
+                      className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90 border-0 shadow-none cursor-pointer ${
+                        light
+                          ? 'bg-stone-200/80 hover:bg-stone-300 text-stone-800'
+                          : 'bg-white/12 hover:bg-white/20 text-white'
+                      }`}
+                    >
+                      <X className="w-4 h-4 stroke-[2]" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Body: Embedded Figma Prototype IFRAME when figmaUrl exists, or Rich Case Study Deep-Dive */}
+                {currentStudy.figmaUrl ? (
+                  <div
+                    className={`relative flex-1 min-h-0 w-full overflow-hidden case-study-iframe-container rounded-b-[24px] sm:rounded-b-[32px] p-0 m-0 border-0 shadow-none ${
+                      light ? 'bg-stone-100' : 'bg-stone-900'
+                    }`}
+                    style={{
+                      WebkitOverflowScrolling: 'touch',
+                      touchAction: 'auto',
+                      contain: 'paint',
+                      isolation: 'isolate',
+                    }}
+                  >
+                    <iframe
+                      src={`https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(currentStudy.figmaUrl)}`}
+                      title={`${currentStudy.title} Prototype`}
+                      allowFullScreen
+                      allow="fullscreen; clipboard-read; clipboard-write"
+                      className="w-full h-full min-h-full border-0 outline-none shadow-none rounded-b-[24px] sm:rounded-b-[32px]"
+                      style={{
+                        border: 'none',
+                        outline: 'none',
+                        boxShadow: 'none',
+                        touchAction: 'auto',
+                      }}
+                    />
+                  </div>
+                ) : (
+            <>
+              {/* Sticky Modal Navigation Tabs */}
+              <div
+                ref={tabsContainerRef}
+                data-modal-scrollable="true"
+                className={`sticky top-0 z-20 px-5 sm:px-8 pt-0 pb-0 flex items-center gap-5 sm:gap-7 overflow-x-auto no-scrollbar shrink-0 min-h-[40px] sm:min-h-[44px] h-[42px] sm:h-[46px] select-none transition-colors duration-200 border-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden touch-pan-x [overscroll-behavior-x:none] ${
+                  light ? 'bg-white' : 'bg-white/[0.03]'
+                }`}
+              >
+                {navTabs.map((tab) => {
+                  const isSelected = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      id={`cs-tab-${tab.id}`}
+                      onClick={() => scrollToSection(tab.id)}
+                      className={`relative h-full flex items-center py-1.5 px-1 text-xs sm:text-sm transition-colors duration-200 whitespace-nowrap cursor-pointer shrink-0 border-0 bg-transparent ${
+                        isSelected
+                          ? light
+                            ? 'text-stone-900 font-semibold'
+                            : 'text-white font-semibold'
+                          : light
+                            ? 'text-stone-500 font-normal hover:text-stone-800'
+                            : 'text-white/60 font-normal hover:text-white/90'
+                      }`}
+                    >
+                      <span>{tab.label}</span>
+                      {isSelected && (
+                        <motion.div
+                          layoutId="caseStudyActiveTabUnderline"
+                          className={`absolute bottom-0 left-0 right-0 h-[2px] rounded-full ${
+                            light
+                              ? 'bg-stone-900 shadow-[0_0_8px_rgba(0,0,0,0.25)]'
+                              : 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.4)]'
+                          }`}
+                          style={{
+                            backgroundColor: light ? '#0f172a' : '#ffffff'
+                          }}
+                          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                        />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Unified Single-Page Scrollable Content Body (With container borders, NO horizontal lines) */}
+              <div
+                ref={scrollContainerRef}
+                onScroll={handleScroll}
+                data-modal-scrollable="true"
+                className="flex-1 overflow-y-auto overscroll-contain case-study-scroll-container rounded-b-[24px] sm:rounded-b-[32px] px-6 sm:px-8 py-6 space-y-12 scroll-smooth"
+                style={{
+                  WebkitOverflowScrolling: 'touch',
+                  touchAction: 'pan-y',
+                  contain: 'paint',
+                  isolation: 'isolate',
+                }}
+              >
+                {/* SECTION 1: OVERVIEW & EXECUTIVE SUMMARY */}
+                <section id="cs-section-overview" className="space-y-6 pt-2">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-sky-400">
                 <Sparkles className="w-4 h-4" />
                 <span>Executive Summary</span>
@@ -439,9 +511,9 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
 
               {/* Hero Showcase Image */}
               <div className="relative rounded-2xl overflow-hidden aspect-video max-h-84 w-full group border border-white/15">
-                {caseStudy.videoUrl ? (
+                {currentStudy.videoUrl ? (
                   <video
-                    src={caseStudy.videoUrl}
+                    src={currentStudy.videoUrl}
                     autoPlay
                     loop
                     muted
@@ -450,15 +522,15 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                   />
                 ) : (
                   <img
-                    src={caseStudy.heroImage}
-                    alt={caseStudy.title}
+                    src={currentStudy.heroImage}
+                    alt={currentStudy.title}
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
                   />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent flex items-end p-6">
                   <p className="text-sm sm:text-base font-medium text-white/95 max-w-2xl text-balance">
-                    {caseStudy.subtitle}
+                    {currentStudy.subtitle}
                   </p>
                 </div>
               </div>
@@ -470,7 +542,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                     The Challenge
                   </div>
                   <p className="mt-2 text-sm text-white/80 leading-relaxed font-normal">
-                    {caseStudy.problem}
+                    {currentStudy.problem}
                   </p>
                 </div>
 
@@ -479,7 +551,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                     The Architecture
                   </div>
                   <p className="mt-2 text-sm text-white/80 leading-relaxed font-normal">
-                    {caseStudy.solution}
+                    {currentStudy.solution}
                   </p>
                 </div>
               </div>
@@ -515,7 +587,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                   Ergonomic & Usability Insights
                 </h3>
                 <div className="space-y-2.5">
-                  {caseStudy.researchInsights.map((insight, idx) => (
+                  {currentStudy.researchInsights.map((insight, idx) => (
                     <div
                       key={idx}
                       className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.04] border border-white/10"
@@ -538,7 +610,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
               </div>
 
               <div className="grid grid-cols-1 gap-4">
-                {caseStudy.designDecisions.map((decision, idx) => (
+                {currentStudy.designDecisions.map((decision, idx) => (
                   <div
                     key={idx}
                     className="glass-thin p-5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-2"
@@ -563,13 +635,13 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                     Key Interaction Workflows & UI Prototype Screens
                   </h3>
                   <span className="text-xs text-white/50 font-mono">
-                    Screen {activeScreenIndex + 1} of {caseStudy.prototypeScreens.length}
+                    Screen {activeScreenIndex + 1} of {currentStudy.prototypeScreens.length}
                   </span>
                 </div>
 
                 {/* Workflow Screen Selector Pills */}
                 <div className="flex gap-2 pb-1 overflow-x-auto">
-                  {caseStudy.prototypeScreens.map((screen, idx) => (
+                  {currentStudy.prototypeScreens.map((screen, idx) => (
                     <button
                       key={idx}
                       onClick={() => {
@@ -593,7 +665,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                 <div className="relative rounded-2xl overflow-hidden aspect-[16/9] max-h-80 w-full group bg-black/40 border border-white/15">
                   <img
                     src={currentScreenImage}
-                    alt={caseStudy.prototypeScreens[activeScreenIndex]?.name || 'UI Workflow'}
+                    alt={currentStudy.prototypeScreens[activeScreenIndex]?.name || 'UI Workflow'}
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
                   />
@@ -601,14 +673,14 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="text-sm sm:text-base font-bold text-white">
-                          {caseStudy.prototypeScreens[activeScreenIndex].name}
+                          {currentStudy.prototypeScreens[activeScreenIndex].name}
                         </span>
                         <span className="text-[11px] text-sky-300 font-mono bg-sky-500/20 px-2 py-0.5 rounded-md border border-sky-400/30">
-                          {caseStudy.prototypeScreens[activeScreenIndex].tag}
+                          {currentStudy.prototypeScreens[activeScreenIndex].tag}
                         </span>
                       </div>
                       <p className="text-xs sm:text-sm text-white/85 mt-1.5 max-w-2xl leading-relaxed">
-                        {caseStudy.prototypeScreens[activeScreenIndex].caption}
+                        {currentStudy.prototypeScreens[activeScreenIndex].caption}
                       </p>
                     </div>
                   </div>
@@ -649,7 +721,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
               </div>
 
               <div className="space-y-2.5">
-                {caseStudy.systemSpecs.map((spec, idx) => (
+                {currentStudy.systemSpecs.map((spec, idx) => (
                   <div
                     key={idx}
                     className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-xl bg-white/[0.03] border border-white/10 gap-1"
@@ -688,7 +760,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {caseStudy.metrics.map((metric, idx) => (
+                {currentStudy.metrics.map((metric, idx) => (
                   <div
                     key={idx}
                     className="glass-thin p-5 rounded-2xl bg-white/[0.04] border border-white/15"
@@ -711,13 +783,18 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                   Business & Architectural Longevity
                 </h4>
                 <p className="text-xs sm:text-sm text-white/80 mt-1.5 leading-relaxed">
-                  The token architecture and ergonomic guidelines established in {caseStudy.title} now serve as the baseline foundation for production shipping across 3 multi-platform core squads.
+                  The token architecture and ergonomic guidelines established in {currentStudy.title} now serve as the baseline foundation for production shipping across 3 multi-platform core squads.
                 </p>
               </div>
             </section>
           </div>
-        </motion.div>
-      </div>
-    </AnimatePresence>
-  );
+        </>
+      )}
+    </motion.div>
+  </div>
+        )}
+      </AnimatePresence>,
+      document.body
+    )
+  : null;
 };

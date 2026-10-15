@@ -522,4 +522,81 @@ p[class*="text-[10px]"],
   }
 }
 
+/* GPU hardware clipping for modal window, embedded iframe, and scroll container */
+.case-study-modal-window {
+  border-radius: 24px !important;
+  overflow: hidden !important;
+  contain: paint !important;
+  isolation: isolate !important;
+  -webkit-mask-image: -webkit-radial-gradient(white, black) !important;
+  mask-image: radial-gradient(white, black) !important;
+  clip-path: inset(0 round 24px) !important;
+  -webkit-clip-path: inset(0 round 24px) !important;
+}
+@media (min-width: 640px) {
+  .case-study-modal-window {
+    border-radius: 32px !important;
+    clip-path: inset(0 round 32px) !important;
+    -webkit-clip-path: inset(0 round 32px) !important;
+  }
+}
+
+.case-study-iframe-container {
+  border-bottom-left-radius: 24px !important;
+  border-bottom-right-radius: 24px !important;
+  overflow: hidden !important;
+  contain: paint !important;
+  isolation: isolate !important;
+  -webkit-mask-image: -webkit-radial-gradient(white, black) !important;
+  mask-image: radial-gradient(white, black) !important;
+  clip-path: inset(0 round 0 0 24px 24px) !important;
+  -webkit-clip-path: inset(0 round 0 0 24px 24px) !important;
+}
+@media (min-width: 640px) {
+  .case-study-iframe-container {
+    border-bottom-left-radius: 32px !important;
+    border-bottom-right-radius: 32px !important;
+    clip-path: inset(0 round 0 0 32px 32px) !important;
+    -webkit-clip-path: inset(0 round 0 0 32px 32px) !important;
+  }
+}
+
+.case-study-iframe-container iframe {
+  border-bottom-left-radius: 24px !important;
+  border-bottom-right-radius: 24px !important;
+  overflow: hidden !important;
+  contain: paint !important;
+}
+@media (min-width: 640px) {
+  .case-study-iframe-container iframe {
+    border-bottom-left-radius: 32px !important;
+    border-bottom-right-radius: 32px !important;
+  }
+}
+
+.case-study-scroll-container {
+  border-bottom-left-radius: 24px !important;
+  border-bottom-right-radius: 24px !important;
+  overflow-y: auto !important;
+  contain: paint !important;
+  isolation: isolate !important;
+  -webkit-mask-image: -webkit-radial-gradient(white, black) !important;
+  mask-image: radial-gradient(white, black) !important;
+  clip-path: inset(0 round 0 0 24px 24px) !important;
+  -webkit-clip-path: inset(0 round 0 0 24px 24px) !important;
+}
+@media (min-width: 640px) {
+  .case-study-scroll-container {
+    border-bottom-left-radius: 32px !important;
+    border-bottom-right-radius: 32px !important;
+    clip-path: inset(0 round 0 0 32px 32px) !important;
+    -webkit-clip-path: inset(0 round 0 0 32px 32px) !important;
+  }
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+
 

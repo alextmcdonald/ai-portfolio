@@ -36,6 +36,57 @@ export const STATUS_CARD_MEDIA = {
 
 export const CASE_STUDIES: CaseStudy[] = [
   {
+    id: "customerpath",
+    title: "CustomerPath",
+    subtitle: "Designing the Next Generation of AI-Powered Marketing Software",
+    role: "Lead Product Designer & Design Architect",
+    timeline: "2024 — Present",
+    category: "B2B SaaS",
+    cardTags: ["B2B", "Enterprise", "Marketing", "AI", "Design System"],
+    figmaUrl: "https://www.figma.com/proto/7qcpNGMqv1GSP5IdDYKsvp/Alex-McDonald-%7C-Product-Designer-%7C-Seattle--WA?node-id=1186-24930&viewport=542%2C54%2C0.03&t=d640uabpEvbJh0Xw-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=1186%3A24930&page-id=1186%3A24142&show-proto-sidebar=1&hide-ui=1",
+    heroImage: "/assets/images/customerpath-thumb.jpg",
+    statsSummary: "+47% campaign workflow velocity, 98% design system token adoption, sub-200ms AI journey generation.",
+    summary: "Led the 0-to-1 design architecture for an enterprise-grade AI marketing platform. Built an interactive visual journey canvas, multi-channel campaign automation studio, and a modular design system tailored for high-scale marketing teams.",
+    problem: "Enterprise marketing teams were bogged down by disjointed legacy tooling, tedious manual cohort segmentation, and slow multi-day campaign assembly cycles across disconnected channels.",
+    solution: "Designed an intuitive, AI-native marketing command center featuring a real-time visual customer journey canvas, automated audience intelligence clustering, and dynamic multi-channel creative generation.",
+    researchInsights: [
+      "Marketing directors need quick high-level campaign attribution telemetry alongside granular node-level conversion breakdowns.",
+      "Visual node-based journey builders with contextual AI assist reduce journey creation time from 4 hours to under 15 minutes.",
+      "A tokenized enterprise design system with light and dark mode parity improved team design-to-production handoff velocity by 60%."
+    ],
+    designDecisions: [
+      {
+        title: "Spatial Journey Canvas",
+        description: "Interactive visual node workflow builder with real-time customer routing, branch logic, and performance telemetry."
+      },
+      {
+        title: "Contextual AI Copilot",
+        description: "Natural language campaign orchestrator capable of synthesizing multi-channel audience segments and suggesting optimal cadence."
+      },
+      {
+        title: "Modular Enterprise Design System",
+        description: "Comprehensive tokenized UI system with strict contrast discipline, data-dense tables, and Cupertino-grade interaction polish."
+      }
+    ],
+    metrics: [
+      { label: "Workflow Velocity", value: "+47%", subtext: "Faster end-to-end campaign creation and deployment" },
+      { label: "AI Segment Precision", value: "94%", subtext: "High-confidence customer cohort clustering" },
+      { label: "System Adoption", value: "98%", subtext: "Component re-use across web, app, and analytics dashboards" }
+    ],
+    systemSpecs: [
+      { key: "Target Platforms", value: "Enterprise Web App, Desktop SaaS, and Tablet Companion" },
+      { key: "Canvas Engine", value: "GPU-accelerated vector canvas with 60fps pan & zoom" },
+      { key: "Design System", value: "Tokenized multi-theme architecture in React & Tailwind" },
+      { key: "AI Integration", value: "Low-latency streaming LLM orchestration with guardrails" }
+    ],
+    prototypeScreens: [
+      { name: "Journey Canvas", caption: "Multi-branch customer lifecycle automation flow", tag: "Canvas" },
+      { name: "Audience Intelligence", caption: "Real-time cohort segmentation with predictive scoring", tag: "Analytics" },
+      { name: "Campaign Studio", caption: "Omnichannel content generator and variant tester", tag: "Creative" }
+    ],
+    tags: ["B2B", "Enterprise", "Marketing", "AI", "Design System"]
+  },
+  {
     id: "strata-wealth",
     title: "TennisPal",
     subtitle: "Driving user growth with better onboarding and match scheduling",
@@ -43,7 +94,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: "2023 — 2024",
     category: "Consumer app",
     cardTags: ["Consumer app", "Social media", "Sports"],
-    figmaUrl: "https://www.figma.com/proto/7qcpNGMqv1GSP5IdDYKsvp/Alex-McDonald-%7C-Product-Designer-%7C-Seattle--WA?node-id=313-4826&viewport=684%2C153%2C0.14&t=cpR3wvw81c0ZOWzQ-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=313%3A4826&page-id=313%3A4732&hide-ui=1",
+    figmaUrl: "https://www.figma.com/proto/7qcpNGMqv1GSP5IdDYKsvp/Alex-McDonald-%7C-Product-Designer-%7C-Seattle--WA?node-id=1186-24143&viewport=542%2C54%2C0.03&t=d640uabpEvbJh0Xw-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=1186%3A24143&page-id=1186%3A24142&show-proto-sidebar=1&hide-ui=1",
     heroImage: "/assets/images/tennispal-thumb.jpg",
     statsSummary: "Tracked $4.2B+ in private wealth, 4.9 App Store rating, and +68% daily active engagement.",
     summary: "Created the mobile and desktop flagship experience for ultra-high-net-worth family offices managing complex asset allocations, venture capital tranches, and cross-currency liquidity.",
@@ -94,7 +145,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: "2022 — 2023",
     category: "Consumer app",
     cardTags: ["Consumer app", "Marketplace", "Food"],
-    figmaUrl: "https://www.figma.com/proto/7qcpNGMqv1GSP5IdDYKsvp/Alex-McDonald-%7C-Product-Designer-%7C-Seattle--WA?node-id=374-7188&viewport=684%2C153%2C0.14&t=cpR3wvw81c0ZOWzQ-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=374%3A7188&page-id=313%3A4732&hide-ui=1",
+    figmaUrl: "https://www.figma.com/proto/7qcpNGMqv1GSP5IdDYKsvp/Alex-McDonald-%7C-Product-Designer-%7C-Seattle--WA?node-id=1186-24407&viewport=542%2C54%2C0.03&t=d640uabpEvbJh0Xw-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=1186%3A24407&page-id=1186%3A24142&show-proto-sidebar=1&hide-ui=1",
     heroImage: "/assets/images/saveplates-thumb.jpg",
     statsSummary: "3.4x faster concept iteration, 92% power-user retention in 48 hours.",
     summary: "Led the 0-to-1 product design of an infinite visual workspace for multi-modal AI generation. Designed spatial node connections, progressive parameter disclosure, and non-blocking background task orchestration.",
@@ -145,7 +196,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: "2021 — 2022",
     category: "Consumer app",
     cardTags: ["Consumer app", "Marketplace", "Sports"],
-    figmaUrl: "https://www.figma.com/proto/7qcpNGMqv1GSP5IdDYKsvp/Alex-McDonald-%7C-Product-Designer-%7C-Seattle--WA?node-id=375-7314&viewport=684%2C153%2C0.14&t=cpR3wvw81c0ZOWzQ-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=375%3A7314&page-id=313%3A4732&show-proto-sidebar=1&hide-ui=1",
+    figmaUrl: "https://www.figma.com/proto/7qcpNGMqv1GSP5IdDYKsvp/Alex-McDonald-%7C-Product-Designer-%7C-Seattle--WA?node-id=1186-24548&viewport=542%2C54%2C0.03&t=d640uabpEvbJh0Xw-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=1186%3A24548&page-id=1186%3A24142&show-proto-sidebar=1&hide-ui=1",
     heroImage: "/assets/images/pogoseat-thumb.jpg",
     statsSummary: "52% upgrade conversion rate, adopted by 30+ NBA/MLB stadiums, +$3.8M incremental ticketing GMV.",
     summary: "Designed the end-to-end mobile fan experience and live venue marketplace allowing sports fans to purchase instant in-game seat upgrades and VIP access pass upgrades directly from their smartphone in seconds.",
@@ -196,7 +247,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: "2019 — 2021",
     category: "E-commerce",
     cardTags: ["E-commerce", "Marketplace", "Software", "Tech"],
-    figmaUrl: "https://www.figma.com/proto/7qcpNGMqv1GSP5IdDYKsvp/Alex-McDonald-%7C-Product-Designer-%7C-Seattle--WA?node-id=378-7464&viewport=684%2C153%2C0.14&t=cpR3wvw81c0ZOWzQ-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=378%3A7464&page-id=313%3A4732&hide-ui=1",
+    figmaUrl: "https://www.figma.com/proto/7qcpNGMqv1GSP5IdDYKsvp/Alex-McDonald-%7C-Product-Designer-%7C-Seattle--WA?node-id=1186-24765&viewport=542%2C54%2C0.03&t=d640uabpEvbJh0Xw-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=1186%3A24765&page-id=1186%3A24142&show-proto-sidebar=1&hide-ui=1",
     heroImage: "/assets/images/stacksocial-thumb.jpg",
     statsSummary: "+41% cart conversion rate, $28M+ annual marketplace GMV, 4.2M active digital subscribers.",
     summary: "Reimagined the flagship digital marketplace discovery architecture, bundle builder experience, and checkout funnel for one of the web's largest technology discovery platforms.",
