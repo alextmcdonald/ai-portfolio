@@ -631,7 +631,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                     className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all group border ${
                       isLightMode
                         ? 'bg-white hover:bg-stone-100 border-black/10 text-stone-800 hover:text-stone-950 shadow-xs'
-                        : 'bg-white/25 hover:bg-white/35 border-white/25 text-white'
+                        : 'bg-white/20 hover:bg-white/30 border-white/20 text-white'
                     }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
