@@ -99,6 +99,69 @@ export default function App() {
 
   const isNavigatingRef = useRef(false);
   const scrollIdleTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const scrollAnimRef = useRef<number | null>(null);
+
+  // Smooth custom scroll for Safari over long distances so it doesn't whip too fast
+  const customSmoothScrollTo = (targetY: number, duration = 1000) => {
+    if (scrollAnimRef.current) {
+      cancelAnimationFrame(scrollAnimRef.current);
+    }
+
+    const startY = window.scrollY || window.pageYOffset;
+    const diff = targetY - startY;
+    if (Math.abs(diff) < 2) {
+      isNavigatingRef.current = false;
+      return;
+    }
+
+    const startTime = performance.now();
+
+    const onUserCancel = () => {
+      if (scrollAnimRef.current) {
+        cancelAnimationFrame(scrollAnimRef.current);
+        scrollAnimRef.current = null;
+      }
+      isNavigatingRef.current = false;
+      window.removeEventListener('wheel', onUserCancel);
+      window.removeEventListener('touchstart', onUserCancel);
+    };
+
+    window.addEventListener('wheel', onUserCancel, { passive: true });
+    window.addEventListener('touchstart', onUserCancel, { passive: true });
+
+    const step = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Apple-like smooth cubic ease-in-out
+      const ease =
+        progress < 0.5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+      window.scrollTo(0, startY + diff * ease);
+
+      if (progress < 1) {
+        scrollAnimRef.current = requestAnimationFrame(step);
+      } else {
+        scrollAnimRef.current = null;
+        window.removeEventListener('wheel', onUserCancel);
+        window.removeEventListener('touchstart', onUserCancel);
+        setTimeout(() => {
+          isNavigatingRef.current = false;
+        }, 100);
+      }
+    };
+
+    scrollAnimRef.current = requestAnimationFrame(step);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (scrollAnimRef.current) {
+        cancelAnimationFrame(scrollAnimRef.current);
+      }
+    };
+  }, []);
 
   // Smooth scroll to target section without intermediate jumps
   const handleScrollToSection = (sectionId: string) => {
@@ -109,10 +172,24 @@ export default function App() {
       clearTimeout(scrollIdleTimerRef.current);
     }
 
+    const isSafari =
+      typeof navigator !== 'undefined' &&
+      (navigator.vendor?.includes('Apple') || false) &&
+      !navigator.userAgent.includes('Chrome') &&
+      !navigator.userAgent.includes('Chromium') &&
+      !navigator.userAgent.includes('CriOS');
+
     const el = document.getElementById(sectionId);
     if (el) {
       if (sectionId === 'overview') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (isSafari && window.scrollY > 300) {
+          // Proportionate, gentle animation duration: ~950ms to 1250ms
+          const duration = Math.min(1250, Math.max(900, Math.round(window.scrollY * 0.25)));
+          customSmoothScrollTo(0, duration);
+          return;
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       } else if (sectionId === 'contact') {
         window.scrollTo({
           top: document.documentElement.scrollHeight,

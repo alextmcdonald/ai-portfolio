@@ -117,7 +117,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
               <div
                 className={`flex items-center justify-between gap-2 p-3.5 rounded-2xl border ${
                   isLightMode
-                    ? 'bg-white/50 border-black/10'
+                    ? 'bg-[#eeeeee] border-black/10'
                     : 'bg-black/30 border-white/10'
                 }`}
               >
@@ -135,7 +135,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                   }}
                   className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer border border-transparent shadow-none ${
                     isLightMode
-                      ? 'bg-stone-200 hover:bg-stone-300 text-black'
+                      ? 'bg-[#d5d5d5] hover:bg-[#c8c8c8] text-black'
                       : 'bg-white/15 hover:bg-white/25 text-white'
                   }`}
                 >

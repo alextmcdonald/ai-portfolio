@@ -485,14 +485,14 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             sounds.playTap();
             setIsMenuOpen(!isMenuOpen);
           }}
-          className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-150 active:scale-95 border cursor-pointer ${
+          className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-150 active:scale-95 border cursor-pointer backdrop-blur-md ${
             isMenuOpen
               ? isLightMode
-                ? 'bg-stone-200 text-stone-950 border-black/15 shadow-xs'
-                : 'bg-black/35 hover:bg-black/45 active:bg-black/50 text-white border-white/20 shadow-xs backdrop-blur-md'
+                ? 'bg-stone-900/15 text-stone-950 border-black/15 shadow-xs'
+                : 'bg-black/35 hover:bg-black/45 active:bg-black/50 text-white border-white/20 shadow-xs'
               : isLightMode
-                ? 'bg-white/95 hover:bg-white active:bg-stone-200 text-stone-800 hover:text-stone-950 active:text-stone-950 border-black/10 shadow-xs backdrop-blur-md'
-                : 'bg-white/12 hover:bg-white/20 active:bg-black/35 text-white border-white/15 backdrop-blur-md'
+                ? 'bg-white/70 hover:bg-white/85 active:bg-stone-200/80 text-stone-800 hover:text-stone-950 active:text-stone-950 border-black/10 shadow-xs'
+                : 'bg-white/12 hover:bg-white/20 active:bg-black/35 text-white border-white/15'
           }`}
           title="Contact & Email Options"
           aria-label="More contact options"
@@ -511,12 +511,13 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               transition={{ type: 'spring', stiffness: 360, damping: 26 }}
               className={`absolute right-0 top-12 z-50 w-72 sm:w-80 p-2.5 rounded-2xl border shadow-2xl backdrop-blur-2xl select-none space-y-2 ${
                 isLightMode
-                  ? 'bg-white/95 border-black/12 text-stone-900 shadow-[0_20px_50px_rgba(0,0,0,0.16)]'
-                  : 'bg-stone-900/90 border-white/20 text-white shadow-2xl'
+                  ? 'border-black/12 text-stone-900 shadow-[0_20px_50px_rgba(0,0,0,0.14)]'
+                  : 'border-white/20 text-white shadow-[0_24px_60px_rgba(0,0,0,0.6)]'
               }`}
               style={{
-                backdropFilter: 'blur(36px) saturate(180%)',
-                WebkitBackdropFilter: 'blur(36px) saturate(180%)'
+                backgroundColor: isLightMode ? 'rgba(255, 255, 255, 0.72)' : 'rgba(18, 20, 26, 0.70)',
+                backdropFilter: 'blur(40px) saturate(190%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(190%)'
               }}
             >
               {/* Primary Blue CTA: Message Me */}
@@ -537,7 +538,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               <div
                 className={`flex items-center justify-between gap-2 p-2.5 rounded-xl border ${
                   isLightMode
-                    ? 'bg-white/50 border-black/10'
+                    ? 'bg-[#eeeeee] border-black/10'
                     : 'bg-black/40 border-white/10'
                 }`}
               >
@@ -556,7 +557,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   }}
                   className={`px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all shrink-0 active:scale-95 flex items-center gap-1.5 cursor-pointer border border-transparent shadow-none ${
                     isLightMode
-                      ? 'bg-stone-200 hover:bg-stone-300 text-black'
+                      ? 'bg-[#d5d5d5] hover:bg-[#c8c8c8] text-black'
                       : 'bg-white/15 hover:bg-white/25 text-white'
                   }`}
                 >
