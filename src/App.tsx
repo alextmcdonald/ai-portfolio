@@ -409,7 +409,7 @@ export default function App() {
 
           {/* HEADLINE, MANIFESTO & BENTO GRID CARD */}
           <section
-            className={`${cardGlassClasses} relative z-10`}
+            className={`${cardGlassClasses} !pb-[22px] sm:!pb-[38px] relative z-10`}
             style={{ ...cardGlassStyle, zIndex: 10 }}
           >
             <HeroSection
