@@ -50,12 +50,6 @@ const PERSONAL_PHOTOS: PersonalPhoto[] = [
     width: '185px' // Tall portrait (9:16)
   },
   {
-    id: 'rnd-1',
-    url: '/assets/images/about/RND-1.jpg',
-    tilt: 'rotate-2',
-    width: '410px' // Landscape (3:2)
-  },
-  {
     id: 'img-8568',
     url: '/assets/images/about/IMG_8568.jpeg',
     tilt: '-rotate-1',

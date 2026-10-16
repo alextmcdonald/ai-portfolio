@@ -34,7 +34,7 @@ const AUDIENCE_TABS: AudienceTab[] = [
 
 const AUDIENCE_DESCRIPTIONS: Record<AudienceId, string> = {
   everyone:
-    "I'm naturally curious about how things work and how they could work better. I love untangling complex problems, finding the simplicity hidden beneath the surface, and bringing together design, systems, and code to create products that feel intuitive from the start.",
+    "I specialize in making complex products feel effortless by simplifying B2B workflows, connecting fragmented experiences, and turning complicated requirements into clear, intuitive tools. With a background in product design and front-end development, I’m working at the intersection of design and code to shape not just how products look, but how they work.",
   recruiters:
     "I've spent 15+ years working across startups and enterprise products, often stepping into complex problems and figuring out how to move things forward. I'm comfortable wearing different hats, learning as I go, and taking ideas from rough concepts to polished, functional experiences.",
   'design-directors':

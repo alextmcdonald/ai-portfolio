@@ -57,13 +57,13 @@ async function analyzeMessageTone(content: string, coupleContext: CoupleProfile)
   {
     id: "golf-scanner",
     category: "Search & Discovery",
-    title: "GolfScanner",
+    title: "Golfscanner",
     subtitle: "A better way to find golf courses and tee times using AI. Think Google flights for golf.",
     heroImage: "/assets/images/golfscanner.jpg",
     readTime: "5 min read",
-    summary: "GolfScanner is my vision for making it easier to find available tee times across multiple golf courses from one place.",
+    summary: "Golfscanner is my vision for making it easier to find available tee times across multiple golf courses from one place.",
     descriptionParagraphs: [
-      "GolfScanner is my vision for making it easier to find available tee times across multiple golf courses from one place. Booking golf can still feel surprisingly fragmented, with players jumping between different websites and reservation systems just to find an opening that fits their schedule.",
+      "Golfscanner is my vision for making it easier to find available tee times across multiple golf courses from one place. Booking golf can still feel surprisingly fragmented, with players jumping between different websites and reservation systems just to find an opening that fits their schedule.",
       "The idea is to create a simple search experience where golfers can quickly discover available tee times, compare options, and spend less time searching and more time playing. Long term, I see opportunities to help courses fill unused inventory while giving players a much better booking experience.",
       "As someone who loves golf, this is a product I would use myself every week. It's the kind of everyday problem that seems small but affects millions of golfers, and I enjoy exploring how thoughtful product design and AI can simplify experiences that have been unnecessarily complicated for years."
     ],
