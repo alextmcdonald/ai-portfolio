@@ -29,8 +29,8 @@ export const DESIGNER_INFO = {
 };
 
 export const STATUS_CARD_MEDIA = {
-  stravaMap: "/assets/images/strava_map.jpg?v=2",
-  albumCover: "/assets/images/album_blessed.jpg?v=2",
+  stravaMap: "/assets/images/strava_map.png",
+  albumCover: "/assets/images/applechill.jpg",
   bookCover: "/assets/images/book_lean_ux.jpg?v=2"
 };
 

@@ -34,15 +34,15 @@ const AUDIENCE_TABS: AudienceTab[] = [
 
 const AUDIENCE_DESCRIPTIONS: Record<AudienceId, string> = {
   everyone:
-    "I’m a generalist drawn to complex problems, thoughtful interfaces, and the systems that make great products possible. From early-stage ideas to enterprise platforms built at scale, I incorporate product design, design systems, and front-end design engineering to create experiences that feel simple, cohesive, and purposeful.",
+    "I'm naturally curious about how things work and how they could work better. I love untangling complex problems, finding the simplicity hidden beneath the surface, and bringing together design, systems, and code to create products that feel intuitive from the start.",
   recruiters:
-    "I bring 15 years of product thinking, visual craft, and technical fluency to the teams I work with. With experience spanning early-stage startups and complex enterprise products, I’m comfortable navigating ambiguity, collaborating across disciplines, and taking ideas from concept to execution.",
+    "I've spent 15+ years working across startups and enterprise products, often stepping into complex problems and figuring out how to move things forward. I'm comfortable wearing different hats, learning as I go, and taking ideas from rough concepts to polished, functional experiences.",
   'design-directors':
-    "I take pride in my craft and believe truly great design balances user needs, business goals, and thoughtful execution. I enjoy bringing clarity to complex problems, raising the bar for design quality, and building the systems and shared practices that help teams create better, more consistent experiences.",
+    "I'm the kind of designer who wants to understand the why behind every pixel. I care about the big picture just as much as the details, and I enjoy finding the connections between user needs, visual design, and the systems that hold everything together.",
   'product-managers':
-    "I thrive in ambiguous environments and enjoy partnering with product teams to turn ambitious ideas into useful, intuitive experiences. By connecting user needs with business objectives and technical realities, I help teams find clarity, align on priorities, and move from problem to solution with purpose.",
+    "Give me a messy problem, a room full of competing ideas, and a good team to work with. I enjoy asking the right questions, challenging assumptions, and helping turn ambiguity into a clear direction that works for users and the business.",
   engineers:
-    "I value the partnership between design and engineering and believe the best products come from collaborating early and building together. With a strong foundation in front-end development, I enjoy bridging design and code, exploring solutions collaboratively, and creating interfaces that are as practical to build as they are intuitive to use."
+    "I love the moment when a design stops being a picture in Figma and starts becoming something real. Because I work with code as well as design, I appreciate the trade-offs, enjoy figuring things out together, and care about building experiences that work beautifully beyond the mockup."
 };
 
 export const HeroSection: React.FC<HeroSectionProps> = ({

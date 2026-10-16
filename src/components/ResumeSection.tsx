@@ -15,17 +15,21 @@ import {
 } from 'lucide-react';
 import { DESIGNER_INFO, RECOMMENDATIONS, STATUS_CARD_MEDIA } from '../data/portfolioData';
 import { sounds } from '../utils/audio';
+import stravaMapImg from '../assets/images/strava_map.png';
+import appleChillImg from '../assets/images/applechill.jpg';
 
 const LATEST_STRAVA_ACTIVITY = {
-  title: 'Morning Mile',
-  type: 'Ride',
-  date: 'Yesterday at 7:14 AM',
+  title: 'Morning Run',
+  type: 'Run',
+  date: 'Today at 7:14 AM',
   location: 'Seattle, WA',
-  distance: '28.4 mi',
-  movingTime: '1h 24m',
-  elevation: '1,420 ft',
-  avgSpeed: '20.2 mph',
-  calories: '942 kcal',
+  distance: '3.66mi',
+  pace: '8:24/mi',
+  time: '30m 47s',
+  movingTime: '30m 47s',
+  elevation: '185 ft',
+  avgSpeed: '7.1 mph',
+  calories: '420 kcal',
   athleteUrl: 'https://www.strava.com/athletes/almcd',
   athleteHandle: 'almcd',
   path: 'M 30 75 Q 65 15, 125 30 T 215 25 T 275 70 T 230 125 T 125 115 T 50 95 Z'
@@ -655,7 +659,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                       Distance
                     </div>
                     <div className={`text-sm font-normal leading-none ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
-                      1.46mi
+                      {LATEST_STRAVA_ACTIVITY.distance}
                     </div>
                   </div>
                   <div>
@@ -663,7 +667,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                       Pace
                     </div>
                     <div className={`text-sm font-normal leading-none ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
-                      7:59/mi
+                      {LATEST_STRAVA_ACTIVITY.pace}
                     </div>
                   </div>
                   <div>
@@ -671,7 +675,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                       Time
                     </div>
                     <div className={`text-sm font-normal leading-none ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
-                      11m 41s
+                      {LATEST_STRAVA_ACTIVITY.time}
                     </div>
                   </div>
                 </div>
@@ -686,7 +690,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
               title="Strava Map Preview"
             >
               <img
-                src={STATUS_CARD_MEDIA.stravaMap}
+                src={stravaMapImg || STATUS_CARD_MEDIA.stravaMap}
                 alt="Strava Activity Route Map"
                 className="w-full h-full object-cover select-none transition-transform duration-300 hover:scale-105"
               />
@@ -695,7 +699,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
 
           {/* 2. CURRENT LISTENING CARD */}
           <a
-            href="https://open.spotify.com/track/5yUAQrjLRFDW4yqZI9L5v6"
+            href="https://music.apple.com/us/station/apple-music-chill/ra.1740614260"
             target="_blank"
             rel="noreferrer"
             onClick={() => sounds.playTap()}
@@ -715,10 +719,10 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
 
               <div className="mt-auto">
                 <h4 className={`text-base sm:text-lg font-bold tracking-tight leading-snug ${isLightMode ? 'text-stone-900' : 'text-white'}`}>
-                  Blessed
+                  Apple Music Chill
                 </h4>
                 <p className={`text-[14px] leading-[20px] font-normal ${isLightMode ? 'text-stone-500' : 'text-white/60'} mt-[5px]`}>
-                  August Charles
+                  Radio Station
                 </p>
               </div>
             </div>
@@ -728,11 +732,11 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
               className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 self-center relative ${
                 isLightMode ? 'bg-stone-100' : 'bg-stone-900'
               }`}
-              title="Blessed by August Charles"
+              title="Apple Music Chill - Radio Station"
             >
               <img
-                src={STATUS_CARD_MEDIA.albumCover}
-                alt="August Charles - Blessed Album Cover"
+                src={appleChillImg || STATUS_CARD_MEDIA.albumCover}
+                alt="Apple Music Chill - Radio Station"
                 className="w-full h-full object-cover select-none transition-transform duration-300 hover:scale-105"
               />
             </div>
