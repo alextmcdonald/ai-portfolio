@@ -480,6 +480,13 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
                           {p}
                         </p>
                       ))}
+                      <p
+                        className={`text-base sm:text-[20px] leading-relaxed sm:leading-[32.5px] italic ${
+                          light ? 'text-stone-500' : 'text-white/60'
+                        }`}
+                      >
+                        Full case study coming soon...
+                      </p>
                     </div>
                   </div>
                 </motion.div>

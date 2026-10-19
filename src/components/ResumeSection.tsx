@@ -5,7 +5,6 @@ import {
   FileText,
   ChevronLeft,
   ChevronRight,
-  X,
   ExternalLink,
   Flame,
   Activity,
@@ -40,6 +39,7 @@ interface PersonalPhoto {
   url: string;
   tilt: string;
   width?: string;
+  description: string;
 }
 
 const PERSONAL_PHOTOS: PersonalPhoto[] = [
@@ -47,67 +47,78 @@ const PERSONAL_PHOTOS: PersonalPhoto[] = [
     id: 'img-7012',
     url: '/assets/images/about/IMG_7012.jpeg',
     tilt: '-rotate-2',
-    width: '185px' // Tall portrait (9:16)
+    width: '185px', // Tall portrait (9:16)
+    description: 'Seattle Half Marathon finish line'
   },
   {
     id: 'img-8568',
     url: '/assets/images/about/IMG_8568.jpeg',
     tilt: '-rotate-1',
-    width: '218px' // Portrait (3:4)
+    width: '218px', // Portrait (3:4)
+    description: 'Pike Place Market, Seattle'
   },
   {
     id: 'img-4126',
     url: '/assets/images/about/IMG_4126.JPG',
     tilt: 'rotate-2',
-    width: '385px' // Landscape (4:3)
+    width: '385px', // Landscape (4:3)
+    description: 'Pacific Science Center & Seattle Center'
   },
   {
     id: 'dsc00309',
     url: '/assets/images/about/DSC00309-1.jpg',
     tilt: '-rotate-2',
-    width: '200px' // Portrait (2:3)
+    width: '200px', // Portrait (2:3)
+    description: 'Sunny afternoon stroll'
   },
   {
     id: 'img-6915',
     url: '/assets/images/about/IMG_6915.JPG',
     tilt: 'rotate-1',
-    width: '290px' // Square (1:1)
+    width: '290px', // Square (1:1)
+    description: 'Seattle Marathon 13.1 expo'
   },
   {
     id: 'rnd-4',
     url: '/assets/images/about/RND-4.jpg',
     tilt: '-rotate-2',
-    width: '410px' // Landscape (3:2)
+    width: '410px', // Landscape (3:2)
+    description: 'Dinner & design team discussions'
   },
   {
     id: 'img-3292',
     url: '/assets/images/about/IMG_3292.jpeg',
     tilt: 'rotate-2',
-    width: '218px' // Portrait (3:4)
+    width: '218px', // Portrait (3:4)
+    description: 'Mailbox Peak summit hike'
   },
   {
     id: 'about-3594',
     url: '/assets/images/about/3594173892521836429.jpg',
     tilt: '-rotate-1',
-    width: '385px' // Landscape (4:3)
+    width: '385px', // Landscape (4:3)
+    description: 'Bandon Dunes, Oregon'
   },
   {
     id: 'img-7074',
     url: '/assets/images/about/IMG_7074.jpeg',
     tilt: 'rotate-2',
-    width: '185px' // Tall portrait (9:16)
+    width: '185px', // Tall portrait (9:16)
+    description: 'Issaquah Reindeer Festival'
   },
   {
     id: 'img-9850',
     url: '/assets/images/about/IMG_9850.JPG',
     tilt: '-rotate-2',
-    width: '320px' // Slight landscape
+    width: '320px', // Slight landscape
+    description: 'Morning 5K community parkrun'
   },
   {
     id: 'img-5111',
     url: '/assets/images/about/IMG_5111.jpeg',
     tilt: 'rotate-1',
-    width: '205px' // Portrait
+    width: '205px', // Portrait
+    description: 'Los Angeles Marathon start line'
   }
 ];
 
@@ -132,27 +143,20 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
   isLightMode = false,
   onPhotoModalChange
 }) => {
-  // Lightbox State for Personal Photos
-  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+  // Cursor Tooltip State for Personal Photos on Hover
+  const [hoveredPhotoTooltip, setHoveredPhotoTooltip] = useState<{
+    text: string;
+    x: number;
+    y: number;
+  } | null>(null);
 
   // Randomize the order of pictures every time the page loads
   const [shuffledPhotos] = useState<PersonalPhoto[]>(() => shuffleArray(PERSONAL_PHOTOS));
   const trackPhotos = useMemo(() => [...shuffledPhotos, ...shuffledPhotos], [shuffledPhotos]);
 
   useEffect(() => {
-    onPhotoModalChange?.(Boolean(selectedPhoto));
-  }, [selectedPhoto, onPhotoModalChange]);
-
-  useEffect(() => {
-    if (!selectedPhoto) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setSelectedPhoto(null);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedPhoto]);
+    onPhotoModalChange?.(false);
+  }, [onPhotoModalChange]);
 
   // Preload carousel photos in background immediately on mount so they are cached before scrolling down
   useEffect(() => {
@@ -293,6 +297,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
       <div
         className="mb-[35px] landscape:mb-[43px] sm:mb-12 sm:landscape:mb-12 overflow-hidden -mx-2 sm:mx-0 relative select-none"
         style={{ background: 'transparent' }}
+        onMouseLeave={() => setHoveredPhotoTooltip(null)}
       >
         <style>{`
           @keyframes infiniteScrollLeft {
@@ -304,7 +309,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
           className="flex items-center w-max py-3 px-1"
           style={{
             animation: 'infiniteScrollLeft 150s linear infinite',
-            animationPlayState: selectedPhoto ? 'paused' : 'running',
+            animationPlayState: 'running',
             willChange: 'transform',
             background: 'transparent'
           }}
@@ -312,18 +317,28 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
           {/* Primary Track */}
           <div className="flex shrink-0 items-center gap-4 sm:gap-6 pr-4 sm:pr-6">
             {trackPhotos.map((photo, idx) => (
-              <motion.div
+              <div
                 key={`track1-${photo.id}-${idx}`}
-                whileHover={{ scale: 1.05, y: -6, zIndex: 30 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: 'spring', stiffness: 340, damping: 24 }}
-                onClick={() => {
-                  sounds.playTap();
-                  setSelectedPhoto(photo.url);
+                onMouseEnter={(e) => {
+                  setHoveredPhotoTooltip({
+                    text: photo.description,
+                    x: e.clientX,
+                    y: e.clientY
+                  });
                 }}
-                className={`shrink-0 cursor-pointer relative rounded-[22px] sm:rounded-[26px] overflow-hidden transition-transform duration-300 ${
+                onMouseMove={(e) => {
+                  setHoveredPhotoTooltip({
+                    text: photo.description,
+                    x: e.clientX,
+                    y: e.clientY
+                  });
+                }}
+                onMouseLeave={() => {
+                  setHoveredPhotoTooltip(null);
+                }}
+                className={`shrink-0 cursor-default relative rounded-[22px] sm:rounded-[26px] overflow-hidden ${
                   photo.tilt
-                } hover:rotate-0 ${
+                } ${
                   isLightMode ? 'bg-stone-200/60' : 'bg-stone-800/60'
                 }`}
                 style={{
@@ -333,31 +348,40 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
               >
                 <img
                   src={photo.url}
-                  alt=""
-                  aria-hidden="true"
+                  alt={photo.description}
                   className="w-full h-full object-cover select-none pointer-events-none rounded-[22px] sm:rounded-[26px]"
                   loading="eager"
                   decoding="async"
                 />
-              </motion.div>
+              </div>
             ))}
           </div>
 
           {/* Secondary Track (Identical clone for seamless continuous looping) */}
           <div className="flex shrink-0 items-center gap-4 sm:gap-6 pr-4 sm:pr-6" aria-hidden="true">
             {trackPhotos.map((photo, idx) => (
-              <motion.div
+              <div
                 key={`track2-${photo.id}-${idx}`}
-                whileHover={{ scale: 1.05, y: -6, zIndex: 30 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: 'spring', stiffness: 340, damping: 24 }}
-                onClick={() => {
-                  sounds.playTap();
-                  setSelectedPhoto(photo.url);
+                onMouseEnter={(e) => {
+                  setHoveredPhotoTooltip({
+                    text: photo.description,
+                    x: e.clientX,
+                    y: e.clientY
+                  });
                 }}
-                className={`shrink-0 cursor-pointer relative rounded-[22px] sm:rounded-[26px] overflow-hidden transition-transform duration-300 ${
+                onMouseMove={(e) => {
+                  setHoveredPhotoTooltip({
+                    text: photo.description,
+                    x: e.clientX,
+                    y: e.clientY
+                  });
+                }}
+                onMouseLeave={() => {
+                  setHoveredPhotoTooltip(null);
+                }}
+                className={`shrink-0 cursor-default relative rounded-[22px] sm:rounded-[26px] overflow-hidden ${
                   photo.tilt
-                } hover:rotate-0 ${
+                } ${
                   isLightMode ? 'bg-stone-200/60' : 'bg-stone-800/60'
                 }`}
                 style={{
@@ -367,70 +391,54 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
               >
                 <img
                   src={photo.url}
-                  alt=""
-                  aria-hidden="true"
+                  alt={photo.description}
                   className="w-full h-full object-cover select-none pointer-events-none rounded-[22px] sm:rounded-[26px]"
                   loading="eager"
                   decoding="async"
                 />
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Lightbox Modal (Rendered via React Portal directly onto document.body to prevent parent container clipping/offset) */}
+      {/* Floating Hover Description Tooltip to the right of the cursor */}
       {typeof document !== 'undefined' &&
         createPortal(
           <AnimatePresence>
-            {selectedPhoto && (
-              <div
-                className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-8"
-                onClick={() => setSelectedPhoto(null)}
+            {hoveredPhotoTooltip && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.12 }}
+                className={`fixed pointer-events-none z-[9999] px-3.5 py-1.5 rounded-full text-xs sm:text-[13px] font-medium tracking-tight shadow-lg backdrop-blur-md whitespace-nowrap select-none ${
+                  isLightMode
+                    ? 'bg-stone-900/70 text-white shadow-stone-950/20'
+                    : 'bg-black/65 text-stone-100 shadow-black/50'
+                }`}
+                style={{
+                  left:
+                    typeof window !== 'undefined' &&
+                    hoveredPhotoTooltip.x + 220 > window.innerWidth
+                      ? Math.max(12, hoveredPhotoTooltip.x - 16)
+                      : hoveredPhotoTooltip.x + 16,
+                  top:
+                    typeof window !== 'undefined'
+                      ? Math.min(
+                          Math.max(12, hoveredPhotoTooltip.y - 14),
+                          window.innerHeight - 44
+                        )
+                      : hoveredPhotoTooltip.y - 14,
+                  transform:
+                    typeof window !== 'undefined' &&
+                    hoveredPhotoTooltip.x + 220 > window.innerWidth
+                      ? 'translateX(-100%)'
+                      : 'none'
+                }}
               >
-                {/* Dark blurred backdrop */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className={`fixed inset-0 backdrop-blur-2xl ${
-                    isLightMode ? 'bg-black/75' : 'bg-black/85'
-                  }`}
-                />
-
-                {/* Centered Image Card */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.92, y: 15 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.94, y: 10 }}
-                  transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-                  className="relative z-10 max-w-5xl max-h-[88vh] rounded-[28px] sm:rounded-[36px] overflow-hidden border border-white/20 shadow-2xl flex items-center justify-center bg-black/60"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <img
-                    src={selectedPhoto}
-                    alt=""
-                    aria-hidden="true"
-                    className="w-auto h-auto max-h-[82vh] max-w-[90vw] object-contain select-none"
-                  />
-
-                  <button
-                    onClick={() => {
-                      sounds.playTap();
-                      setSelectedPhoto(null);
-                    }}
-                    aria-label="Close"
-                    className={`absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 backdrop-blur-md cursor-pointer active:scale-90 border ${
-                      isLightMode
-                        ? 'bg-white/80 hover:bg-white text-stone-900 border-black/15 shadow-sm'
-                        : 'bg-black/60 hover:bg-black/80 text-white/90 hover:text-white border-white/20'
-                    }`}
-                  >
-                    <X className="w-5 h-5 stroke-[2]" />
-                  </button>
-                </motion.div>
-              </div>
+                {hoveredPhotoTooltip.text}
+              </motion.div>
             )}
           </AnimatePresence>,
           document.body
