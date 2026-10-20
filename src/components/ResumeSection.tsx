@@ -412,12 +412,13 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.12 }}
-                className={`fixed pointer-events-none z-[9999] px-3.5 py-1.5 rounded-full text-xs sm:text-[13px] font-medium tracking-tight shadow-lg backdrop-blur-md whitespace-nowrap select-none ${
+                className={`fixed pointer-events-none z-[9999] px-3.5 py-1.5 rounded-full text-xs sm:text-[13px] font-medium tracking-tight shadow-lg backdrop-blur-md whitespace-nowrap select-none force-white keep-white text-white ${
                   isLightMode
-                    ? 'bg-stone-900/70 text-white shadow-stone-950/20'
-                    : 'bg-black/65 text-stone-100 shadow-black/50'
+                    ? 'bg-black/75 shadow-stone-950/25'
+                    : 'bg-black/70 shadow-black/50'
                 }`}
                 style={{
+                  color: '#ffffff',
                   left:
                     typeof window !== 'undefined' &&
                     hoveredPhotoTooltip.x + 220 > window.innerWidth
