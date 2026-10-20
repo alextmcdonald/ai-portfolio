@@ -32,6 +32,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const [isStatusHovered, setIsStatusHovered] = useState(false);
   const [isLocationHovered, setIsLocationHovered] = useState(false);
   const [isEnergyHovered, setIsEnergyHovered] = useState(false);
+  const [isInfoHovered, setIsInfoHovered] = useState(false);
   const [seattleTime, setSeattleTime] = useState<string>(() => {
     try {
       return new Intl.DateTimeFormat('en-US', {
@@ -455,6 +456,64 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-yellow-400 fill-yellow-400"
                 strokeWidth={1.5}
                 aria-hidden="true"
+              />
+            </div>
+          </div>
+
+          {/* Interactive Info Icon & Hover Tooltip */}
+          <div
+            className="relative inline-flex items-center justify-center cursor-pointer select-none -ml-[1px] sm:-ml-[2px]"
+            onMouseEnter={() => setIsInfoHovered(true)}
+            onMouseLeave={() => setIsInfoHovered(false)}
+            onTouchStart={() => setIsInfoHovered(true)}
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+            onFocus={() => setIsInfoHovered(true)}
+            onBlur={() => setIsInfoHovered(false)}
+            tabIndex={0}
+            role="button"
+            aria-label="This portfolio was designed, coded, and shipped by me (with the help of AI)"
+          >
+            {/* Tooltip floating above info icon */}
+            <AnimatePresence>
+              {isInfoHovered && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6, scale: 0.92 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 4, scale: 0.94 }}
+                  transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 z-50 pointer-events-none flex flex-col items-center"
+                >
+                  <div
+                    className="px-2.5 py-1.5 rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.45)] border border-white/20 bg-stone-900/95 backdrop-blur-xl text-center max-w-[260px] sm:max-w-none whitespace-normal sm:whitespace-nowrap force-white keep-white"
+                    style={{ color: '#ffffff' }}
+                  >
+                    <div
+                      className="text-xs font-semibold leading-snug sm:leading-tight tracking-tight force-white keep-white"
+                      style={{ color: '#ffffff' }}
+                    >
+                      This portfolio was designed, coded, and shipped by me (with the help of AI)
+                    </div>
+                  </div>
+                  {/* Downward triangle caret */}
+                  <div className="w-2 h-2 rotate-45 -mt-1 border-r border-b bg-stone-900/95 border-white/20" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Info Icon Container (static, 16px size) */}
+            <div
+              className="w-4 h-4 rounded-full flex items-center justify-center shadow-none"
+              style={{ width: '16px', height: '16px', boxShadow: 'none' }}
+            >
+              <img
+                src="/assets/aistudio/image_27796d7c.png"
+                alt="Info"
+                className={`w-[13px] h-[13px] object-contain select-none pointer-events-none ${
+                  isLightMode ? 'opacity-70' : 'invert opacity-80'
+                }`}
+                draggable={false}
               />
             </div>
           </div>
