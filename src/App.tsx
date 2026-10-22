@@ -536,7 +536,6 @@ export default function App() {
       {showIntro && (
         <IntroExperience
           onComplete={() => setShowIntro(false)}
-          isLightMode={isLightMode}
           currentEnvId={activeEnvId}
         />
       )}

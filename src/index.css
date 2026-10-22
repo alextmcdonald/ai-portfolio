@@ -121,7 +121,9 @@ html.light-mode .text-white:not(.force-white):not(.keep-white) {
 html.light-mode .force-white,
 html.light-mode .force-white *,
 html.light-mode .keep-white,
-html.light-mode .keep-white * {
+html.light-mode .keep-white *,
+.intro-landing-text,
+.intro-landing-text * {
   color: #ffffff !important;
 }
 html.light-mode .text-white\/90:not(.force-white):not(.keep-white),
@@ -596,6 +598,10 @@ p[class*="text-[10px]"],
 
 ::-webkit-scrollbar-corner {
   background: transparent !important;
+}
+
+.font-serif-display {
+  font-family: 'Playfair Display', Georgia, Cambria, 'Times New Roman', Times, serif;
 }
 
 
