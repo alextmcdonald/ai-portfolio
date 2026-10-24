@@ -483,21 +483,26 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 4, scale: 0.94 }}
                   transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2.5 z-50 pointer-events-none flex flex-col items-center"
+                  className="absolute bottom-full left-1/2 -translate-x-[60%] sm:-translate-x-1/2 [@media(orientation:landscape)_and_(max-height:550px)]:-translate-x-1/2 [@media(orientation:landscape)_and_(max-width:932px)_and_(max-height:600px)]:-translate-x-1/2 [@media(orientation:landscape)_and_(max-width:896px)]:-translate-x-1/2 mb-2.5 z-50 pointer-events-none flex flex-col items-center"
                 >
                   <div
-                    className="px-2.5 py-1.5 rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.45)] border border-white/20 bg-stone-900/95 backdrop-blur-xl text-center max-w-[260px] sm:max-w-none whitespace-normal sm:whitespace-nowrap force-white keep-white"
+                    className="px-2.5 py-1.5 rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.45)] border border-white/20 bg-stone-900/95 backdrop-blur-xl text-center w-max max-w-[calc(100vw-32px)] sm:max-w-none force-white keep-white"
                     style={{ color: '#ffffff' }}
                   >
                     <div
-                      className="text-xs font-semibold leading-snug sm:leading-tight tracking-tight force-white keep-white"
+                      className="text-xs font-semibold leading-tight tracking-tight force-white keep-white"
                       style={{ color: '#ffffff' }}
                     >
-                      This portfolio was designed, coded, and shipped by me (with the help of AI)
+                      <span className="block sm:inline [@media(orientation:landscape)_and_(max-height:550px)]:block [@media(orientation:landscape)_and_(max-width:932px)_and_(max-height:600px)]:block [@media(orientation:landscape)_and_(max-width:896px)]:block whitespace-nowrap">
+                        This portfolio was designed, coded,
+                      </span>{' '}
+                      <span className="block sm:inline [@media(orientation:landscape)_and_(max-height:550px)]:block [@media(orientation:landscape)_and_(max-width:932px)_and_(max-height:600px)]:block [@media(orientation:landscape)_and_(max-width:896px)]:block whitespace-nowrap">
+                        and shipped by me (with the help of AI)
+                      </span>
                     </div>
                   </div>
                   {/* Downward triangle caret */}
-                  <div className="w-2 h-2 rotate-45 -mt-1 border-r border-b bg-stone-900/95 border-white/20" />
+                  <div className="w-2 h-2 rotate-45 -mt-1 border-r border-b bg-stone-900/95 border-white/20 translate-x-[23px] sm:translate-x-0 [@media(orientation:landscape)_and_(max-height:550px)]:translate-x-0 [@media(orientation:landscape)_and_(max-width:932px)_and_(max-height:600px)]:translate-x-0 [@media(orientation:landscape)_and_(max-width:896px)]:translate-x-0" />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -524,7 +529,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           }`}
         >
           {DESIGNER_INFO.title}{' '}
-          <span className={isLightMode ? 'text-stone-400' : 'text-white/40'}>/</span>{' '}
+          <span className={isLightMode ? 'text-stone-400' : 'text-white/40'}>|</span>{' '}
           {DESIGNER_INFO.roleSubtext}
         </p>
       </div>
