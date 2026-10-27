@@ -240,6 +240,19 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
     };
   }, [selectedExperiment, onModalOpenChange]);
 
+  // Close experiment detail modal when Esc key is pressed
+  React.useEffect(() => {
+    if (!selectedExperiment) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        sounds.playTap();
+        setSelectedExperiment(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedExperiment]);
+
   const scrollToSection = (sectionId: 'overview' | 'innovations' | 'specs' | 'code') => {
     sounds.playTap();
     setActiveTab(sectionId);

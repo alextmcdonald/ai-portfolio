@@ -278,6 +278,31 @@ export default function App() {
       isPhotoModalOpen
   );
 
+  // Close any active modal when pressing Esc
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || e.code === 'Escape') {
+        if (selectedCaseStudy) {
+          sounds.playTap();
+          setSelectedCaseStudy(null);
+          return;
+        }
+        if (isResumeModalOpen) {
+          sounds.playTap();
+          setIsResumeModalOpen(false);
+          return;
+        }
+        if (isContactModalOpen) {
+          sounds.playTap();
+          setIsContactModalOpen(false);
+          return;
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedCaseStudy, isResumeModalOpen, isContactModalOpen]);
+
   // Lock body & document scroll when a modal or the opening intro is active
   const isScrollLocked = Boolean(isAnyModalOpen || showIntro);
 

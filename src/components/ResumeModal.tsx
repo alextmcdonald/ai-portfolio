@@ -24,6 +24,19 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
     }
   }, [isOpen]);
 
+  // Close modal when Esc key is pressed
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        sounds.playTap();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const resumePdfPath = '/assets/Alex%20McDonald%20Product%20Designer%20Resume.pdf';

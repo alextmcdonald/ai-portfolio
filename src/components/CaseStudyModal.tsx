@@ -276,6 +276,19 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
     };
   }, [caseStudy]);
 
+  // Close modal when Esc key is pressed
+  React.useEffect(() => {
+    if (!caseStudy) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        sounds.playTap();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [caseStudy, onClose]);
+
   const lastStudyRef = useRef<CaseStudy | null>(caseStudy);
   if (caseStudy) {
     lastStudyRef.current = caseStudy;
