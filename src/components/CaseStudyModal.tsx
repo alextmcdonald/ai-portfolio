@@ -393,7 +393,9 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                         light ? 'text-stone-950' : 'text-white'
                       }`}
                     >
-                      {currentStudy.title}
+                      {currentStudy.title.endsWith('Case Study')
+                        ? currentStudy.title
+                        : `${currentStudy.title} Case Study`}
                     </h2>
                   </div>
 
