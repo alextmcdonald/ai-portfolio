@@ -15,7 +15,16 @@ interface HeroSectionProps {
   isLightMode: boolean;
 }
 
-const ROTATING_WORDS = ['ambitious', 'futuristic', 'functional', 'visionary'];
+const ROTATING_WORDS = [
+  'ambitious',
+  'futuristic',
+  'functional',
+  'visionary',
+  'growing',
+  'creative',
+  'technical',
+  'agile'
+];
 
 type AudienceId = 'everyone' | 'recruiters' | 'design-directors' | 'product-managers' | 'engineers';
 
@@ -45,23 +54,48 @@ const AUDIENCE_DESCRIPTIONS: Record<AudienceId, string> = {
     "I love the moment when a design stops being a picture in Figma and starts becoming something real. Because I work with code as well as design, I appreciate the trade-offs, enjoy figuring things out together, and care about building experiences that work beautifully beyond the mockup."
 };
 
+function shuffleWords(words: string[], previousLastWord?: string): string[] {
+  const shuffled = [...words];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  if (previousLastWord && shuffled[0] === previousLastWord && shuffled.length > 1) {
+    const swapIdx = Math.floor(Math.random() * (shuffled.length - 1)) + 1;
+    [shuffled[0], shuffled[swapIdx]] = [shuffled[swapIdx], shuffled[0]];
+  }
+  return shuffled;
+}
+
 export const HeroSection: React.FC<HeroSectionProps> = ({
   onScrollToSection,
   onOpenResume,
   onOpenContact,
   isLightMode
 }) => {
+  const [wordsQueue, setWordsQueue] = useState<string[]>(() => [...ROTATING_WORDS]);
   const [wordIndex, setWordIndex] = useState(0);
   const [activeAudience, setActiveAudience] = useState<AudienceId>('everyone');
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setWordIndex((prev) => (prev + 1) % ROTATING_WORDS.length);
+      setWordIndex((prevIndex) => {
+        const nextIndex = prevIndex + 1;
+        if (nextIndex < wordsQueue.length) {
+          return nextIndex;
+        }
+        // Cycle completed: randomize the words for the next cycle
+        setWordsQueue((prevQueue) => {
+          const lastWord = prevQueue[prevQueue.length - 1];
+          return shuffleWords(ROTATING_WORDS, lastWord);
+        });
+        return 0;
+      });
     }, 4800);
     return () => clearInterval(timer);
-  }, []);
+  }, [wordsQueue.length]);
 
-  const currentWord = ROTATING_WORDS[wordIndex];
+  const currentWord = wordsQueue[wordIndex] || ROTATING_WORDS[0];
 
   return (
     <div className="relative px-2 sm:px-0">

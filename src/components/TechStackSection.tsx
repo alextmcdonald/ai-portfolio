@@ -327,7 +327,7 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
                 color: '#e17100'
               }}
             >
-              Current tech stack
+              Core tech stack
             </span>
           </div>
         </div>
