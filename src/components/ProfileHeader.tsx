@@ -301,7 +301,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             onBlur={() => setIsStatusHovered(false)}
             tabIndex={0}
             role="button"
-            aria-label="Open to new opportunities"
+            aria-label="Currently: Open to new opportunities"
           >
             {/* Tooltip floating above dot - styled to match tech stack icons */}
             <AnimatePresence>
@@ -321,7 +321,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                       className="text-xs font-semibold leading-tight tracking-tight force-white keep-white"
                       style={{ color: '#ffffff' }}
                     >
-                      Open to new opportunities
+                      Currently: Open to new opportunities
                     </div>
                   </div>
                   {/* Downward triangle caret */}

@@ -18,18 +18,19 @@ import stravaMapImg from '../assets/images/strava_map.png';
 import appleChillImg from '../assets/images/applechill.jpg';
 
 const LATEST_STRAVA_ACTIVITY = {
-  title: 'Morning Run',
+  title: '30min easy w/ hills',
   type: 'Run',
-  date: 'Today at 7:14 AM',
+  date: 'Today',
   location: 'Seattle, WA',
-  distance: '3.66mi',
-  pace: '8:24/mi',
-  time: '30m 47s',
-  movingTime: '30m 47s',
-  elevation: '185 ft',
-  avgSpeed: '7.1 mph',
-  calories: '420 kcal',
-  athleteUrl: 'https://www.strava.com/athletes/almcd',
+  distance: '3.43mi',
+  pace: '8:50/mi',
+  time: '30m 19s',
+  movingTime: '30m 19s',
+  elevation: '543ft',
+  avgSpeed: '6.8 mph',
+  calories: '390 kcal',
+  activityUrl: 'https://www.strava.com/activities/20752322286',
+  athleteUrl: 'https://www.strava.com/activities/20752322286',
   athleteHandle: 'almcd',
   path: 'M 30 75 Q 65 15, 125 30 T 215 25 T 275 70 T 230 125 T 125 115 T 50 95 Z'
 };
@@ -632,7 +633,7 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
         <div className="lg:col-span-5 flex flex-col gap-3 justify-between h-full lg:h-[460px]">
           {/* 1. STRAVA CARD (Simplified with Right Map) */}
           <a
-            href="https://www.strava.com/athletes/almcd"
+            href={LATEST_STRAVA_ACTIVITY.activityUrl}
             target="_blank"
             rel="noreferrer"
             onClick={() => sounds.playTap()}
@@ -667,10 +668,10 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                   </div>
                   <div>
                     <div className={`text-[10px] leading-[12px] font-medium uppercase tracking-wider mb-1 ${isLightMode ? 'text-stone-400' : 'text-white/45'}`}>
-                      Pace
+                      Elev
                     </div>
                     <div className={`text-sm font-normal leading-none ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
-                      {LATEST_STRAVA_ACTIVITY.pace}
+                      {LATEST_STRAVA_ACTIVITY.elevation}
                     </div>
                   </div>
                   <div>
