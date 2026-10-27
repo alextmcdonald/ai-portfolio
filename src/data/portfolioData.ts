@@ -191,7 +191,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     id: "pogoseat",
     title: "Pogoseat",
-    subtitle: "Transforming how fans upgrade seats at live events",
+    subtitle: "Transforming how fans upgrade their seats at live events",
     role: "Senior Product Designer",
     timeline: "2021 — 2022",
     category: "Consumer app",

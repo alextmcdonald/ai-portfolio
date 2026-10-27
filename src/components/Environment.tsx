@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 
 export interface EnvironmentItem {
   id: string;
@@ -94,6 +95,14 @@ export const Environment: React.FC<EnvironmentProps> = ({
   const list = isLightMode ? LIGHT_ENVIRONMENTS : DARK_ENVIRONMENTS;
   const activeEnv = list.find(e => e.id === currentEnv) || ALL_ENVIRONMENTS.find(e => e.id === currentEnv) || list[0];
 
+  // Preload all environment images into browser cache so switching is instantaneous
+  useEffect(() => {
+    ALL_ENVIRONMENTS.forEach(env => {
+      const img = new Image();
+      img.src = env.url;
+    });
+  }, []);
+
   return (
     <div
       className="fixed inset-y-0 left-0 pointer-events-none select-none z-0 overflow-hidden"
@@ -102,21 +111,41 @@ export const Environment: React.FC<EnvironmentProps> = ({
       }}
       aria-hidden="true"
     >
-      {/* Background Room Photo */}
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-[filter,opacity] duration-700 ease-out will-change-transform"
-        style={{
-          backgroundImage: `url(${activeEnv.url})`,
-          filter: blurAmount > 0
-            ? `blur(${blurAmount}px) brightness(${isLightMode ? 0.96 : 0.72}) saturate(${isLightMode ? 1.15 : 1.25})`
-            : `brightness(${isLightMode ? 0.95 : 0.75}) saturate(${isLightMode ? 1.05 : 1.15})`,
-          transform: blurAmount > 0 ? 'scale(1.08)' : 'scale(1)'
-        }}
-      />
+      {/* Background Room Photo with Fade & Vertical Expansion Transition */}
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={activeEnv.id}
+          initial={{
+            opacity: 0,
+            scaleY: 0.86
+          }}
+          animate={{
+            opacity: 1,
+            scaleY: 1
+          }}
+          exit={{
+            opacity: 0,
+            zIndex: 0,
+            transition: { duration: 0.65, ease: 'easeOut' }
+          }}
+          transition={{
+            opacity: { duration: 0.45, ease: 'easeOut' },
+            scaleY: { duration: 0.85, ease: [0.16, 1, 0.3, 1] }
+          }}
+          className="absolute inset-0 bg-cover bg-center will-change-transform z-1"
+          style={{
+            backgroundImage: `url(${activeEnv.url})`,
+            transformOrigin: 'center center',
+            filter: blurAmount > 0
+              ? `blur(${blurAmount}px) brightness(${isLightMode ? 0.96 : 0.72}) saturate(${isLightMode ? 1.15 : 1.25})`
+              : `brightness(${isLightMode ? 0.95 : 0.75}) saturate(${isLightMode ? 1.05 : 1.15})`
+          }}
+        />
+      </AnimatePresence>
 
       {/* Dynamic Ambient Lighting Gradient Scrim */}
       <div
-        className="absolute inset-0 transition-all duration-700"
+        className="absolute inset-0 transition-all duration-700 pointer-events-none z-2"
         style={{
           backgroundColor: isLightMode
             ? `rgba(240, 243, 248, ${dimLevel * 0.8})`
@@ -129,7 +158,7 @@ export const Environment: React.FC<EnvironmentProps> = ({
 
       {/* Subtle bottom gradient depth */}
       <div
-        className={`absolute inset-x-0 bottom-0 h-64 pointer-events-none transition-opacity duration-700 ${
+        className={`absolute inset-x-0 bottom-0 h-64 pointer-events-none transition-opacity duration-700 z-3 ${
           isLightMode
             ? 'bg-gradient-to-t from-black/10 via-transparent to-transparent'
             : 'bg-gradient-to-t from-black/80 via-black/30 to-transparent'
