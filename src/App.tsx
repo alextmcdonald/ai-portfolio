@@ -538,6 +538,7 @@ export default function App() {
       <CaseStudyModal
         caseStudy={selectedCaseStudy}
         onClose={() => setSelectedCaseStudy(null)}
+        onNavigateCaseStudy={(study) => setSelectedCaseStudy(study)}
         isLightMode={isLightMode}
       />
 

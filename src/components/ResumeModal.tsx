@@ -116,13 +116,14 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
                       onClose();
                     }}
                     aria-label="Close resume modal"
-                    className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90 border-0 shadow-none cursor-pointer ${
+                    title="Close resume modal"
+                    className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer ${
                       light
-                        ? 'bg-stone-200/80 hover:bg-stone-300 text-stone-800'
-                        : 'bg-white/12 hover:bg-white/20 text-white'
+                        ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
+                        : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
                     }`}
                   >
-                    <X className="w-4 h-4 stroke-[2]" />
+                    <X className="w-4 h-4" />
                   </button>
                 </div>
               </div>

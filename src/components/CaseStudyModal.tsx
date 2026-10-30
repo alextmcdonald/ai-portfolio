@@ -1,13 +1,15 @@
 import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, CheckCircle, ShieldCheck, Sparkles, SlidersHorizontal, BarChart3, Layers } from 'lucide-react';
+import { X, CheckCircle, ShieldCheck, Sparkles, SlidersHorizontal, BarChart3, Layers, ChevronLeft, ChevronRight } from 'lucide-react';
+import { CASE_STUDIES } from '../data/portfolioData';
 import { CaseStudy } from '../types';
 import { sounds } from '../utils/audio';
 
 interface CaseStudyModalProps {
   caseStudy: CaseStudy | null;
   onClose: () => void;
+  onNavigateCaseStudy?: (caseStudy: CaseStudy) => void;
   isLightMode?: boolean;
 }
 
@@ -170,11 +172,17 @@ const DEFAULT_GALLERY = {
 export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
   caseStudy,
   onClose,
+  onNavigateCaseStudy,
   isLightMode = false
 }) => {
   const light = isLightMode || (typeof document !== 'undefined' && document.documentElement.classList.contains('light-mode'));
   const [activeTab, setActiveTab] = useState<'overview' | 'process' | 'tokens' | 'metrics'>('overview');
   const [activeScreenIndex, setActiveScreenIndex] = useState(0);
+  const [hoveredNavTooltip, setHoveredNavTooltip] = useState<{
+    text: string;
+    x: number;
+    y: number;
+  } | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const tabsContainerRef = useRef<HTMLDivElement>(null);
   const isProgrammaticScroll = useRef(false);
@@ -185,6 +193,20 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
       if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
     };
   }, []);
+
+  // Reset tab, scroll position and tooltip when active case study changes
+  React.useEffect(() => {
+    if (caseStudy) {
+      setActiveTab('overview');
+      setActiveScreenIndex(0);
+      setHoveredNavTooltip(null);
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTop = 0;
+      }
+    } else {
+      setHoveredNavTooltip(null);
+    }
+  }, [caseStudy?.id]);
 
   // Auto-scroll the active tab into view horizontally inside tab container only
   React.useEffect(() => {
@@ -276,24 +298,52 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
     };
   }, [caseStudy]);
 
-  // Close modal when Esc key is pressed
+  const lastStudyRef = useRef<CaseStudy | null>(caseStudy);
+  if (caseStudy) {
+    lastStudyRef.current = caseStudy;
+  }
+  const currentStudy = caseStudy || lastStudyRef.current;
+
+  const currentIndex = currentStudy ? CASE_STUDIES.findIndex((s) => s.id === currentStudy.id) : -1;
+  const prevIndex = currentIndex !== -1 ? (currentIndex - 1 + CASE_STUDIES.length) % CASE_STUDIES.length : 0;
+  const nextIndex = currentIndex !== -1 ? (currentIndex + 1) % CASE_STUDIES.length : 0;
+  const prevStudy = CASE_STUDIES[prevIndex];
+  const nextStudy = CASE_STUDIES[nextIndex];
+
+  const handlePrevCaseStudy = () => {
+    if (currentIndex === -1 || CASE_STUDIES.length === 0) return;
+    sounds.playTap();
+    const newPrevIndex = (currentIndex - 1 + CASE_STUDIES.length) % CASE_STUDIES.length;
+    onNavigateCaseStudy?.(CASE_STUDIES[newPrevIndex]);
+    const nextPrevIdx = (newPrevIndex - 1 + CASE_STUDIES.length) % CASE_STUDIES.length;
+    setHoveredNavTooltip((prev) => prev ? { ...prev, text: CASE_STUDIES[nextPrevIdx].title } : null);
+  };
+
+  const handleNextCaseStudy = () => {
+    if (currentIndex === -1 || CASE_STUDIES.length === 0) return;
+    sounds.playTap();
+    const newNextIndex = (currentIndex + 1) % CASE_STUDIES.length;
+    onNavigateCaseStudy?.(CASE_STUDIES[newNextIndex]);
+    const nextNextIdx = (newNextIndex + 1) % CASE_STUDIES.length;
+    setHoveredNavTooltip((prev) => prev ? { ...prev, text: CASE_STUDIES[nextNextIdx].title } : null);
+  };
+
+  // Keyboard navigation: Esc to close, ArrowLeft / ArrowRight to navigate between case studies
   React.useEffect(() => {
     if (!caseStudy) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         sounds.playTap();
         onClose();
+      } else if (e.key === 'ArrowLeft') {
+        handlePrevCaseStudy();
+      } else if (e.key === 'ArrowRight') {
+        handleNextCaseStudy();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [caseStudy, onClose]);
-
-  const lastStudyRef = useRef<CaseStudy | null>(caseStudy);
-  if (caseStudy) {
-    lastStudyRef.current = caseStudy;
-  }
-  const currentStudy = caseStudy || lastStudyRef.current;
+  }, [caseStudy, onClose, currentIndex, onNavigateCaseStudy]);
 
   const gallery = (currentStudy && CASE_STUDY_GALLERY[currentStudy.id]) || DEFAULT_GALLERY;
 
@@ -413,19 +463,73 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                   </div>
 
                   <div className="flex items-center gap-2">
+                    {/* Previous Case Study */}
+                    <button
+                      onClick={handlePrevCaseStudy}
+                      onMouseEnter={(e) => {
+                        if (prevStudy) {
+                          setHoveredNavTooltip({ text: prevStudy.title, x: e.clientX, y: e.clientY });
+                        }
+                      }}
+                      onMouseMove={(e) => {
+                        if (prevStudy) {
+                          setHoveredNavTooltip((prev) =>
+                            prev ? { ...prev, x: e.clientX, y: e.clientY } : { text: prevStudy.title, x: e.clientX, y: e.clientY }
+                          );
+                        }
+                      }}
+                      onMouseLeave={() => setHoveredNavTooltip(null)}
+                      aria-label={`Previous case study: ${prevStudy?.title || ''}`}
+                      className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer ${
+                        light
+                          ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
+                          : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
+                      }`}
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+
+                    {/* Next Case Study */}
+                    <button
+                      onClick={handleNextCaseStudy}
+                      onMouseEnter={(e) => {
+                        if (nextStudy) {
+                          setHoveredNavTooltip({ text: nextStudy.title, x: e.clientX, y: e.clientY });
+                        }
+                      }}
+                      onMouseMove={(e) => {
+                        if (nextStudy) {
+                          setHoveredNavTooltip((prev) =>
+                            prev ? { ...prev, x: e.clientX, y: e.clientY } : { text: nextStudy.title, x: e.clientX, y: e.clientY }
+                          );
+                        }
+                      }}
+                      onMouseLeave={() => setHoveredNavTooltip(null)}
+                      aria-label={`Next case study: ${nextStudy?.title || ''}`}
+                      className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer ${
+                        light
+                          ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
+                          : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
+                      }`}
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+
+                    {/* Close Button */}
                     <button
                       onClick={() => {
+                        setHoveredNavTooltip(null);
                         sounds.playTap();
                         onClose();
                       }}
                       aria-label="Close case study"
-                      className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90 border-0 shadow-none cursor-pointer ${
+                      className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer ${
                         light
-                          ? 'bg-stone-200/80 hover:bg-stone-300 text-stone-800'
-                          : 'bg-white/12 hover:bg-white/20 text-white'
+                          ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
+                          : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
                       }`}
                     >
-                      <X className="w-4 h-4 stroke-[2]" />
+                      <X className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
@@ -444,6 +548,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                     }}
                   >
                     <iframe
+                      key={currentStudy.id}
                       src={`https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(currentStudy.figmaUrl)}`}
                       title={`${currentStudy.title} Prototype`}
                       allowFullScreen
@@ -806,6 +911,34 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
         </>
       )}
     </motion.div>
+
+    {/* Floating Tooltip below cursor on Prev/Next hover */}
+    <AnimatePresence>
+      {hoveredNavTooltip && (
+        <motion.div
+          initial={{ opacity: 0, y: -4, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -2, scale: 0.95 }}
+          transition={{ duration: 0.12 }}
+          className={`fixed pointer-events-none z-[99999] px-3.5 py-1.5 rounded-full text-xs sm:text-[13px] font-medium tracking-tight shadow-lg backdrop-blur-md whitespace-nowrap select-none force-white keep-white text-white ${
+            light
+              ? 'bg-black/80 shadow-stone-950/25 border border-black/10'
+              : 'bg-black/75 border border-white/15 shadow-black/50'
+          }`}
+          style={{
+            color: '#ffffff',
+            left:
+              typeof window !== 'undefined'
+                ? Math.min(Math.max(70, hoveredNavTooltip.x), window.innerWidth - 70)
+                : hoveredNavTooltip.x,
+            top: hoveredNavTooltip.y + 20,
+            transform: 'translateX(-50%)'
+          }}
+        >
+          {hoveredNavTooltip.text}
+        </motion.div>
+      )}
+    </AnimatePresence>
   </div>
         )}
       </AnimatePresence>,
