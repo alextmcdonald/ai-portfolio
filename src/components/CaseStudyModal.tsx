@@ -452,7 +452,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                 >
                   <div>
                     <h2
-                      className={`text-xl sm:text-2xl font-bold tracking-tight ${
+                      className={`text-[24px] sm:text-[28px] font-bold tracking-tight leading-tight ${
                         light ? 'text-stone-950' : 'text-white'
                       }`}
                     >

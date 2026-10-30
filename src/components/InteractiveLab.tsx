@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowUpRight, X, Code2, CheckCircle2, Sparkles, Layers, SlidersHorizontal } from 'lucide-react';
+import { ArrowUpRight, X, Code2, CheckCircle2, Sparkles, Layers, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
 interface Experiment {
@@ -134,17 +134,28 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
   const light = isLightMode || (typeof document !== 'undefined' && document.documentElement.classList.contains('light-mode'));
   const [selectedExperiment, setSelectedExperiment] = useState<Experiment | null>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'innovations' | 'specs' | 'code'>('overview');
+  const [hoveredNavTooltip, setHoveredNavTooltip] = useState<{
+    text: string;
+    x: number;
+    y: number;
+  } | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const tabsContainerRef = useRef<HTMLDivElement>(null);
   const isProgrammaticScroll = useRef(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Reset tab to overview when opening an experiment
+  // Reset tab to overview, scroll position and tooltip when opening or changing experiment
   React.useEffect(() => {
     if (selectedExperiment) {
       setActiveTab('overview');
+      setHoveredNavTooltip(null);
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTop = 0;
+      }
+    } else {
+      setHoveredNavTooltip(null);
     }
-  }, [selectedExperiment]);
+  }, [selectedExperiment?.id]);
 
   // Clean up timer on unmount
   React.useEffect(() => {
@@ -240,18 +251,50 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
     };
   }, [selectedExperiment, onModalOpenChange]);
 
-  // Close experiment detail modal when Esc key is pressed
+  const currentIndex = selectedExperiment
+    ? EXPERIMENTS.findIndex((e) => e.id === selectedExperiment.id)
+    : -1;
+  const prevIndex =
+    currentIndex !== -1 ? (currentIndex - 1 + EXPERIMENTS.length) % EXPERIMENTS.length : 0;
+  const nextIndex =
+    currentIndex !== -1 ? (currentIndex + 1) % EXPERIMENTS.length : 0;
+  const prevExp = EXPERIMENTS[prevIndex];
+  const nextExp = EXPERIMENTS[nextIndex];
+
+  const handlePrevExperiment = () => {
+    if (currentIndex === -1 || EXPERIMENTS.length === 0) return;
+    sounds.playTap();
+    const newPrevIndex = (currentIndex - 1 + EXPERIMENTS.length) % EXPERIMENTS.length;
+    setSelectedExperiment(EXPERIMENTS[newPrevIndex]);
+    const nextPrevIdx = (newPrevIndex - 1 + EXPERIMENTS.length) % EXPERIMENTS.length;
+    setHoveredNavTooltip((prev) => (prev ? { ...prev, text: EXPERIMENTS[nextPrevIdx].title } : null));
+  };
+
+  const handleNextExperiment = () => {
+    if (currentIndex === -1 || EXPERIMENTS.length === 0) return;
+    sounds.playTap();
+    const newNextIndex = (currentIndex + 1) % EXPERIMENTS.length;
+    setSelectedExperiment(EXPERIMENTS[newNextIndex]);
+    const nextNextIdx = (newNextIndex + 1) % EXPERIMENTS.length;
+    setHoveredNavTooltip((prev) => (prev ? { ...prev, text: EXPERIMENTS[nextNextIdx].title } : null));
+  };
+
+  // Close experiment detail modal when Esc key is pressed, ArrowLeft / ArrowRight to navigate
   React.useEffect(() => {
     if (!selectedExperiment) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         sounds.playTap();
         setSelectedExperiment(null);
+      } else if (e.key === 'ArrowLeft') {
+        handlePrevExperiment();
+      } else if (e.key === 'ArrowRight') {
+        handleNextExperiment();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedExperiment]);
+  }, [selectedExperiment, currentIndex]);
 
   const scrollToSection = (sectionId: 'overview' | 'innovations' | 'specs' | 'code') => {
     sounds.playTap();
@@ -435,34 +478,92 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
                     WebkitBackdropFilter: 'blur(48px) saturate(180%)'
                   }}
                 >
-                  {/* Top Bar with Title and Close Button (Even vertical padding) */}
+                  {/* Top Bar with Title and Prev/Next/Close Navigation */}
                   <div
-                    className={`flex items-center justify-between px-6 sm:px-8 py-5 sm:py-6 shrink-0 border-0 ${
+                    className={`flex items-center justify-between px-5 sm:px-8 py-4 sm:py-5 shrink-0 border-0 select-none ${
                       light ? 'bg-white' : 'bg-white/[0.03]'
                     }`}
                   >
-                    <h2
-                      className={`text-[28px] sm:text-[32px] font-bold tracking-tight leading-tight ${
-                        light ? 'text-stone-950' : 'text-white'
-                      }`}
-                    >
-                      {selectedExperiment.title}
-                    </h2>
+                    <div>
+                      <h2
+                        className={`text-[24px] sm:text-[28px] font-bold tracking-tight leading-tight ${
+                          light ? 'text-stone-950' : 'text-white'
+                        }`}
+                      >
+                        {selectedExperiment.title}
+                      </h2>
+                    </div>
 
-                    <button
-                      onClick={() => {
-                        sounds.playTap();
-                        setSelectedExperiment(null);
-                      }}
-                      aria-label="Close experiment details"
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 active:scale-90 border shrink-0 ml-4 cursor-pointer ${
-                        light
-                          ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
-                          : 'bg-white/12 hover:bg-white/20 text-white border-white/15'
-                      }`}
-                    >
-                      <X className="w-5 h-5 stroke-[2]" />
-                    </button>
+                    <div className="flex items-center gap-2">
+                      {/* Previous Side Project */}
+                      <button
+                        onClick={handlePrevExperiment}
+                        onMouseEnter={(e) => {
+                          if (prevExp) {
+                            setHoveredNavTooltip({ text: prevExp.title, x: e.clientX, y: e.clientY });
+                          }
+                        }}
+                        onMouseMove={(e) => {
+                          if (prevExp) {
+                            setHoveredNavTooltip((prev) =>
+                              prev ? { ...prev, x: e.clientX, y: e.clientY } : { text: prevExp.title, x: e.clientX, y: e.clientY }
+                            );
+                          }
+                        }}
+                        onMouseLeave={() => setHoveredNavTooltip(null)}
+                        aria-label={`Previous side project: ${prevExp?.title || ''}`}
+                        className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer ${
+                          light
+                            ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
+                            : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
+                        }`}
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+
+                      {/* Next Side Project */}
+                      <button
+                        onClick={handleNextExperiment}
+                        onMouseEnter={(e) => {
+                          if (nextExp) {
+                            setHoveredNavTooltip({ text: nextExp.title, x: e.clientX, y: e.clientY });
+                          }
+                        }}
+                        onMouseMove={(e) => {
+                          if (nextExp) {
+                            setHoveredNavTooltip((prev) =>
+                              prev ? { ...prev, x: e.clientX, y: e.clientY } : { text: nextExp.title, x: e.clientX, y: e.clientY }
+                            );
+                          }
+                        }}
+                        onMouseLeave={() => setHoveredNavTooltip(null)}
+                        aria-label={`Next side project: ${nextExp?.title || ''}`}
+                        className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer ${
+                          light
+                            ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
+                            : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
+                        }`}
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+
+                      {/* Close Button */}
+                      <button
+                        onClick={() => {
+                          setHoveredNavTooltip(null);
+                          sounds.playTap();
+                          setSelectedExperiment(null);
+                        }}
+                        aria-label="Close experiment details"
+                        className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer ${
+                          light
+                            ? 'bg-white/95 hover:bg-white text-stone-800 hover:text-stone-950 border-black/10 shadow-xs'
+                            : 'bg-white/12 hover:bg-white/20 border-white/15 text-white'
+                        }`}
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
 
                   {/* Single-Page Scrollable Content Body with Only Main Image and Lorem Ipsum */}
@@ -503,6 +604,34 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
                     </div>
                   </div>
                 </motion.div>
+
+                {/* Floating Tooltip below cursor on Prev/Next hover */}
+                <AnimatePresence>
+                  {hoveredNavTooltip && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -4, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -2, scale: 0.95 }}
+                      transition={{ duration: 0.12 }}
+                      className={`fixed pointer-events-none z-[99999] px-3.5 py-1.5 rounded-full text-xs sm:text-[13px] font-medium tracking-tight shadow-lg backdrop-blur-md whitespace-nowrap select-none force-white keep-white text-white ${
+                        light
+                          ? 'bg-black/80 shadow-stone-950/25 border border-black/10'
+                          : 'bg-black/75 border border-white/15 shadow-black/50'
+                      }`}
+                      style={{
+                        color: '#ffffff',
+                        left:
+                          typeof window !== 'undefined'
+                            ? Math.min(Math.max(70, hoveredNavTooltip.x), window.innerWidth - 70)
+                            : hoveredNavTooltip.x,
+                        top: hoveredNavTooltip.y + 20,
+                        transform: 'translateX(-50%)'
+                      }}
+                    >
+                      {hoveredNavTooltip.text}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             )}
           </AnimatePresence>,

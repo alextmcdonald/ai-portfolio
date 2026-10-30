@@ -92,7 +92,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
                 light ? 'bg-stone-50 text-stone-950' : 'bg-stone-900 text-white'
               }`}>
                 <div>
-                  <h2 className={`text-xl sm:text-2xl font-bold tracking-tight ${
+                  <h2 className={`text-[24px] sm:text-[28px] font-bold tracking-tight leading-tight ${
                     light ? 'text-stone-950' : 'text-white'
                   }`}>
                     Alex McDonald&apos;s Resume

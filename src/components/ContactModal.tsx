@@ -116,8 +116,8 @@ export const ContactModal: React.FC<ContactModalProps> = ({
         >
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <MessageSquare className="w-5 h-5 text-[#0071e3] shrink-0" />
-              <h2 className={`text-xl sm:text-2xl font-bold tracking-tight ${
+              <MessageSquare className="w-6 h-6 text-[#0071e3] shrink-0" />
+              <h2 className={`text-[24px] sm:text-[28px] font-bold tracking-tight leading-tight ${
                 light ? 'text-stone-950' : 'text-white'
               }`}>
                 Message me
