@@ -20,7 +20,7 @@ interface TabItem {
 const TABS: TabItem[] = [
   { id: 'overview', label: 'Overview', icon: Compass },
   { id: 'work', label: 'Case studies', icon: Layers },
-  { id: 'interactive', label: 'AI experiments', icon: Sliders },
+  { id: 'interactive', label: 'Side projects', icon: Sliders },
   { id: 'resume', label: 'About me', icon: FileText },
   { id: 'contact', label: 'Get in touch', icon: Send }
 ];

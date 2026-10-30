@@ -318,7 +318,7 @@ export const InteractiveLab: React.FC<InteractiveLabProps> = ({
             isLightMode ? 'text-stone-900' : 'text-white'
           }`}
         >
-          AI experiments
+          Side projects
         </h2>
         <p
           className={`mt-8 text-base sm:text-[20px] leading-relaxed sm:leading-[32.5px] max-w-4xl ${
