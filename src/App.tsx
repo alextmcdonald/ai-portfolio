@@ -499,7 +499,7 @@ export default function App() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-center sm:text-left">
               <span className="font-normal">© {new Date().getFullYear()} Crafted by {DESIGNER_INFO.name}</span>
               <span aria-hidden="true" className="hidden sm:inline">·</span>
-              <span className="font-normal">Engineered by AI</span>
+              <span className="font-normal">Engineered with AI</span>
             </div>
 
             <div className="flex items-center justify-center">
