@@ -41,18 +41,25 @@ const AUDIENCE_TABS: AudienceTab[] = [
   { id: 'engineers', label: 'Engineers' }
 ];
 
-const AUDIENCE_DESCRIPTIONS: Record<AudienceId, string> = {
+const getAudienceDescriptions = (isLight: boolean): Record<AudienceId, React.ReactNode> => ({
   everyone:
     "I specialize in making complex products feel effortless by simplifying B2B workflows, connecting fragmented experiences, and turning complicated requirements into clear, intuitive tools. With a background in product design and front-end development, I’m working at the intersection of design and code to shape not just how products look, but how they work.",
   recruiters:
-    "I've spent 15+ years working across startups and enterprise products, often stepping into complex problems and figuring out how to move things forward. I'm comfortable wearing different hats, learning as I go, and taking ideas from rough concepts to polished, functional experiences.",
+    "I've spent 15+ years working across startups and enterprise products, often stepping into complex problems and figuring out how to move things forward. I'm comfortable wearing multiple hats, learning as I go, and taking ideas from rough concepts to polished, functional experiences.",
   'design-directors':
     "I'm the kind of designer who wants to understand the why behind every pixel. I care about the big picture just as much as the details, and I enjoy finding the connections between user needs, visual design, and the systems that hold everything together.",
   'product-managers':
     "Give me a messy problem, a room full of competing ideas, and a good team to work with. I enjoy asking the right questions, challenging assumptions, and helping turn ambiguity into a clear direction that works for users and the business.",
-  engineers:
-    "I love the moment when a design stops being a picture in Figma and starts becoming something real. Because I work with code as well as design, I appreciate the trade-offs, enjoy figuring things out together, and care about building experiences that work beautifully beyond the mockup."
-};
+  engineers: (
+    <>
+      I love the moment when a design transitions from a frame in Figma to becoming something real and functional. I'm comfortable in code and strongly prefer to collaborate with engineers from the very start of a project to help shape solutions{' '}
+      <strong className={`font-bold italic ${isLight ? 'text-stone-900' : 'text-white'}`}>
+        together
+      </strong>{' '}
+      rather than simply handing off designs.
+    </>
+  )
+});
 
 function shuffleWords(words: string[], previousLastWord?: string): string[] {
   const shuffled = [...words];
@@ -188,7 +195,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               isLightMode ? 'text-stone-600' : 'text-white/80'
             }`}
           >
-            {AUDIENCE_DESCRIPTIONS[activeAudience]}
+            {getAudienceDescriptions(Boolean(isLightMode))[activeAudience]}
           </motion.p>
         </AnimatePresence>
 
