@@ -26,7 +26,7 @@ const ROTATING_WORDS = [
   'agile'
 ];
 
-type AudienceId = 'everyone' | 'recruiters' | 'design-directors' | 'product-managers' | 'engineers';
+type AudienceId = 'everyone' | 'recruiters' | 'founders' | 'design-directors' | 'product-managers' | 'engineers';
 
 interface AudienceTab {
   id: AudienceId;
@@ -36,6 +36,7 @@ interface AudienceTab {
 const AUDIENCE_TABS: AudienceTab[] = [
   { id: 'everyone', label: 'Everyone' },
   { id: 'recruiters', label: 'Recruiters' },
+  { id: 'founders', label: 'Founders' },
   { id: 'design-directors', label: 'Design Directors' },
   { id: 'product-managers', label: 'Product Managers' },
   { id: 'engineers', label: 'Engineers' }
@@ -46,6 +47,8 @@ const getAudienceDescriptions = (isLight: boolean): Record<AudienceId, React.Rea
     "I specialize in making complex products feel effortless by simplifying B2B workflows, connecting fragmented experiences, and turning complicated requirements into clear, intuitive tools. With a background in product design and front-end development, I’m working at the intersection of design and code to shape not just how products look, but how they work.",
   recruiters:
     "I've spent 15+ years working across startups and enterprise products, often stepping into complex problems and figuring out how to move things forward. I'm comfortable wearing multiple hats, learning as I go, and taking ideas from rough concepts to polished, functional experiences.",
+  founders:
+    "I consider myself a design generalist who thrives on translating ambitious goals and early ideas into products that deliver real value. From shaping product vision and defining experiences to prototyping ideas and working directly with code, I bring a broad skill set and a builder’s mindset.",
   'design-directors':
     "I'm the kind of designer who wants to understand the why behind every pixel. I care about the big picture just as much as the details, and I enjoy finding the connections between user needs, visual design, and the systems that hold everything together.",
   'product-managers':
