@@ -48,7 +48,7 @@ const getAudienceDescriptions = (isLight: boolean): Record<AudienceId, React.Rea
   recruiters:
     "I've spent 15+ years working across startups and enterprise products, often stepping into complex problems and figuring out how to move things forward. I'm comfortable wearing multiple hats, learning as I go, and taking ideas from rough concepts to polished, functional experiences.",
   founders:
-    "I consider myself a design generalist who thrives on translating ambitious goals and early ideas into products that deliver real value. From shaping product vision and defining experiences to prototyping ideas and working directly with code, I bring a broad skill set and a builder’s mindset.",
+    "I consider myself a design generalist who thrives on translating ambitious goals and early ideas into products that deliver meaningful value. From shaping product vision and defining experiences to prototyping ideas and working directly with code, I bring a broad skill set and a builder’s mindset.",
   'design-directors':
     "I'm the kind of designer who wants to understand the why behind every pixel. I care about the big picture just as much as the details, and I enjoy finding the connections between user needs, visual design, and the systems that hold everything together.",
   'product-managers':
