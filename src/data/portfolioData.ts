@@ -16,7 +16,7 @@ export const DESIGNER_INFO = {
     behance: "https://behance.net/alextmcdonald",
     twitter: "https://x.com/alextmcdonald",
     github: "https://github.com/alextmcdonald",
-    strava: "https://strava.com/athletes/almcd",
+    strava: "https://www.strava.com/athletes/127252273",
     readcv: "https://read.cv/alexmcdonald",
     ondesign: "https://on.design/atm"
   },

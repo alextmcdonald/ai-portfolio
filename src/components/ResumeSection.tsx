@@ -29,9 +29,9 @@ const LATEST_STRAVA_ACTIVITY = {
   elevation: '543ft',
   avgSpeed: '6.8 mph',
   calories: '390 kcal',
-  activityUrl: 'https://www.strava.com/activities/20752322286',
-  athleteUrl: 'https://www.strava.com/activities/20752322286',
-  athleteHandle: 'almcd',
+  activityUrl: 'https://www.strava.com/athletes/127252273',
+  athleteUrl: 'https://www.strava.com/athletes/127252273',
+  athleteHandle: '127252273',
   path: 'M 30 75 Q 65 15, 125 30 T 215 25 T 275 70 T 230 125 T 125 115 T 50 95 Z'
 };
 
