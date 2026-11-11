@@ -18,21 +18,17 @@ import stravaMapImg from '../assets/images/strava_map.png';
 import appleChillImg from '../assets/images/applechill.jpg';
 
 const LATEST_STRAVA_ACTIVITY = {
-  title: '30min easy w/ hills',
-  type: 'Run',
+  title: 'Morning Workout',
+  type: 'Workout',
   date: 'Today',
   location: 'Seattle, WA',
-  distance: '3.43mi',
-  pace: '8:50/mi',
-  time: '30m 19s',
-  movingTime: '30m 19s',
-  elevation: '543ft',
-  avgSpeed: '6.8 mph',
-  calories: '390 kcal',
+  time: '33m 52s',
+  avgHr: '93 bpm',
+  calories: '153 Cal',
+  imageUrl: '/assets/images/dumbbell.jpg',
   activityUrl: 'https://www.strava.com/athletes/127252273',
   athleteUrl: 'https://www.strava.com/athletes/127252273',
   athleteHandle: '127252273',
-  path: 'M 30 75 Q 65 15, 125 30 T 215 25 T 275 70 T 230 125 T 125 115 T 50 95 Z'
 };
 
 interface PersonalPhoto {
@@ -660,42 +656,42 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                 <div className="flex items-center gap-4 sm:gap-6 mt-[7px] h-[30px] leading-6">
                   <div>
                     <div className={`text-[10px] leading-[12px] font-medium uppercase tracking-wider mb-1 ${isLightMode ? 'text-stone-400' : 'text-white/45'}`}>
-                      Distance
-                    </div>
-                    <div className={`text-sm font-normal leading-none ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
-                      {LATEST_STRAVA_ACTIVITY.distance}
-                    </div>
-                  </div>
-                  <div>
-                    <div className={`text-[10px] leading-[12px] font-medium uppercase tracking-wider mb-1 ${isLightMode ? 'text-stone-400' : 'text-white/45'}`}>
-                      Elev
-                    </div>
-                    <div className={`text-sm font-normal leading-none ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
-                      {LATEST_STRAVA_ACTIVITY.elevation}
-                    </div>
-                  </div>
-                  <div>
-                    <div className={`text-[10px] leading-[12px] font-medium uppercase tracking-wider mb-1 ${isLightMode ? 'text-stone-400' : 'text-white/45'}`}>
                       Time
                     </div>
                     <div className={`text-sm font-normal leading-none ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
                       {LATEST_STRAVA_ACTIVITY.time}
                     </div>
                   </div>
+                  <div>
+                    <div className={`text-[10px] leading-[12px] font-medium uppercase tracking-wider mb-1 ${isLightMode ? 'text-stone-400' : 'text-white/45'}`}>
+                      Avg HR
+                    </div>
+                    <div className={`text-sm font-normal leading-none ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
+                      {LATEST_STRAVA_ACTIVITY.avgHr}
+                    </div>
+                  </div>
+                  <div>
+                    <div className={`text-[10px] leading-[12px] font-medium uppercase tracking-wider mb-1 ${isLightMode ? 'text-stone-400' : 'text-white/45'}`}>
+                      Cal
+                    </div>
+                    <div className={`text-sm font-normal leading-none ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
+                      {LATEST_STRAVA_ACTIVITY.calories}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Side: Strava Map Square (Uploadable Image) */}
+            {/* Right Side: Activity Image */}
             <div
               className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 relative flex items-center justify-center ${
                 isLightMode ? 'bg-stone-100' : 'bg-stone-900'
               }`}
-              title="Strava Map Preview"
+              title="Recent Activity Preview"
             >
               <img
-                src={stravaMapImg || STATUS_CARD_MEDIA.stravaMap}
-                alt="Strava Activity Route Map"
+                src={LATEST_STRAVA_ACTIVITY.imageUrl}
+                alt={LATEST_STRAVA_ACTIVITY.title}
                 className="w-full h-full object-cover select-none transition-transform duration-300 hover:scale-105"
               />
             </div>
