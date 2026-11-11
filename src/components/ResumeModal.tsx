@@ -39,13 +39,13 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({
 
   if (!isOpen) return null;
 
-  const resumePdfPath = '/assets/Alex%20McDonald%20Product%20Designer%20Resume.pdf';
+  const resumePdfPath = '/assets/Alex%20McDonald%20Product%20Designer%20Resume%20ATS-1.pdf';
 
   const handleDownloadResume = () => {
     sounds.playSuccess();
     const link = document.createElement('a');
     link.href = resumePdfPath;
-    link.download = 'Alex McDonald Product Designer Resume.pdf';
+    link.download = 'Alex McDonald Product Designer Resume ATS-1.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
