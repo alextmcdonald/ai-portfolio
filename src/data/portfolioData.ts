@@ -29,7 +29,7 @@ export const DESIGNER_INFO = {
 };
 
 export const STATUS_CARD_MEDIA = {
-  stravaMap: "/assets/images/dumbbell.jpg",
+  stravaMap: "/assets/images/strava_map.png",
   albumCover: "/assets/images/applechill.jpg",
   bookCover: "/assets/images/book_lean_ux.jpg?v=2"
 };
