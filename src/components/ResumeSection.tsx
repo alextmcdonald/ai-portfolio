@@ -18,13 +18,13 @@ import stravaMapImg from '../assets/images/strava_map.png';
 import appleChillImg from '../assets/images/applechill.jpg';
 
 const LATEST_STRAVA_ACTIVITY = {
-  title: 'Morning Run',
+  title: 'Morning Mile',
   type: 'Run',
   date: 'Today',
   location: 'Renton, WA',
-  distance: '5.40 mi',
-  pace: '7:28 /mi',
-  time: '40m 18s',
+  distance: '1.30 mi',
+  pace: '7:18 /mi',
+  time: '9m 29s',
   imageUrl: '/assets/images/strava_map.png',
   activityUrl: 'https://www.strava.com/athletes/127252273',
   athleteUrl: 'https://www.strava.com/athletes/127252273',
