@@ -418,7 +418,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             onBlur={() => setIsEnergyHovered(false)}
             tabIndex={0}
             role="button"
-            aria-label="Powered by coffee & curiosity"
+            aria-label="Powered by cold brew coffee and curiosity"
           >
             {/* Tooltip floating above lightning bolt */}
             <AnimatePresence>
@@ -438,7 +438,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                       className="text-xs font-semibold leading-tight tracking-tight force-white keep-white"
                       style={{ color: '#ffffff' }}
                     >
-                      Powered by coffee & curiosity
+                      Powered by cold brew coffee and curiosity
                     </div>
                   </div>
                   {/* Downward triangle caret */}

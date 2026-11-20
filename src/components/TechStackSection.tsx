@@ -58,40 +58,36 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
   }, [hoveredId]);
 
   const TECH_ITEMS: TechItem[] = [
+    // AI Tools
     {
-      id: 'figma',
-      name: 'Figma',
-      category: 'Design Systems & UI',
-      brandColor: '#F24E1E',
-      customIcon: (
-        <svg
-          viewBox="0 0 16 16"
-          className="w-4.5 h-4.5 sm:w-5 sm:h-5"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path fill="#1ABCFE" d="M8.55 8c0-1.289 1.019-2.333 2.275-2.333C12.082 5.667 13.1 6.71 13.1 8c0 1.289-1.018 2.333-2.275 2.333C9.57 10.333 8.55 9.29 8.55 8z" />
-          <path fill="#0ACF83" d="M4 12.667c0-1.289 1.019-2.334 2.275-2.334H8.55v2.334C8.55 13.955 7.531 15 6.275 15S4 13.955 4 12.667z" />
-          <path fill="#FF7262" d="M8.55 1v4.667h2.275c1.257 0 2.275-1.045 2.275-2.334C13.1 2.045 12.082 1 10.825 1H8.55z" />
-          <path fill="#F24E1E" d="M4 3.333c0 1.289 1.019 2.334 2.275 2.334H8.55V1H6.275C5.019 1 4 2.045 4 3.333z" />
-          <path fill="#A259FF" d="M4 8c0 1.289 1.019 2.333 2.275 2.333H8.55V5.667H6.275C5.019 5.667 4 6.71 4 8z" />
-        </svg>
-      )
+      id: 'openai',
+      name: 'OpenAI',
+      category: 'Foundational AI Models',
+      brandColor: isLightMode ? '#000000' : '#FFFFFF',
+      path: OPENAI_PATH
     },
     {
-      id: 'photoshop',
-      name: 'Adobe Photoshop',
-      category: 'Visual & Bitmap Craft',
-      brandColor: '#31A8FF',
-      path: ADOBE_PHOTOSHOP_PATH
+      id: 'claude',
+      name: 'Claude',
+      category: 'Anthropic AI Intelligence',
+      brandColor: `#${siClaude.hex}`,
+      path: siClaude.path
     },
     {
-      id: 'illustrator',
-      name: 'Adobe Illustrator',
-      category: 'Vector & Iconography',
-      brandColor: '#FF9A00',
-      path: ADOBE_ILLUSTRATOR_PATH
+      id: 'cursor',
+      name: 'Cursor',
+      category: 'AI-First Code Editor',
+      brandColor: isLightMode ? '#000000' : '#FFFFFF',
+      path: siCursor.path
     },
+    {
+      id: 'v0',
+      name: 'v0',
+      category: 'Generative UI Prototyping',
+      brandColor: isLightMode ? '#000000' : '#FFFFFF',
+      path: siV0.path
+    },
+    // Coding & Engineering Tools
     {
       id: 'html5',
       name: 'HTML5',
@@ -166,33 +162,40 @@ export const TechStackSection: React.FC<TechStackProps> = ({ isLightMode }) => {
       brandColor: `#${siStorybook.hex}`,
       path: siStorybook.path
     },
+    // Design Tools
     {
-      id: 'openai',
-      name: 'OpenAI',
-      category: 'Foundational AI Models',
-      brandColor: isLightMode ? '#000000' : '#FFFFFF',
-      path: OPENAI_PATH
+      id: 'figma',
+      name: 'Figma',
+      category: 'Design Systems & UI',
+      brandColor: '#F24E1E',
+      customIcon: (
+        <svg
+          viewBox="0 0 16 16"
+          className="w-4.5 h-4.5 sm:w-5 sm:h-5"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path fill="#1ABCFE" d="M8.55 8c0-1.289 1.019-2.333 2.275-2.333C12.082 5.667 13.1 6.71 13.1 8c0 1.289-1.018 2.333-2.275 2.333C9.57 10.333 8.55 9.29 8.55 8z" />
+          <path fill="#0ACF83" d="M4 12.667c0-1.289 1.019-2.334 2.275-2.334H8.55v2.334C8.55 13.955 7.531 15 6.275 15S4 13.955 4 12.667z" />
+          <path fill="#FF7262" d="M8.55 1v4.667h2.275c1.257 0 2.275-1.045 2.275-2.334C13.1 2.045 12.082 1 10.825 1H8.55z" />
+          <path fill="#F24E1E" d="M4 3.333c0 1.289 1.019 2.334 2.275 2.334H8.55V1H6.275C5.019 1 4 2.045 4 3.333z" />
+          <path fill="#A259FF" d="M4 8c0 1.289 1.019 2.333 2.275 2.333H8.55V5.667H6.275C5.019 5.667 4 6.71 4 8z" />
+        </svg>
+      )
     },
     {
-      id: 'claude',
-      name: 'Claude',
-      category: 'Anthropic AI Intelligence',
-      brandColor: `#${siClaude.hex}`,
-      path: siClaude.path
+      id: 'photoshop',
+      name: 'Adobe Photoshop',
+      category: 'Visual & Bitmap Craft',
+      brandColor: '#31A8FF',
+      path: ADOBE_PHOTOSHOP_PATH
     },
     {
-      id: 'cursor',
-      name: 'Cursor',
-      category: 'AI-First Code Editor',
-      brandColor: isLightMode ? '#000000' : '#FFFFFF',
-      path: siCursor.path
-    },
-    {
-      id: 'v0',
-      name: 'v0',
-      category: 'Generative UI Prototyping',
-      brandColor: isLightMode ? '#000000' : '#FFFFFF',
-      path: siV0.path
+      id: 'illustrator',
+      name: 'Adobe Illustrator',
+      category: 'Vector & Iconography',
+      brandColor: '#FF9A00',
+      path: ADOBE_ILLUSTRATOR_PATH
     }
   ];
 

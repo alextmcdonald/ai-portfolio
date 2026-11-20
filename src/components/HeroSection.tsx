@@ -42,27 +42,20 @@ const AUDIENCE_TABS: AudienceTab[] = [
   { id: 'engineers', label: 'Engineers' }
 ];
 
-const getAudienceDescriptions = (isLight: boolean): Record<AudienceId, React.ReactNode> => ({
+const AUDIENCE_DESCRIPTIONS: Record<AudienceId, React.ReactNode> = {
   everyone:
     "I specialize in making complex products feel effortless by simplifying B2B workflows, connecting fragmented experiences, and turning complicated requirements into clear, intuitive tools. With a background in product design and front-end development, I’m working at the intersection of design and code to shape not just how products look, but how they work.",
   recruiters:
     "I've spent 15+ years working across startups and enterprise products, often stepping into complex problems and figuring out how to move things forward. I'm comfortable wearing multiple hats, learning as I go, and taking ideas from rough concepts to polished, functional experiences.",
   founders:
-    "I consider myself a design generalist who thrives on translating ambitious goals and early ideas into products that deliver meaningful value. From shaping product vision and defining experiences to prototyping ideas and working directly with code, I bring a broad skill set and a builder’s mindset.",
+    "I consider myself a design generalist who thrives on translating ambitious goals and early ideas into products that deliver meaningful value. From building a design foundation to owning design solutions end-to-end, I bring a broad skill set and a builder’s mindset to help take your vision to the next level. I’ve helped scale multiple startups with 1 exit (StackSocial).",
   'design-directors':
-    "I'm the kind of designer who wants to understand the why behind every pixel. I care about the big picture just as much as the details, and I enjoy finding the connections between user needs, visual design, and the systems that hold everything together.",
+    "I believe great design is as much about the decisions behind the experience as the details on the screen. I care deeply about craft, but always look beyond individual interfaces to understand the bigger picture. I enjoy connecting user insights, thoughtful interactions, and scalable design systems to create products that feel cohesive, intentional, and built to last.",
   'product-managers':
-    "Give me a messy problem, a room full of competing ideas, and a good team to work with. I enjoy asking the right questions, challenging assumptions, and helping turn ambiguity into a clear direction that works for users and the business.",
-  engineers: (
-    <>
-      I love the moment when a design transitions from a frame in Figma to becoming something real and functional. I'm comfortable in code and strongly prefer to collaborate with engineers from the very start of a project to help shape solutions{' '}
-      <strong className={`font-bold italic ${isLight ? 'text-stone-900' : 'text-white'}`}>
-        together
-      </strong>{' '}
-      rather than simply handing off designs.
-    </>
-  )
-});
+    "Give me a messy problem, a room full of competing ideas, and a good team to work with and I’ll get us headed in the right direction towards a solution. I ask the right questions, challenge assumptions, and help turn ambiguity into a clear direction that balances user needs with business goals.",
+  engineers:
+    "Whether we start a project from a prompt or within Figma, I love seeing ideas come to life. I believe the best solutions come from designing and building collaboratively, not treating design and development as separate stages. I'm comfortable working with code (directly in IDEs or in the command line) and pushing changes to the front-end."
+};
 
 function shuffleWords(words: string[], previousLastWord?: string): string[] {
   const shuffled = [...words];
@@ -114,7 +107,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <h2 className={`text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.18] text-balance ${
           isLightMode ? 'text-stone-900' : 'text-white'
         }`}>
-          <span>Design partner for </span>
+          <span className="block xl:inline">Design partner for </span>
           <motion.span layout className="inline-flex items-baseline whitespace-nowrap">
             <motion.span
               layout
@@ -198,7 +191,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               isLightMode ? 'text-stone-600' : 'text-white/80'
             }`}
           >
-            {getAudienceDescriptions(Boolean(isLightMode))[activeAudience]}
+            {AUDIENCE_DESCRIPTIONS[activeAudience]}
           </motion.p>
         </AnimatePresence>
 
