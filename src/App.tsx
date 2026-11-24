@@ -25,6 +25,7 @@ import { ArrowUp } from 'lucide-react';
 export default function App() {
   const [activeSection, setActiveSection] = useState<ActiveSection>('overview');
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
+  const [unlockedStudyIds, setUnlockedStudyIds] = useState<string[]>([]);
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isExperimentModalOpen, setIsExperimentModalOpen] = useState(false);
@@ -449,6 +450,7 @@ export default function App() {
           <section id="work" className="w-full">
             <CaseStudiesSection
               onSelectCaseStudy={(study) => setSelectedCaseStudy(study)}
+              unlockedStudyIds={unlockedStudyIds}
               isLightMode={isLightMode}
             />
           </section>
@@ -539,6 +541,14 @@ export default function App() {
         caseStudy={selectedCaseStudy}
         onClose={() => setSelectedCaseStudy(null)}
         onNavigateCaseStudy={(study) => setSelectedCaseStudy(study)}
+        unlockedStudyIds={unlockedStudyIds}
+        onUnlockCaseStudy={(studyId) =>
+          setUnlockedStudyIds((prev) => (prev.includes(studyId) ? prev : [...prev, studyId]))
+        }
+        onOpenContact={() => {
+          setSelectedCaseStudy(null);
+          setIsContactModalOpen(true);
+        }}
         isLightMode={isLightMode}
       />
 

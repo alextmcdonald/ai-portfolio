@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, CheckCircle, ShieldCheck, Sparkles, SlidersHorizontal, BarChart3, Layers, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, CheckCircle, ShieldCheck, Sparkles, SlidersHorizontal, BarChart3, Layers, ChevronLeft, ChevronRight, Lock, Eye, EyeOff } from 'lucide-react';
 import { CASE_STUDIES } from '../data/portfolioData';
 import { CaseStudy } from '../types';
 import { sounds } from '../utils/audio';
@@ -10,6 +10,9 @@ interface CaseStudyModalProps {
   caseStudy: CaseStudy | null;
   onClose: () => void;
   onNavigateCaseStudy?: (caseStudy: CaseStudy) => void;
+  unlockedStudyIds?: string[];
+  onUnlockCaseStudy?: (studyId: string) => void;
+  onOpenContact?: () => void;
   isLightMode?: boolean;
 }
 
@@ -19,6 +22,27 @@ const CASE_STUDY_GALLERY: Record<string, {
   systemSpecImage: string;
   impactImage: string;
 }> = {
+  'drive-auto': {
+    explorations: [
+      {
+        title: 'AI Media & Budget Copilot',
+        caption: 'Automated VIN-to-campaign orchestration with predictive market pacing',
+        image: '/assets/images/driveauto-thumb.jpg'
+      },
+      {
+        title: 'Multi-Rooftop Telemetry Workspace',
+        caption: 'Executive dealer group analytics unifying spend, inventory turn, and OEM compliance',
+        image: '/assets/images/driveauto-thumb.jpg'
+      }
+    ],
+    screenImages: [
+      '/assets/images/driveauto-thumb.jpg',
+      '/assets/images/driveauto-thumb.jpg',
+      '/assets/images/driveauto-thumb.jpg'
+    ],
+    systemSpecImage: '/assets/images/driveauto-thumb.jpg',
+    impactImage: '/assets/images/driveauto-thumb.jpg'
+  },
   'customerpath': {
     explorations: [
       {
@@ -173,11 +197,17 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
   caseStudy,
   onClose,
   onNavigateCaseStudy,
+  unlockedStudyIds = [],
+  onUnlockCaseStudy,
+  onOpenContact,
   isLightMode = false
 }) => {
   const light = isLightMode || (typeof document !== 'undefined' && document.documentElement.classList.contains('light-mode'));
   const [activeTab, setActiveTab] = useState<'overview' | 'process' | 'tokens' | 'metrics'>('overview');
   const [activeScreenIndex, setActiveScreenIndex] = useState(0);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [hoveredNavTooltip, setHoveredNavTooltip] = useState<{
     text: string;
     x: number;
@@ -194,8 +224,11 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
     };
   }, []);
 
-  // Reset tab, scroll position and tooltip when active case study changes
+  // Reset tab, scroll position, password prompt and tooltip when active case study changes
   React.useEffect(() => {
+    setPasswordInput('');
+    setPasswordError('');
+    setShowPassword(false);
     if (caseStudy) {
       setActiveTab('overview');
       setActiveScreenIndex(0);
@@ -335,7 +368,12 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
       if (e.key === 'Escape') {
         sounds.playTap();
         onClose();
-      } else if (e.key === 'ArrowLeft') {
+        return;
+      }
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+      if (e.key === 'ArrowLeft') {
         handlePrevCaseStudy();
       } else if (e.key === 'ArrowRight') {
         handleNextCaseStudy();
@@ -344,6 +382,22 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [caseStudy, onClose, currentIndex, onNavigateCaseStudy]);
+
+  const isLocked = Boolean(currentStudy?.password && !unlockedStudyIds.includes(currentStudy.id));
+
+  const handleUnlockSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!currentStudy?.password) return;
+    if (passwordInput.trim() === currentStudy.password) {
+      sounds.playGlassChime();
+      setPasswordError('');
+      setPasswordInput('');
+      onUnlockCaseStudy?.(currentStudy.id);
+    } else {
+      sounds.playTap();
+      setPasswordError('Incorrect password. Please try again.');
+    }
+  };
 
   const gallery = (currentStudy && CASE_STUDY_GALLERY[currentStudy.id]) || DEFAULT_GALLERY;
 
@@ -534,8 +588,142 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
                   </div>
                 </div>
 
-                {/* Body: Embedded Figma Prototype IFRAME when figmaUrl exists, or Rich Case Study Deep-Dive */}
-                {currentStudy.figmaUrl ? (
+                {/* Body: Password Gate when locked, Figma Prototype IFRAME when figmaUrl exists, or Rich Case Study Deep-Dive */}
+                {isLocked ? (
+                  <div
+                    className={`relative flex-1 min-h-0 w-full flex items-center justify-center p-5 sm:p-10 overflow-y-auto rounded-b-[24px] sm:rounded-b-[32px] ${
+                      light ? 'bg-stone-50 text-stone-900' : 'bg-stone-950 text-white'
+                    }`}
+                  >
+                    {/* Subtle blurred hero backdrop */}
+                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                      <img
+                        src={currentStudy.heroImage}
+                        alt=""
+                        aria-hidden="true"
+                        referrerPolicy="no-referrer"
+                        className={`w-full h-full object-cover scale-110 blur-3xl ${
+                          light ? 'opacity-20' : 'opacity-20'
+                        }`}
+                      />
+                      <div
+                        className={`absolute inset-0 ${
+                          light
+                            ? 'bg-gradient-to-b from-white/85 via-white/75 to-white/95'
+                            : 'bg-gradient-to-b from-stone-950/85 via-stone-950/75 to-stone-950/95'
+                        }`}
+                      />
+                    </div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                      className={`relative z-10 w-full max-w-md rounded-3xl p-6 sm:p-8 border backdrop-blur-xl ${
+                        light
+                          ? 'bg-white/90 border-stone-900/10 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.12)]'
+                          : 'bg-stone-900/80 border-white/15 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.75)]'
+                      }`}
+                    >
+                      <h3
+                        className={`flex items-center gap-2.5 text-xl sm:text-2xl font-bold tracking-tight whitespace-nowrap ${
+                          light ? 'text-stone-950' : 'text-white'
+                        }`}
+                      >
+                        <Lock
+                          className={`w-5 h-5 sm:w-6 sm:h-6 shrink-0 ${
+                            light ? 'text-stone-800' : 'text-white'
+                          }`}
+                        />
+                        <span>Protected Case Study</span>
+                      </h3>
+
+                      <form onSubmit={handleUnlockSubmit} className="mt-5 space-y-4">
+                        <div>
+                          <label htmlFor="case-study-password-input" className="sr-only">
+                            Case study password
+                          </label>
+                          <div className="relative">
+                            <input
+                              id="case-study-password-input"
+                              type={showPassword ? 'text' : 'password'}
+                              value={passwordInput}
+                              onChange={(e) => {
+                                setPasswordInput(e.target.value);
+                                if (passwordError) setPasswordError('');
+                              }}
+                              placeholder="Enter password"
+                              autoFocus
+                              autoComplete="off"
+                              className={`w-full rounded-2xl pl-4 pr-11 py-3 text-sm outline-none transition-all border ${
+                                passwordError
+                                  ? light
+                                    ? 'bg-rose-50/70 border-rose-400 text-stone-900 placeholder:text-stone-400 focus:ring-2 focus:ring-rose-400/25'
+                                    : 'bg-rose-950/30 border-rose-500/60 text-white placeholder:text-white/40 focus:ring-2 focus:ring-rose-500/25'
+                                  : light
+                                    ? 'bg-stone-100/90 border-stone-200 text-stone-900 placeholder:text-stone-400 focus:bg-white focus:border-[#0071e3] focus:ring-2 focus:ring-[#0071e3]/20'
+                                    : 'bg-black/40 border-white/15 text-white placeholder:text-white/40 focus:bg-black/60 focus:border-[#0071e3] focus:ring-2 focus:ring-[#0071e3]/25'
+                              }`}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword((prev) => !prev)}
+                              aria-label={showPassword ? 'Hide password' : 'Show password'}
+                              className={`absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-xl flex items-center justify-center transition-colors cursor-pointer ${
+                                light
+                                  ? 'text-stone-500 hover:text-stone-800 hover:bg-stone-200/70'
+                                  : 'text-white/55 hover:text-white hover:bg-white/10'
+                              }`}
+                            >
+                              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
+                          </div>
+
+                          {passwordError && (
+                            <p
+                              role="alert"
+                              className={`mt-2 text-xs font-medium ${
+                                light ? 'text-rose-600' : 'text-rose-400'
+                              }`}
+                            >
+                              {passwordError}
+                            </p>
+                          )}
+                        </div>
+
+                        <button
+                          type="submit"
+                          className="w-full inline-flex items-center justify-center px-5 py-3 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white force-white text-sm font-semibold transition-all duration-200 shadow-[0_4px_16px_rgba(0,113,227,0.35)] active:scale-[0.98] cursor-pointer"
+                          style={{ color: '#ffffff' }}
+                        >
+                          <span style={{ color: '#ffffff' }}>Unlock</span>
+                        </button>
+                      </form>
+
+                      {onOpenContact && (
+                        <div className="mt-4 flex items-center gap-1.5 text-xs">
+                          <span className={light ? 'text-stone-500' : 'text-white/55'}>
+                            Need access?
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              sounds.playTap();
+                              onOpenContact();
+                            }}
+                            className={`font-semibold underline underline-offset-4 transition-colors cursor-pointer ${
+                              light
+                                ? 'text-stone-800 hover:text-[#0071e3]'
+                                : 'text-white/85 hover:text-white'
+                            }`}
+                          >
+                            Request password
+                          </button>
+                        </div>
+                      )}
+                    </motion.div>
+                  </div>
+                ) : currentStudy.figmaUrl ? (
                   <div
                     className={`relative flex-1 min-h-0 w-full overflow-hidden case-study-iframe-container rounded-b-[24px] sm:rounded-b-[32px] p-0 m-0 border-0 shadow-none ${
                       light ? 'bg-stone-100' : 'bg-stone-900'

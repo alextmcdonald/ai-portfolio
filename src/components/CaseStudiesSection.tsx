@@ -6,11 +6,13 @@ import { sounds } from '../utils/audio';
 
 interface CaseStudiesSectionProps {
   onSelectCaseStudy: (caseStudy: CaseStudy) => void;
+  unlockedStudyIds?: string[];
   isLightMode?: boolean;
 }
 
 export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
   onSelectCaseStudy,
+  unlockedStudyIds = [],
   isLightMode = false
 }) => {
   return (
@@ -18,6 +20,8 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
       {/* Case Studies Cards: Full-Bleed Image Cards with solid studio background photography */}
       <div className="space-y-8 sm:space-y-10 w-full">
         {CASE_STUDIES.map((study) => {
+          const isPasswordLocked = Boolean(study.password && !unlockedStudyIds.includes(study.id));
+
           return (
             <div
               key={study.id}
@@ -98,12 +102,12 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
                   style={isLightMode ? { color: '#0f0f10' } : { color: '#ffffff' }}
                 >
                   <span>{study.title.split('—')[0].trim()}</span>
-                  {study.isNDA && (
+                  {(study.isNDA || isPasswordLocked) && (
                     <Lock
                       className={`w-5 h-5 sm:w-6 sm:h-6 shrink-0 ${
                         isLightMode ? 'text-stone-700' : 'text-white/85'
                       }`}
-                      aria-label="Under NDA"
+                      aria-label={study.isNDA ? 'Under NDA' : 'Password protected'}
                     />
                   )}
                 </h3>
@@ -146,8 +150,14 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0071e3] hover:bg-[#0077ed] text-white force-white text-sm font-semibold transition-all duration-200 shadow-[0_4px_16px_rgba(0,113,227,0.35)] active:scale-95 group/btn cursor-pointer"
                       style={{ color: '#ffffff' }}
                     >
-                      <span className="text-[14px] leading-[20px]" style={{ color: '#ffffff' }}>View case study</span>
-                      <ArrowUpRight className="w-4 h-4 text-white group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" style={{ color: '#ffffff' }} />
+                      <span className="text-[14px] leading-[20px]" style={{ color: '#ffffff' }}>
+                        {isPasswordLocked ? 'Unlock case study' : 'View case study'}
+                      </span>
+                      {isPasswordLocked ? (
+                        <Lock className="w-3.5 h-3.5 text-white shrink-0" style={{ color: '#ffffff' }} />
+                      ) : (
+                        <ArrowUpRight className="w-4 h-4 text-white group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" style={{ color: '#ffffff' }} />
+                      )}
                     </button>
                   )}
                 </div>

@@ -36,6 +36,58 @@ export const STATUS_CARD_MEDIA = {
 
 export const CASE_STUDIES: CaseStudy[] = [
   {
+    id: "drive-auto",
+    title: "Drive Auto",
+    subtitle: "Reimagining a $50M+ B2B Automotive Platform for the AI Era",
+    role: "Principal Product Designer & Design Strategist",
+    timeline: "2024 — 2025",
+    category: "B2B SaaS",
+    cardTags: ["B2B", "Automotive", "AI", "Enterprise", "SaaS"],
+    password: import.meta.env.VITE_DRIVEAUTO_PASSWORD || "DriveAuto-2025!",
+    figmaUrl: "https://www.figma.com/proto/hyEpV8GeikuBGBg3dOeUwx/Alex-McDonald-Portfolio?node-id=248-12814&p=f&viewport=-2482%2C-2431%2C0.48&t=lhcQkyK9cGneuoML-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=248%3A12814&show-proto-sidebar=1&page-id=40%3A11&hide-ui=1",
+    heroImage: "/assets/images/driveauto-thumb.jpg",
+    statsSummary: "$50M+ dealership ad & CRM platform modernized, +42% media plan velocity, unified AI campaign & inventory intelligence.",
+    summary: "Led the end-to-end product vision and UX transformation of a $50M+ B2B automotive marketing and intelligence platform, unifying multi-rooftop dealer workflows with AI-assisted media planning, inventory-aware creative automation, and real-time attribution.",
+    problem: "Automotive dealer groups and agency strategists were slowed down by fragmented legacy modules, manual VIN-level inventory matching, and opaque cross-channel reporting across dozens of regional rooftops.",
+    solution: "Architected an AI-native B2B command center featuring automated VIN-to-campaign orchestration, conversational budget optimization, and a unified multi-rooftop telemetry workspace.",
+    researchInsights: [
+      "Dealer principals and general managers review pacing and cost-per-sale metrics between floor meetings, requiring instant executive clarity without drilling through six nested reports.",
+      "AI-assisted budget reallocation and predictive inventory turn alerts cut weekly campaign optimization cycles from hours to minutes.",
+      "Unifying OEM co-op compliance checks directly inside the creative workflow eliminated costly post-flight audit rejections."
+    ],
+    designDecisions: [
+      {
+        title: "AI Campaign & Budget Co-Pilot",
+        description: "Embedded contextual recommendations that translate live lot inventory, aging VINs, and market demand into actionable cross-channel spend adjustments."
+      },
+      {
+        title: "Multi-Rooftop Executive Telemetry",
+        description: "Scalable comparison views surfacing dealership group performance, OEM compliance status, and showroom attribution in one scannable workspace."
+      },
+      {
+        title: "Inventory-Aware Creative Automation",
+        description: "Dynamic creative assembly linking live DMS vehicle feeds directly to omnichannel templates with built-in OEM brand guardrails."
+      }
+    ],
+    metrics: [
+      { label: "Platform Scale", value: "$50M+", subtext: "Annual B2B automotive marketing spend managed" },
+      { label: "Planning Velocity", value: "+42%", subtext: "Faster multi-rooftop campaign launch and optimization" },
+      { label: "Co-Op Compliance", value: "99.2%", subtext: "First-pass OEM creative and disclosure approval rate" }
+    ],
+    systemSpecs: [
+      { key: "Target Users", value: "Dealer Groups, GMs, Agency Strategists & OEM Partners" },
+      { key: "Design System", value: "Tokenized React & Tailwind Enterprise Component Library" },
+      { key: "Data Architecture", value: "Real-time DMS VIN Feeds + Cross-Channel Attribution" },
+      { key: "AI Integration", value: "Predictive Inventory Pacing & Conversational Campaign Builder" }
+    ],
+    prototypeScreens: [
+      { name: "Executive Command Center", caption: "Multi-rooftop pacing, attribution, and AI budget alerts at a glance", tag: "Overview" },
+      { name: "AI Media Planner", caption: "Inventory-driven spend allocation across search, social, CTV, and OTT", tag: "AI Copilot" },
+      { name: "VIN Creative Studio", caption: "Automated dynamic vehicle ads with real-time OEM compliance checks", tag: "Automation" }
+    ],
+    tags: ["B2B", "Automotive", "AI", "Enterprise", "SaaS", "Design Systems"]
+  },
+  {
     id: "customerpath",
     title: "CustomerPath",
     subtitle: "Designing the Next Generation of AI-Powered Marketing Software",

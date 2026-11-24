@@ -7,6 +7,7 @@ export interface CaseStudy {
   category: string;
   cardTags?: string[];
   isNDA?: boolean;
+  password?: string;
   figmaUrl?: string;
   heroImage: string;
   videoUrl?: string;
