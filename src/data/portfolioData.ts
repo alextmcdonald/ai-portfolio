@@ -43,7 +43,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: "2024 — 2025",
     category: "B2B SaaS",
     cardTags: ["B2B", "Automotive", "AI", "Enterprise", "SaaS"],
-    password: import.meta.env.VITE_DRIVEAUTO_PASSWORD || "DriveAuto-2025!",
+    password: import.meta.env.VITE_DRIVEAUTO_PASSWORD || "DriveAuto2025!",
     figmaUrl: "https://www.figma.com/proto/hyEpV8GeikuBGBg3dOeUwx/Alex-McDonald-Portfolio?node-id=248-12814&p=f&viewport=-2482%2C-2431%2C0.48&t=lhcQkyK9cGneuoML-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=248%3A12814&show-proto-sidebar=1&page-id=40%3A11&hide-ui=1",
     heroImage: "/assets/images/driveauto-thumb.jpg",
     statsSummary: "$50M+ dealership ad & CRM platform modernized, +42% media plan velocity, unified AI campaign & inventory intelligence.",
