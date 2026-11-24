@@ -95,6 +95,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: "2024 — Present",
     category: "B2B SaaS",
     cardTags: ["B2B", "Enterprise", "Marketing", "AI", "Design System"],
+    password: import.meta.env.VITE_CUSTOMERPATH_PASSWORD || "CPathAI2025!",
     figmaUrl: "https://www.figma.com/proto/7qcpNGMqv1GSP5IdDYKsvp/Alex-McDonald-%7C-Product-Designer-%7C-Seattle--WA?node-id=1186-24930&viewport=542%2C54%2C0.03&t=d640uabpEvbJh0Xw-8&scaling=scale-down-width&content-scaling=fixed&starting-point-node-id=1186%3A24930&page-id=1186%3A24142&show-proto-sidebar=1&hide-ui=1",
     heroImage: "/assets/images/customerpath-thumb.jpg",
     statsSummary: "+47% campaign workflow velocity, 98% design system token adoption, sub-200ms AI journey generation.",
