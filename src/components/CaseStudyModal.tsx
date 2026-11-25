@@ -43,27 +43,6 @@ const CASE_STUDY_GALLERY: Record<string, {
     systemSpecImage: '/assets/images/driveauto-thumb.jpg',
     impactImage: '/assets/images/driveauto-thumb.jpg'
   },
-  'customerpath': {
-    explorations: [
-      {
-        title: 'Multi-Branch Journey Nodes',
-        caption: 'Visual flow graph orchestrating complex omnichannel customer touchpoints',
-        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'
-      },
-      {
-        title: 'Predictive Audience Clustering',
-        caption: 'Machine learning powered customer cohort segmentation with live retention models',
-        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80'
-      }
-    ],
-    screenImages: [
-      '/assets/images/customerpath-thumb.jpg',
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80'
-    ],
-    systemSpecImage: 'https://images.unsplash.com/photo-1581291518655-9523c932edcf?auto=format&fit=crop&w=1200&q=80',
-    impactImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80'
-  },
   'aura-spatial-os': {
     explorations: [
       {
