@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Compass, Layers, Sliders, FileText, Send } from 'lucide-react';
+import { Compass, Layers, FileText, Send } from 'lucide-react';
 import { ActiveSection } from '../types';
 import { sounds } from '../utils/audio';
 
@@ -20,7 +20,6 @@ interface TabItem {
 const TABS: TabItem[] = [
   { id: 'overview', label: 'Overview', icon: Compass },
   { id: 'work', label: 'Case studies', icon: Layers },
-  { id: 'interactive', label: 'Side projects', icon: Sliders },
   { id: 'resume', label: 'About me', icon: FileText },
   { id: 'contact', label: 'Get in touch', icon: Send }
 ];

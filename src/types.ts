@@ -76,4 +76,4 @@ export interface Recommendation {
   readMoreUrl?: string;
 }
 
-export type ActiveSection = 'overview' | 'work' | 'interactive' | 'resume' | 'contact';
+export type ActiveSection = 'overview' | 'work' | 'resume' | 'contact';

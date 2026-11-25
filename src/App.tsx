@@ -10,7 +10,6 @@ import { Ornament } from './components/Ornament';
 import { ProfileHeader } from './components/ProfileHeader';
 import { HeroSection } from './components/HeroSection';
 import { CaseStudiesSection } from './components/CaseStudiesSection';
-import { InteractiveLab } from './components/InteractiveLab';
 import { ResumeSection } from './components/ResumeSection';
 import { ContactSection } from './components/ContactSection';
 import { CaseStudyModal } from './components/CaseStudyModal';
@@ -28,7 +27,6 @@ export default function App() {
   const [unlockedStudyIds, setUnlockedStudyIds] = useState<string[]>([]);
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  const [isExperimentModalOpen, setIsExperimentModalOpen] = useState(false);
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
 
@@ -238,7 +236,7 @@ export default function App() {
         return;
       }
 
-      const sections: ActiveSection[] = ['overview', 'work', 'interactive', 'resume', 'contact'];
+      const sections: ActiveSection[] = ['overview', 'work', 'resume', 'contact'];
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {
@@ -275,7 +273,6 @@ export default function App() {
     selectedCaseStudy ||
       isResumeModalOpen ||
       isContactModalOpen ||
-      isExperimentModalOpen ||
       isPhotoModalOpen
   );
 
@@ -455,19 +452,7 @@ export default function App() {
             />
           </section>
 
-          {/* SECTION 3: Materials & Lab */}
-          <section
-            id="interactive"
-            className={cardGlassClasses}
-            style={cardGlassStyle}
-          >
-            <InteractiveLab
-              isLightMode={isLightMode}
-              onModalOpenChange={setIsExperimentModalOpen}
-            />
-          </section>
-
-          {/* SECTION 4: Resume */}
+          {/* SECTION 3: Resume */}
           <section
             id="resume"
             className={cardGlassClasses}
