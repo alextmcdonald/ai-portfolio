@@ -9,8 +9,7 @@ import {
   FileText,
   Send,
   ChevronUp,
-  Check,
-  RotateCcw
+  Check
 } from 'lucide-react';
 import { DARK_ENVIRONMENTS, LIGHT_ENVIRONMENTS } from './Environment';
 import { sounds } from '../utils/audio';
@@ -25,7 +24,6 @@ interface OrnamentProps {
   onSelectEnvironment: (envId: string) => void;
   currentEnvId: string;
   isHidden?: boolean;
-  onReplayIntro?: () => void;
 }
 
 export const Ornament: React.FC<OrnamentProps> = ({
@@ -37,8 +35,7 @@ export const Ornament: React.FC<OrnamentProps> = ({
   onOpenContactModal,
   onSelectEnvironment,
   currentEnvId,
-  isHidden = false,
-  onReplayIntro
+  isHidden = false
 }) => {
   const [isEnvTrayOpen, setIsEnvTrayOpen] = useState(false);
   const [isPlayingAudioAnim, setIsPlayingAudioAnim] = useState(false);
@@ -334,25 +331,6 @@ export const Ornament: React.FC<OrnamentProps> = ({
             <VolumeX className="w-4 h-4 stroke-[2]" />
           )}
         </button>
-
-        {/* REPLAY INTRO BUTTON */}
-        {onReplayIntro && (
-          <button
-            onClick={() => {
-              triggerSoundFeedback();
-              onReplayIntro();
-            }}
-            className={`h-9 w-9 flex items-center justify-center rounded-full transition-all duration-200 cursor-pointer border shrink-0 ${
-              isLightMode
-                ? 'text-stone-600 hover:text-stone-900 hover:bg-black/5 border-black/10'
-                : 'text-white/60 hover:text-white hover:bg-white/10 border-white/15'
-            }`}
-            title="Replay intro"
-            aria-label="Replay intro animation"
-          >
-            <RotateCcw className="w-4 h-4 stroke-[2] transition-transform duration-300 hover:-rotate-45" />
-          </button>
-        )}
       </div>
     </div>
   );

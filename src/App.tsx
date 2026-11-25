@@ -15,7 +15,6 @@ import { ContactSection } from './components/ContactSection';
 import { CaseStudyModal } from './components/CaseStudyModal';
 import { ResumeModal } from './components/ResumeModal';
 import { ContactModal } from './components/ContactModal';
-import { IntroExperience } from './components/IntroExperience';
 import { CaseStudy, ActiveSection } from './types';
 import { DESIGNER_INFO } from './data/portfolioData';
 import { sounds } from './utils/audio';
@@ -30,8 +29,15 @@ export default function App() {
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
 
-  // Intro animation sequence state: always active on load / refresh per user request
-  const [showIntro, setShowIntro] = useState<boolean>(true);
+  // Animate bottom and side controls in after initial page mount
+  const [controlsEntered, setControlsEntered] = useState<boolean>(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setControlsEntered(true);
+    }, 120);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Environment and theme state with localStorage persistence
   const [currentDarkEnvId, setCurrentDarkEnvId] = useState<string>('cupertino-studio');
@@ -301,15 +307,8 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedCaseStudy, isResumeModalOpen, isContactModalOpen]);
 
-  // Lock body & document scroll when a modal or the opening intro is active
-  const isScrollLocked = Boolean(isAnyModalOpen || showIntro);
-
-  // When intro starts, ensure page starts at the very top
-  useEffect(() => {
-    if (showIntro && typeof window !== 'undefined') {
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
-    }
-  }, [showIntro]);
+  // Lock body & document scroll when a modal is active
+  const isScrollLocked = isAnyModalOpen;
 
   useEffect(() => {
     if (isScrollLocked) {
@@ -317,9 +316,6 @@ export default function App() {
       document.documentElement.style.overflow = 'hidden';
       document.body.style.overscrollBehavior = 'none';
       document.documentElement.style.overscrollBehavior = 'none';
-      if (showIntro) {
-        document.body.style.touchAction = 'none';
-      }
     } else {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
@@ -334,7 +330,7 @@ export default function App() {
       document.documentElement.style.overscrollBehavior = '';
       document.body.style.touchAction = '';
     };
-  }, [isScrollLocked, showIntro]);
+  }, [isScrollLocked]);
 
   // Modular visionOS Glass Card styles for separated sections
   const headerGlassClasses = `glass w-full rounded-[36px] px-4 sm:px-8 lg:px-10 py-5 sm:py-6 transition-all duration-300 border scroll-mt-14 ${
@@ -409,7 +405,7 @@ export default function App() {
         activeSection={activeSection}
         onSelectSection={(sec) => handleScrollToSection(sec)}
         isLightMode={isLightMode}
-        isHidden={isAnyModalOpen || showIntro}
+        isHidden={isAnyModalOpen || !controlsEntered}
       />
 
       {/* Main Spatial Stage */}
@@ -517,8 +513,7 @@ export default function App() {
         onOpenContactModal={() => setIsContactModalOpen(true)}
         onSelectEnvironment={handleSelectEnvironment}
         currentEnvId={activeEnvId}
-        isHidden={isAnyModalOpen || showIntro}
-        onReplayIntro={() => setShowIntro(true)}
+        isHidden={isAnyModalOpen || !controlsEntered}
       />
 
       {/* LAYER 40: Case Study Deep Dive Modal Sheet */}
@@ -552,14 +547,6 @@ export default function App() {
         emailCopied={emailCopied}
         isLightMode={isLightMode}
       />
-
-      {/* LAYER 100: Spatial Gateway VR Headset Opening Experience */}
-      {showIntro && (
-        <IntroExperience
-          onComplete={() => setShowIntro(false)}
-          currentEnvId={activeEnvId}
-        />
-      )}
     </div>
   );
 }
