@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export interface EnvironmentItem {
@@ -14,14 +14,14 @@ export const DARK_ENVIRONMENTS: EnvironmentItem[] = [
     id: 'cupertino-studio',
     name: 'Design studio',
     subtitle: 'Architectural dusk interior',
-    url: '/src/assets/images/env_apple_studio_1790732856805.jpg',
+    url: '/assets/images/env_apple_studio_1790732856805.webp',
     theme: 'dark'
   },
   {
     id: 'dark-observatory',
     name: 'Dark observatory',
     subtitle: 'Midnight stars & smoked titanium',
-    url: '/src/assets/images/env_dark_observatory_1790741206337.jpg',
+    url: '/assets/images/env_dark_observatory_1790741206337.webp',
     theme: 'dark'
   },
   {
@@ -45,28 +45,28 @@ export const LIGHT_ENVIRONMENTS: EnvironmentItem[] = [
     id: 'coastal-pavilion',
     name: 'Pacific coastline',
     subtitle: 'Travertine deck & turquoise ocean',
-    url: '/src/assets/images/env_light_coast_1790741180007.jpg',
+    url: '/assets/images/env_light_coast_1790741180007.webp',
     theme: 'light'
   },
   {
     id: 'sunlit-park-studio',
     name: 'Park daylight',
     subtitle: 'Sun-drenched minimalist studio',
-    url: '/src/assets/images/env_apple_daylight_1790734169052.jpg',
+    url: '/assets/images/env_apple_daylight_1790734169052.webp',
     theme: 'light'
   },
   {
     id: 'nordic-studio',
     name: 'Swedish studio',
     subtitle: 'Clean oak, glass & morning sun',
-    url: '/src/assets/images/env_light_scandi_1790741166705.jpg',
+    url: '/assets/images/env_light_scandi_1790741166705.webp',
     theme: 'light'
   },
   {
     id: 'zen-garden',
     name: 'Glass solarium',
     subtitle: 'Morning bamboo & tranquil pebbles',
-    url: '/src/assets/images/env_light_garden_1790741193271.jpg',
+    url: '/assets/images/env_light_garden_1790741193271.webp',
     theme: 'light'
   }
 ];
@@ -94,13 +94,31 @@ export const Environment: React.FC<EnvironmentProps> = ({
 }) => {
   const list = isLightMode ? LIGHT_ENVIRONMENTS : DARK_ENVIRONMENTS;
   const activeEnv = list.find(e => e.id === currentEnv) || ALL_ENVIRONMENTS.find(e => e.id === currentEnv) || list[0];
+  const hasPreloadedOthersRef = useRef(false);
 
-  // Preload all environment images into browser cache so switching is instantaneous
-  useEffect(() => {
-    ALL_ENVIRONMENTS.forEach(env => {
-      const img = new Image();
-      img.src = env.url;
+  const preloadRemainingEnvironments = () => {
+    if (hasPreloadedOthersRef.current) return;
+    hasPreloadedOthersRef.current = true;
+
+    const schedule =
+      typeof window !== 'undefined' && 'requestIdleCallback' in window
+        ? (cb: () => void) => window.requestIdleCallback(cb, { timeout: 1500 })
+        : (cb: () => void) => setTimeout(cb, 300);
+
+    schedule(() => {
+      ALL_ENVIRONMENTS.forEach((env) => {
+        if (env.id === activeEnv.id) return;
+        const img = new Image();
+        img.decoding = 'async';
+        img.src = env.url;
+      });
     });
+  };
+
+  // Fallback timer in case the active image loads from cache before onLoad or fails
+  useEffect(() => {
+    const timer = setTimeout(preloadRemainingEnvironments, 1500);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -132,15 +150,25 @@ export const Environment: React.FC<EnvironmentProps> = ({
             opacity: { duration: 0.45, ease: 'easeOut' },
             scaleY: { duration: 0.85, ease: [0.16, 1, 0.3, 1] }
           }}
-          className="absolute inset-0 bg-cover bg-center will-change-transform z-1"
+          className="absolute inset-0 will-change-transform z-1"
           style={{
-            backgroundImage: `url(${activeEnv.url})`,
             transformOrigin: 'center center',
             filter: blurAmount > 0
               ? `blur(${blurAmount}px) brightness(${isLightMode ? 0.96 : 0.72}) saturate(${isLightMode ? 1.15 : 1.25})`
               : `brightness(${isLightMode ? 0.95 : 0.75}) saturate(${isLightMode ? 1.05 : 1.15})`
           }}
-        />
+        >
+          <img
+            src={activeEnv.url}
+            alt=""
+            aria-hidden="true"
+            fetchPriority="high"
+            decoding="async"
+            referrerPolicy="no-referrer"
+            onLoad={preloadRemainingEnvironments}
+            className="w-full h-full object-cover object-center"
+          />
+        </motion.div>
       </AnimatePresence>
 
       {/* Dynamic Ambient Lighting Gradient Scrim */}
