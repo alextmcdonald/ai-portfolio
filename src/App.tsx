@@ -16,9 +16,10 @@ import { CaseStudyModal } from './components/CaseStudyModal';
 import { ResumeModal } from './components/ResumeModal';
 import { ContactModal } from './components/ContactModal';
 import { CaseStudy, ActiveSection } from './types';
-import { DESIGNER_INFO } from './data/portfolioData';
+import { DESIGNER_INFO, CASE_STUDIES } from './data/portfolioData';
 import { sounds } from './utils/audio';
 import { ArrowUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<ActiveSection>('overview');
@@ -29,15 +30,11 @@ export default function App() {
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
 
-  // Animate bottom and side controls in after initial page mount
+  // Initial loading wheel state while background and key images preload
+  const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
+  const [loadingProgress, setLoadingProgress] = useState<number>(0);
+  // Animate bottom and side controls in after initial loading finishes
   const [controlsEntered, setControlsEntered] = useState<boolean>(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setControlsEntered(true);
-    }, 120);
-    return () => clearTimeout(timer);
-  }, []);
 
   // Environment and theme state with localStorage persistence
   const [currentDarkEnvId, setCurrentDarkEnvId] = useState<string>('cupertino-studio');
@@ -62,6 +59,108 @@ export default function App() {
   }, [isLightMode]);
 
   const activeEnvId = isLightMode ? currentLightEnvId : currentDarkEnvId;
+
+  // Preload active background, portrait, and top case study images on initial visit
+  useEffect(() => {
+    let isMounted = true;
+    let controlsTimer: ReturnType<typeof setTimeout> | null = null;
+    let finishTimer: ReturnType<typeof setTimeout> | null = null;
+    let rafId: number | null = null;
+
+    const finishLoading = () => {
+      if (!isMounted) return;
+      setIsInitialLoading(false);
+      controlsTimer = setTimeout(() => {
+        if (isMounted) setControlsEntered(true);
+      }, 140);
+    };
+
+    const activeEnvUrl = ENVIRONMENTS.find((env) => env.id === activeEnvId)?.url;
+    const activeAvatarUrl = isLightMode ? DESIGNER_INFO.avatarLightUrl : DESIGNER_INFO.avatarUrl;
+    const criticalUrls = Array.from(
+      new Set(
+        [
+          activeEnvUrl,
+          activeAvatarUrl,
+          ...CASE_STUDIES.slice(0, 2).map((study) => study.heroImage)
+        ].filter((url): url is string => Boolean(url))
+      )
+    );
+
+    let loadedCount = 0;
+    let allAssetsReady = false;
+    let currentProgress = 0;
+    let targetProgress = 12;
+
+    const preloadImage = (src: string) =>
+      new Promise<void>((resolve) => {
+        const img = new Image();
+        const done = () => {
+          const finish = () => {
+            loadedCount += 1;
+            if (!allAssetsReady) {
+              targetProgress = Math.max(
+                targetProgress,
+                Math.min(92, Math.round((loadedCount / Math.max(1, criticalUrls.length)) * 92))
+              );
+            }
+            resolve();
+          };
+          if (typeof img.decode === 'function') {
+            img.decode().catch(() => undefined).finally(finish);
+          } else {
+            finish();
+          }
+        };
+        img.onload = done;
+        img.onerror = () => {
+          loadedCount += 1;
+          resolve();
+        };
+        img.src = src;
+        if (img.complete) {
+          done();
+        }
+      });
+
+    const minDelay = new Promise<void>((resolve) => setTimeout(resolve, 450));
+    const maxTimeout = new Promise<void>((resolve) => setTimeout(resolve, 3500));
+
+    Promise.race([
+      Promise.all([Promise.all(criticalUrls.map(preloadImage)), minDelay]),
+      maxTimeout
+    ]).then(() => {
+      allAssetsReady = true;
+      targetProgress = 100;
+    });
+
+    const tick = () => {
+      if (!isMounted) return;
+      if (currentProgress < targetProgress) {
+        const step = Math.max(1, Math.ceil((targetProgress - currentProgress) * 0.18));
+        currentProgress = Math.min(targetProgress, currentProgress + step);
+        setLoadingProgress(currentProgress);
+      }
+
+      if (allAssetsReady && currentProgress >= 100) {
+        finishTimer = setTimeout(finishLoading, 100);
+        return;
+      }
+
+      rafId = requestAnimationFrame(tick);
+    };
+
+    rafId = requestAnimationFrame(tick);
+
+    return () => {
+      isMounted = false;
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      if (finishTimer) clearTimeout(finishTimer);
+      if (controlsTimer) clearTimeout(controlsTimer);
+    };
+    // Run once on initial mount to wait for first-paint assets
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Toggle sound
   const handleToggleSound = () => {
@@ -307,8 +406,8 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedCaseStudy, isResumeModalOpen, isContactModalOpen]);
 
-  // Lock body & document scroll when a modal is active
-  const isScrollLocked = isAnyModalOpen;
+  // Lock body & document scroll when initial loader or a modal is active
+  const isScrollLocked = Boolean(isAnyModalOpen || isInitialLoading);
 
   useEffect(() => {
     if (isScrollLocked) {
@@ -400,12 +499,46 @@ export default function App() {
         isLightMode={isLightMode}
       />
 
+      {/* LAYER 100: Initial Loading Wheel Overlay */}
+      <AnimatePresence>
+        {isInitialLoading && (
+          <motion.div
+            key="initial-loader"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            aria-busy="true"
+            aria-label="Loading portfolio"
+            className={`fixed inset-0 z-[100] flex items-center justify-center ${
+              isLightMode ? 'bg-[#F2F4F8]' : 'bg-[#0A0B0E]'
+            }`}
+          >
+            <div className="flex flex-col items-center gap-3">
+              <div
+                className={`w-9 h-9 rounded-full border-2 animate-spin ${
+                  isLightMode
+                    ? 'border-black/10 border-t-stone-900'
+                    : 'border-white/15 border-t-white'
+                }`}
+              />
+              <span
+                className={`font-mono text-xs tabular-nums tracking-wider ${
+                  isLightMode ? 'text-stone-600' : 'text-white/60'
+                }`}
+              >
+                {loadingProgress}%
+              </span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* LAYER 30: Floating Vertical Tab Bar on Leading Edge (Desktop) */}
       <TabBar
         activeSection={activeSection}
         onSelectSection={(sec) => handleScrollToSection(sec)}
         isLightMode={isLightMode}
-        isHidden={isAnyModalOpen || !controlsEntered}
+        isHidden={isAnyModalOpen || isInitialLoading || !controlsEntered}
       />
 
       {/* Main Spatial Stage */}
@@ -513,7 +646,7 @@ export default function App() {
         onOpenContactModal={() => setIsContactModalOpen(true)}
         onSelectEnvironment={handleSelectEnvironment}
         currentEnvId={activeEnvId}
-        isHidden={isAnyModalOpen || !controlsEntered}
+        isHidden={isAnyModalOpen || isInitialLoading || !controlsEntered}
       />
 
       {/* LAYER 40: Case Study Deep Dive Modal Sheet */}
