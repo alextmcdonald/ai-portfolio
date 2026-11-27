@@ -17,14 +17,14 @@ import { sounds } from '../utils/audio';
 import appleChillImg from '../assets/images/applechill.jpg';
 
 const LATEST_STRAVA_ACTIVITY = {
-  title: 'Evening workout',
-  type: 'Workout',
+  title: 'Turkey Trot 🦃',
+  type: 'Run',
   date: 'Today',
-  location: 'Renton, WA',
-  time: '38m 3s',
-  volume: '14,950 lb',
-  sets: '21',
-  imageUrl: '/assets/images/strava.png',
+  location: 'Seattle, WA',
+  distance: '3.13 mi',
+  steps: '5,498',
+  time: '1h 0m',
+  imageUrl: '/assets/aistudio/strava_map_e953e91e.png',
   activityUrl: 'https://www.strava.com/athletes/127252273',
   athleteUrl: 'https://www.strava.com/athletes/127252273',
   athleteHandle: '127252273',
@@ -655,26 +655,26 @@ export const ResumeSection: React.FC<ResumeSectionProps> = ({
                 <div className="flex items-center gap-4 sm:gap-6 mt-[7px] h-[30px] leading-6">
                   <div>
                     <div className={`text-[10px] leading-[12px] font-medium uppercase tracking-wider mb-1 ${isLightMode ? 'text-stone-400' : 'text-white/45'}`}>
+                      Distance
+                    </div>
+                    <div className={`text-sm font-normal leading-none whitespace-nowrap ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
+                      {LATEST_STRAVA_ACTIVITY.distance}
+                    </div>
+                  </div>
+                  <div>
+                    <div className={`text-[10px] leading-[12px] font-medium uppercase tracking-wider mb-1 ${isLightMode ? 'text-stone-400' : 'text-white/45'}`}>
+                      Steps
+                    </div>
+                    <div className={`text-sm font-normal leading-none whitespace-nowrap ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
+                      {LATEST_STRAVA_ACTIVITY.steps}
+                    </div>
+                  </div>
+                  <div>
+                    <div className={`text-[10px] leading-[12px] font-medium uppercase tracking-wider mb-1 ${isLightMode ? 'text-stone-400' : 'text-white/45'}`}>
                       Time
                     </div>
                     <div className={`text-sm font-normal leading-none whitespace-nowrap ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
                       {LATEST_STRAVA_ACTIVITY.time}
-                    </div>
-                  </div>
-                  <div>
-                    <div className={`text-[10px] leading-[12px] font-medium uppercase tracking-wider mb-1 ${isLightMode ? 'text-stone-400' : 'text-white/45'}`}>
-                      Volume
-                    </div>
-                    <div className={`text-sm font-normal leading-none whitespace-nowrap ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
-                      {LATEST_STRAVA_ACTIVITY.volume}
-                    </div>
-                  </div>
-                  <div>
-                    <div className={`text-[10px] leading-[12px] font-medium uppercase tracking-wider mb-1 ${isLightMode ? 'text-stone-400' : 'text-white/45'}`}>
-                      Sets
-                    </div>
-                    <div className={`text-sm font-normal leading-none whitespace-nowrap ${isLightMode ? 'text-stone-500' : 'text-white/60'}`}>
-                      {LATEST_STRAVA_ACTIVITY.sets}
                     </div>
                   </div>
                 </div>
