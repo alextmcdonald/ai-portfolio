@@ -82,7 +82,7 @@ export default function App() {
         [
           activeEnvUrl,
           activeAvatarUrl,
-          ...CASE_STUDIES.slice(0, 2).map((study) => study.heroImage)
+          ...CASE_STUDIES.map((study) => study.heroImage)
         ].filter((url): url is string => Boolean(url))
       )
     );
@@ -124,7 +124,7 @@ export default function App() {
       });
 
     const minDelay = new Promise<void>((resolve) => setTimeout(resolve, 450));
-    const maxTimeout = new Promise<void>((resolve) => setTimeout(resolve, 3500));
+    const maxTimeout = new Promise<void>((resolve) => setTimeout(resolve, 5000));
 
     Promise.race([
       Promise.all([Promise.all(criticalUrls.map(preloadImage)), minDelay]),
@@ -513,9 +513,9 @@ export default function App() {
               isLightMode ? 'bg-[#F2F4F8]' : 'bg-[#0A0B0E]'
             }`}
           >
-            <div className="flex flex-col items-center gap-3">
+            <div className="relative w-20 h-20 flex items-center justify-center">
               <div
-                className={`w-9 h-9 rounded-full border-2 animate-spin ${
+                className={`absolute inset-0 rounded-full border-2 animate-spin ${
                   isLightMode
                     ? 'border-black/10 border-t-stone-900'
                     : 'border-white/15 border-t-white'

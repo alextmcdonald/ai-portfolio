@@ -19,7 +19,7 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
     <div className="relative w-full">
       {/* Case Studies Cards: Full-Bleed Image Cards with solid studio background photography */}
       <div className="space-y-8 sm:space-y-10 w-full">
-        {CASE_STUDIES.map((study) => {
+        {CASE_STUDIES.map((study, index) => {
           const isPasswordLocked = Boolean(study.password && !unlockedStudyIds.includes(study.id));
 
           return (
@@ -55,6 +55,8 @@ export const CaseStudiesSection: React.FC<CaseStudiesSectionProps> = ({
                   <img
                     src={study.heroImage}
                     alt={study.title}
+                    decoding="sync"
+                    fetchPriority={index === 0 ? 'high' : 'auto'}
                     referrerPolicy="no-referrer"
                     className={`w-full h-full object-cover transition-transform duration-1000 ease-out ${
                       study.isNDA ? '' : 'group-hover:scale-105'

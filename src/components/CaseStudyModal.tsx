@@ -27,21 +27,21 @@ const CASE_STUDY_GALLERY: Record<string, {
       {
         title: 'AI Media & Budget Copilot',
         caption: 'Automated VIN-to-campaign orchestration with predictive market pacing',
-        image: '/assets/images/driveauto-thumb.jpg'
+        image: '/assets/images/driveauto-thumb.webp'
       },
       {
         title: 'Multi-Rooftop Telemetry Workspace',
         caption: 'Executive dealer group analytics unifying spend, inventory turn, and OEM compliance',
-        image: '/assets/images/driveauto-thumb.jpg'
+        image: '/assets/images/driveauto-thumb.webp'
       }
     ],
     screenImages: [
-      '/assets/images/driveauto-thumb.jpg',
-      '/assets/images/driveauto-thumb.jpg',
-      '/assets/images/driveauto-thumb.jpg'
+      '/assets/images/driveauto-thumb.webp',
+      '/assets/images/driveauto-thumb.webp',
+      '/assets/images/driveauto-thumb.webp'
     ],
-    systemSpecImage: '/assets/images/driveauto-thumb.jpg',
-    impactImage: '/assets/images/driveauto-thumb.jpg'
+    systemSpecImage: '/assets/images/driveauto-thumb.webp',
+    impactImage: '/assets/images/driveauto-thumb.webp'
   },
   'aura-spatial-os': {
     explorations: [
